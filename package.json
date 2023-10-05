@@ -1,0 +1,18 @@
+{
+  "name": "pc-parts-e-commerce-site",
+  "version": "1.0.0",
+  "description": "A sample e-commerce website made with HTML, CSS, JS, jQuery and Bootstrap",
+  "scripts": {
+    "start": "http-server public",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "prepare": "husky install"
+  },
+  "author": "FSDM S23 Group 3",
+  "license": "Unlicense",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "prettier": "3.0.3",
+    "husky": "^8.0.0"
+  }
+}

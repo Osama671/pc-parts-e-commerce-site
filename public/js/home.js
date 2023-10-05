@@ -1,3 +1,3 @@
 $('button').on('click', () => {
-  $('.alert').css('display', 'block');
-});
+  $('.alert').css('display', 'block')
+})

@@ -12,20 +12,17 @@ jobs:
   prettier:
     name: Prettier
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        node-version: [18]
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          node-version: 18
+          cache: 'npm'
       - name: Install dependencies
-        run: pnpm install -D
+        run: npm install
       - name: Check formatting with Prettier
-        run: pnpm run format:check
+        run: npm run format:check

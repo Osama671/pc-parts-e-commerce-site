@@ -33,6 +33,14 @@
     <script defer src="js/home.js"></script>
   </head>
   <body>
+    <header>
+      <div id="navigationBar"></div>
+    </header>
+
+    <script>
+      $('#navigationBar').load('./components/navbar.html')
+    </script>
+
     <button class="btn btn-primary test-button">Click Me</button>
 
     <div class="alert alert-success" role="alert" style="display: none">

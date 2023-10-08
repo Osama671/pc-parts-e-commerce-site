@@ -6,13 +6,15 @@
     "start": "http-server public",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+    "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
   "author": "FSDM S23 Group 3",
   "license": "Unlicense",
   "devDependencies": {
     "http-server": "^14.1.1",
-    "prettier": "3.0.3",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "3.0.3"
   }
 }

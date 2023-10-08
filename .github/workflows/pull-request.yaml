@@ -1,14 +1,14 @@
 name: 'pull request'
 
 on:
-  push:
-    branches:
-      - feature/netlify
+  pull_request:
 
 jobs:
   deploy:
     name: 'Deploy to Netlify'
     runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
       - uses: jsmrcaga/action-netlify-deploy@v2.0.0
@@ -18,6 +18,10 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           build_command: 'echo weeeeeee'
           build_directory: public
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            **Preview this pull request: ** ${{ steps.netlify.outputs.NETLIFY_PREVIEW_URL }}
       - env:
           URL: ${{ steps.netlify.outputs.NETLIFY_PREVIEW_URL }}
         run: echo "$URL"

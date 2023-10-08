@@ -24,7 +24,7 @@ jobs:
       - name: Check formatting with Prettier
         run: npm run format:check
   deploy:
-    depends_on: prettier
+    needs: prettier
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}

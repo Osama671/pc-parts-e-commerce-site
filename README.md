@@ -1,5 +1,7 @@
 # Developer setup
 
+Live Site: https://fsdm-pc-shop.netlify.app/
+
 ### Install Node.js
 
 This project was written with Node v20. To avoid running into unknown issues, install v20

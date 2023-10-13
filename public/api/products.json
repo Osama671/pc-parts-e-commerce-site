@@ -1,0 +1,266 @@
+[
+  {
+    "id": 1,
+    "name": "【DDR4 RAM】 Gigastone White RGB Game Turbo Desktop RAM 32GB (2x16GB) DDR4 32GB DDR4-3600MHz PC4-28800 CL18 1.35V 288 Pin Unbuffered Non ECC UDIMM for PC Gaming Desktop Memory Module (Desktop ONLY)",
+    "price": 109,
+    "category": "memory",
+    "stock": 0,
+    "description": "Gigastone is a professional and globally well-known memory-based company. We locate in different areas such as Asia and North America. By locating in various countries, Gigastone is capable to communicate and support worldwide customers right away without time restriction. Gigastone products are 100% strictly tested to ensure the memory meets our compatibility, reliability, and performance standards. Gigastone Computer/Laptop Memory Product lines cover DDR3/DDR4 and UDIMM/SODIMM with capacities ranging from 8GB, 16GB, and 32GB. This professional high-performance Computer memory has fast data transfer speeds. It is the perfect solution for upgrade your device for better speed and energy saving",
+    "image": "https://m.media-amazon.com/images/I/51D2L1LMg4L._AC_SX679_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 4, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Timetec Pinnacle Konduit RGB 128GB KIT(4x32GB) DDR4 3600MHz PC4-28800 CL18-22-22-42 XMP2.0 Overclocking 1.35V Dual Rank Compatible for AMD and Intel Desktop Gaming PC Memory Module RAM - White",
+    "price": 296,
+    "category": "memory",
+    "stock": 26,
+    "description": null,
+    "image": "https://m.media-amazon.com/images/I/61NE-J8qMcL._AC_SX425_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 4, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Corsair Vengeance LPX 16GB (2x8GB) DDR4 DRAM 3200MHz C16 Desktop Memory Kit - Black (CMK16GX4M2B3200C16)",
+    "price": 51,
+    "category": "memory",
+    "stock": 46,
+    "description": "Vengeance LPX memory is designed for high performance Overclocking. The heat spreader is made of pure aluminum for faster heat dissipation, and the eight layer PCB helps manage heat and provides superior Overclocking headroom. Each IC is individually screened for performance potential. The DDR4 form factor is optimized for the latest Intel 100 series motherboards and offers higher frequencies, greater bandwidth, and lower power consumption than DDR3 modules. Vengeance LPX DDR4 modules are compatibility tested across 100 Series motherboards for reliably fast performance. There's XMP 2.0 support for trouble free automatic Overclocking. And, they're available in multiple colors to match your motherboard, your components, or just your style.",
+    "image": "https://m.media-amazon.com/images/I/51gLnYN1W7L._AC_SX425_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "DeepCool CC560 Mid-Tower ATX PC Case, 4X Pre-Installed 120mm LED Fans, Tempered Glass Side Panel, Black",
+    "price": 99,
+    "category": "case",
+    "stock": 37,
+    "description": "The DeepCool CC560 is a mid-tower ATX PC case that outperforms its competition with incredible cost-performance featuring four pre-installed 120mm LED fans for high-airflow through ventilated mesh panels to improve cooling performance. The compact size still provides ample room for high-end liquid cooling support for 360mm/280mm radiators in front or 240mm up top to tackle demanding next generation components. A full-sized tempered glass window offers a clear view inside to showcase your build. Complete with four storage drive options in a removable cage and included dust filtration, the CC560 is the perfect start for new and experienced builders.",
+    "image": "https://m.media-amazon.com/images/I/61Uot95d2oL._AC_SX679_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "NZXT H7 - CM-H71BG-01 - ATX Mid Tower PC Gaming Case - Front I/O USB Type-C Port - Quick-Release Tempered Glass Side Panel - Black/White",
+    "price": 99,
+    "category": "case",
+    "stock": 24,
+    "description": "H7 PC Case",
+    "image": "https://m.media-amazon.com/images/I/71BDQFiVd0L._AC_SX679_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Cooler Master MasterBox Q300L Micro-ATX Tower with Magnetic Design Dust Filter, Transparent Acrylic Side Panel, Adjustable I/O & Fully Ventilated Airflow, Black (MCB-Q300L-KANN-S00)",
+    "price": 69,
+    "category": "case",
+    "stock": 17,
+    "description": "The Master Box Q300L is your straightforward option in the lineup of the brand new Master Box Series from Cooler Master. A Series that might be small in size but excels in functionality and modularity without compromising on the thermal performance. Although the size wouldn't tell, the Master Box Q300L supports a standard ATX PSU which we don't see often in the market with this size. Based on the different system setup, the I/O panel can be adjusted to six different locations, three options at each side of the case. You can decide which setup fits your system best. Due to the cube design of the frame and special pattern design on the magnetic dust filter will make the chassis stand out from the rest. The combination of a practical design and the unique customizable outlook makes the Master Box Q300L The perfect choice for office and home.",
+    "image": "https://m.media-amazon.com/images/I/81I9Ef0fOIL._AC_SY355_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 4, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "ZEUS GAMDIAS White RGB Gaming ATX Mid Tower Computer PC Case with Side Tempered Glass Panel and a Magnetic Dust Filter & 3 Built-in 120mm ARGB Fans",
+    "price": 85,
+    "category": "case",
+    "stock": 37,
+    "description": "Radiator Support Top: 240mm / Front: 360mm、280mm / Rear: 120mm Fan Support Top: 2 x 120mm / Front: 3 x 120mm、2 x 140mm / Rear: 1 x 120mm / Bottom: 2 x 120mm Pre-installed Fans Front: 2 x 120mm ARGB Fans / Rear: 1 x 120mm ARGB Fan Drive Bays 2 x 3.5\" or 1 x 2.5\" + 1 x 3.5\" (HDD Cage) / 2 x 2.5\" I/O Port USB 3.0 x1, USB 2.0 x2, HD Audio x1, Fan LED Control x1 Clearance CPU cooler height limitation: 160mm VGA length limitation: 300mm PSU length limitation: 150mm",
+    "image": "https://m.media-amazon.com/images/I/51Fk2bBipEL._AC_SX569_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Intel Core i5-12600K Desktop Processor 10 (6P+4E) Cores up to 4.9 GHz Unlocked  LGA1700 600 Series Chipset 125W",
+    "price": 249,
+    "category": "cpu",
+    "stock": 44,
+    "description": "Power up your productivity, gaming, and content creation experiences by installing the Intel Core i5-12600K 3.7 GHz 10-Core LGA 1700 Processor into your desktop computer system.",
+    "image": "https://m.media-amazon.com/images/I/51QJsh7HAhL._AC_SY450_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "AMD Ryzen 5 5600X 6-core, 12-Thread Unlocked Desktop Processor with Wraith Stealth Cooler",
+    "price": 199,
+    "category": "cpu",
+    "stock": 43,
+    "description": "Get the high-speed gaming performance of the world’s best desktop processor.",
+    "image": "https://m.media-amazon.com/images/I/61twhaihHtL._AC_SX450_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Intel Core i9-12900K Desktop Processor 16 (8P+8E) Cores up to 5.2 GHz Unlocked LGA1700 600 Series Chipset 125W",
+    "price": 469,
+    "category": "cpu",
+    "stock": 38,
+    "description": "Power up your productivity, gaming, and content creation experiences by installing the Intel Core i9-12900K 3.2 GHz 16-Core LGA 1700 Processor into your desktop computer system.",
+    "image": "https://m.media-amazon.com/images/I/619bhMyNXzL._AC_SX679_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "MAXSUN GEFORCE GTX 1050 Ti 4GB GDDR5 128 Bit Video Gaming Graphics Card GPU for Mini ITX Gaming PC, DisplayPort, HDMI, DVI-D, Single Fan Cooling System",
+    "price": 199,
+    "category": "gpu",
+    "stock": 28,
+    "description": null,
+    "image": "https://m.media-amazon.com/images/I/61a4vg+uVdL._AC_SY450_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 4, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "ASUS Dual GeForce RTX™ 3060 White OC Edition 8GB GDDR6 (PCIe 4.0, 8GB GDDR6, HDMI 2.1, DisplayPort 1.4a)",
+    "price": 389,
+    "category": "gpu",
+    "stock": 12,
+    "description": "The ASUS Dual GeForce RTX™ 3060 OC Edition 8GB GDDR6 features Axial-tech fan design, 0dB technology, Dual BIOS, Auto-Extreme Technology, metal backplate, Dual ball fan bearings, and more.",
+    "image": "https://m.media-amazon.com/images/I/81ONz8IrJRL._AC_SY450_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "ASUS Phoenix NVIDIA GeForce RTX 3060 V2 Gaming Graphics Card- PCIe 4.0, 12GB GDDR6 memory, HDMI 2.1, DisplayPort 1.4a, Axial-tech Fan Design, Protective Backplate, Dual ball fan bearings, Auto-Extreme",
+    "price": 419,
+    "category": "gpu",
+    "stock": 44,
+    "description": "The ASUS Phoenix GeForce RTX™ 3060 derives its name from a high performance output in a robust package. To raise the bar, each card is manufactured using our fully-automated Auto-Extreme Technology manufacturing process and put through a 144-hour gaming stress test.",
+    "image": "https://m.media-amazon.com/images/I/815YP0QCmXL._AC_SY450_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Thermaltake Smart 600W ATX 12V V2.3/EPS 12V 80 Plus Certified Active PFC Power Supply PS-SPD-0600NPCWUS-W",
+    "price": 69,
+    "category": "powerSupply",
+    "stock": 27,
+    "description": "Incorporating various high-quality components, the Smart Series - models are rated from 500W to 700W - saves energy through its high efficiency of up to 86% and accommodates any mainstream build with the most demanding requirements. An embedded intelligent cooling fan delivers excellent airflow at an exceptionally low noise level. Additionally, the Single +12V rail design enables non-stop usage with stable and reliable performance. P/N: PS-SPD-0600NPCW**-W Short P/N: SPD-0600P Model: SP-600AH2NKW Type: Intel ATX 12V 2.3 Max. Output Capacity : 600W Color: Black Dimension (H x W x D): 86mm x 150mm x 140mm PFC （Power Factor Correction）: Active PFC Power Good Signal: 100-500 msec Hold Up Time : 16msec (minimum) within 60% load Input current: 10A max Input Frequency Range: 50 Hz - 60 Hz Input Voltage: 100Vac - 240Vac Operating Temperature: 5℃ to +40℃ Operating Humidity: 20% to 85%,non-condensing Operating Temperature: -40 ℃ to +55 ℃ Storage Humidity: 10% to 95%, non-condensing Cooling System: 120mm Fan: 1800 R.P.M. ± 10% Efficiency: 82-86% efficiency @ 20-100% load MTBF: 100,000 hrs minimum Safety Approval: CE/CB/TUV/ UL/ FCC PCI-E Connector: PCI-E 6+2pin x 2",
+    "image": "https://m.media-amazon.com/images/I/71GNnNSyIrL._AC_SX425_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "EVGA 600W 80 Plus Certified 100-W1-0600-K1 Power Supply, 600W",
+    "price": 74,
+    "category": "powerSupply",
+    "stock": 34,
+    "description": "EVGA 600 W1, 80+ WHITE 600W, 3 Year Warranty, Power Supply 100-W1-0600-K1",
+    "image": "https://m.media-amazon.com/images/I/71CjvqEOAsL._AC_SX466_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Thermaltake Technoloy Tough Power 750W 80 Plus Gold ATX12V 2.3 and EPS12V 2.92 Power Supply, Black PS-TPD-0750MPCGUS-1",
+    "price": 139,
+    "category": "powerSupply",
+    "stock": 37,
+    "description": "Amazon.ca Product Description The Thermaltake Toughpower series is a premium 80 PLUS Gold certified power supply that uses the highest quality components for stable performance, excellent features with unbeatable efficiency vital to the current high-end system in market even in demanding conditions. With the 80Plus Gold certification for its high power efficiency, and a single strong 12V rail flexibly routes the maximum available power to your CPU and graphics card, offering maximized power usage and easy setup. Toughpower 750W Gold (Modular) comes with modular design to reduce cable clutter; and ultra-quiet fan delivers silent cooling, thus the entire computer and power supply can operate at its peak moment. P/N: PS-TPD-0750MPCG Model: TP-750AH3CCG-B Type: Intel ATX 12V V2.3 & EPS 12V standards Max. Output Capacity: 750W Peak Output Capacity: 900W Color: Black Dimension (H x W x D): 86mm x 150mm x 160mm PFC（Power Factor Correction): Active PFC Power Good Signal: 00-500 msec Hold Up Time: 12msec (minimum) @ 80% of full load at 115V / 230V input. Input current: 10A Input Frequency Range: 47 Hz - 63 Hz Input Voltage: 100 Vac- 240 Vac Operating Temperature: 0℃ to +40℃ Operating Humidity: 20% to 90%,non-condensing Storage Temperature: -40 ℃ to +70 ℃ Storage Humidity: 5% to 95%, non-condensing Cooling System: 140mm double ball-bearing fan,1500±10%R.P.M. Efficiency: 87-92% efficiency @ 20-100% load MTBF: 120,000 hrs minimum Safety Approval: UL/ TUV/ CE/ FCC/ BSMI/ EAC certification PCI-E Connector: PCI-E 6+2pin x 4 From the Manufacturer Thermaltake Tough power PS-TPD-0750MPCGUS-1 750W 80 PLUS Gold ATX12V 2.3 & EPS12V 2.92 Power Supply (Black)",
+    "image": "https://m.media-amazon.com/images/I/710fhQN9kvL._AC_SX355_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "SAMSUNG T350 Series 22-Inch FHD 1080p Computer Monitor, 75Hz, IPS Panel, HDMI, VGA (D-Sub), 3-Sided Border-Less, FreeSync (LF22T350FHNXZA)",
+    "price": 118,
+    "category": "monitor",
+    "stock": 2,
+    "description": "Samsung T350 Bezelless Computer monitors provide an attractive monitor with the bezeless design, combine that with Freesync, Game Mode and 75HZ frame rate and you get good bang for your buck.",
+    "image": "https://m.media-amazon.com/images/I/61B8Lq5NXmL._AC_SX466_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 4, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "PHILIPS Computer Monitors 22 inch Class Thin Full HD (1920 x 1080) 75Hz Monitor, VESA, HDMI & VGA Port, 4 Year Advance Replacement Warranty, 221V8LN",
+    "price": 94,
+    "category": "monitor",
+    "stock": 39,
+    "description": "The Philips 221V8LN 21.5\" Monitor boasts Full HD 1920x1080 picture quality for an incredible sense of depth and clarity. With a wide viewing angle VA display and 16.7 million colors, you get vivid images with detail from every vantage point. Switch from working to gaming seamlessly with 75Hz speedy refresh rate. Adaptive-Sync technology ensures fluid action sequences and rapid response time. Every frame will be rendered smoothly with crystal clarity and without stutter. Whether you’re a demanding professional requiring extremely detailed information for CAD-CAM solutions, using 3D graphic applications or a financial wizard working on huge spreadsheets, this display will make your work easier and more efficient. Philip LowBlue Mode and flicker-free technology protects your eyes from harmful blue rays and prevents eye fatigue.",
+    "image": "https://m.media-amazon.com/images/I/71iMPr0C8KL._AC_SX466_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "ViewSonic VA2447-MH 24 Inch Full HD 1080p Monitor with Ultra-Thin Bezel, AMD FreeSync, 75Hz, Eye Care, and HDMI, VGA Inputs for Home and Office",
+    "price": 112,
+    "category": "monitor",
+    "stock": 35,
+    "description": "With flexible connectivity, wide-angle viewing, and amazing screen performance, the ViewSonic® VA2447-MH delivers solid multimedia features and a sleek design at a great value. Featuring frameless MVA panel technology, the VA2447-MH delivers stunning brightness and contrast at nearly any viewing angle. A minimalistic design, edge-to-edge screen, and frameless bezel make this an ideal monitor for nearly seamless multi-screen setups. Whether for working at the office, or enjoying entertainment at home, the VA2447-MH features an HDMI port and an included HDMI cable for flexible connectivity to PCs, laptops and gaming consoles. A three-year limited warranty, along with one of the industry’s best pixel performance policies, makes the VA2447-MH a great overall value choice.",
+    "image": "https://m.media-amazon.com/images/I/61mAVR30bPL._AC_SX569_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 4, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Gaming Keyboard and Mouse, RaceGT USB Backlit 104 Keys Wired Keyboard Gaming, 7 Buttons 6400 DPI Gaming Mouse, Gaming Accessories Compatible with PC Laptop",
+    "price": 37,
+    "category": "accessories",
+    "stock": 21,
+    "description": null,
+    "image": "https://m.media-amazon.com/images/I/714ze4TMI9L._AC_SX679_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Logitech G29 Driving Force Racing Wheel and Floor Pedals, Real Force Feedback, Stainless Steel Paddle Shifters, Leather Steering Wheel Cover for PS5, PS4, PC, Mac - Black",
+    "price": 399,
+    "category": "accessories",
+    "stock": 11,
+    "description": "The definitive sim racing wheel for PlayStation 4 and PlayStation 3. Driving Force is designed for the latest racing game titles for your PlayStation 4 or PlayStation 3 console. Add Driving Force to your controller selection and you may never want to race with a regular controller again. With dual-motor force feedback, on-wheel controls and responsive pedals, G29 makes racing feel like the real deal.",
+    "image": "https://m.media-amazon.com/images/I/61IwZwlTopL._AC_SY450_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Logitech C920x HD Pro Webcam, Full HD 1080p/30fps Video Calling, Clear Stereo Audio, HD Light Correction, Works with Skype, Zoom, FaceTime, Hangouts, PC/Mac/Laptop/Macbook/Tablet - Black",
+    "price": 83,
+    "category": "accessories",
+    "stock": 31,
+    "description": "Polished, Full HD video calls. The C920x Pro HD Webcam delivers remarkably crisp, clear and detailed images in vibrant colors. HD autofocus and light correction adjust to the conditions to provide consistently high definition, while the five-element glass lens delivers razor-sharp images. Dual mics placed on either side of the lens capture the natural sound of your voice. The 3-month XSplit VCam license enables you to remove, replace and blur your background. Whether for a key Skype call, to demo your skills or create your next YouTube video, the C920x ensures you make a strong impression.",
+    "image": "https://m.media-amazon.com/images/I/71iNwni9TsL._AC_SX569_.jpg",
+    "reviews": [
+      { "username": "Apple John", "rating": 5, "review": "Good Product" }
+    ]
+  }
+]

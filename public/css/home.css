@@ -4,3 +4,18 @@
   padding: 36px;
   color: black;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.navbar {
+  transition-timing-function: ease;
+  transition: 0.5s;
+}
+
+.cover {
+  background-image: url('../img/home/cover-bg.png');
+  background-size: cover;
+  background-position: bottom left;
+}

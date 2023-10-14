@@ -36,6 +36,24 @@
     <h1>Product Title</h1>
     <div class="container d-inline-block" style="max-width: 768px">
       <div class="container d-inline-block" style="max-width: 768px">
+        <div class="col-md-6">Product Image Here</div>
+        <div class="col-md-6">
+          <div>Product Description</div>
+          <div class="quantity-selector">
+            <button class="decreaseQuantity" disabled>-</button>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value="1"
+              disabled
+              min="1"
+            />
+            <button class="increaseQuantity">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="container d-inline-block" style="max-width: 768px">
         <h2>Reviews</h2>
         <div id="reviews"></div>
       </div>

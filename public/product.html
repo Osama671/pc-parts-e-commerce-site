@@ -35,24 +35,43 @@
   <body>
     <header></header>
     <div class="container py-3"><span class="fs-4"> Product Title </span></div>
-    <div class="container d-flex">
-      <div
-        class="img-container text-center w-100"
-        style="height: 200px !important"
-      >
-        <img src="#" alt="Product Image" />
-      </div>
-      <div class="desc-container">
-        <b>Product Description</b>
-        <ul>
-          <li>Description</li>
-          <li>Description</li>
-          <li>Description</li>
-          <li>Description</li>
-          <li>Description</li>
-          <li>Description</li>
-          <li>Description</li>
-        </ul>
+    <div class="container">
+      <div class="row">
+        <div
+          class="img-container col-6 text-center w-100"
+          style="height: 200px !important"
+        >
+          <img src="#" alt="Product Image" />
+        </div>
+        <div class="description col-6">
+          <div class="desc-container">
+            <b>Product Description</b>
+            <ul>
+              <li>Description</li>
+              <li>Description</li>
+              <li>Description</li>
+              <li>Description</li>
+              <li>Description</li>
+              <li>Description</li>
+              <li>Description</li>
+            </ul>
+          </div>
+          <div class="quantity-selector mt-2 d-flex justify-content-between">
+            <div>
+              <button class="decreaseQuantity" disabled>-</button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="1"
+                disabled
+                min="1"
+              />
+              <button class="increaseQuantity">+</button>
+            </div>
+            <button>Add to Cart</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="container d-inline-block" style="max-width: 768px">

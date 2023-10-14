@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A sample e-commerce website made with HTML, CSS, JS, jQuery and Bootstrap",
   "scripts": {
-    "start": "http-server public",
+    "start": "http-server public -c-1",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint-staged": "lint-staged",

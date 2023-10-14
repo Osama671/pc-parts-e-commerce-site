@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+.navbar {
+  background-color: #2a2f35 !important;
+  transition-timing-function: ease;
+  transition: 0.5s;
+}
+
+.cover {
+  background: url('/img/home/cover-bg.png') bottom left/cover no-repeat;
+}
+
+.bg-sdown-dark {
+  background-color: #212529 !important;
+}
+
+.bg-sup-dark {
+  background-color: #2a2f35 !important;
+}
+
+.red {
+  background-color: red !important;
+}

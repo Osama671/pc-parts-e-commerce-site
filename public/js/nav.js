@@ -1,15 +1,11 @@
 $(document).ready(function () {
-  var $navbar = $('.nav-bar')
-  var $navbarInner = $navbar.find('.navbar')
-
-  // Trigger this function every time the user scrolls
   $(window).scroll(function () {
+    var $navbar = $('.nav-bar').children('.navbar')
     var scroll = $(window).scrollTop()
-
-    if (scroll > 30) {
-      $navbarInner.removeClass('bg-secondary-dark').addClass('bg-primary-dark')
+    if (scroll > 20) {
+      $navbar.removeClass('bg-sup-dark').addClass('bg-sdown-dark')
     } else {
-      $navbarInner.removeClass('bg-primary-dark').addClass('bg-secondary-dark')
+      $navbar.removeClass('bg-sdown-dark').addClass('bg-sup-dark')
     }
   })
 })

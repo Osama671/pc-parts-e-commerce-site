@@ -2,13 +2,6 @@
   box-sizing: border-box;
 }
 
-.category {
-  border: 2px solid black;
-
-  padding: 36px;
-  color: black;
-}
-
 .navbar {
   background-color: #2a2f35 !important;
   transition-timing-function: ease;

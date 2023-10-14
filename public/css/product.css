@@ -16,8 +16,3 @@
 h1 {
   margin-left: 80px;
 }
-
-.quantity-selector {
-  display: flex;
-  justify-content: space-between;
-}

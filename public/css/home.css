@@ -15,7 +15,7 @@
 }
 
 .cover {
-  background-image: url('../img/home/cover-bg.png');
+  background-image: url('/img/home/cover-bg.png');
   background-size: cover;
   background-position: bottom left;
 }

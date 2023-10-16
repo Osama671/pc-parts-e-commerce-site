@@ -18,7 +18,7 @@ function populateReview(reviewElement, username, rating, content) {
 }
 
 function loadReview() {
-  $.get('/components/reviews.html', function (data) {
+  $.get('../components/reviews.html', function (data) {
     reviews.forEach((review) => {
       const reviewElement = $.parseHTML(data)
       populateReview(

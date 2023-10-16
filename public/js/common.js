@@ -15,6 +15,17 @@ function setUpNavbar() {
       $navbar.removeClass('bg-sdown-dark').addClass('bg-sup-dark')
     }
   })
-}
 
+  $(document).ready(function () {
+    var cartCount = localStorage.getItem('cart')
+    if (cartCount) {
+      $('#cartCount').show()
+      $('#cartCount').addClass('badge')
+      $('#cartCount').text(JSON.parse(cartCount).length)
+    } else {
+      $('#cartCount').removeClass('badge')
+      $('#cartCount').hide()
+    }
+  })
+}
 setUpNavbar()

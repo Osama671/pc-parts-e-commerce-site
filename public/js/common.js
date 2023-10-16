@@ -1,6 +1,13 @@
 function setUpNavbar() {
   // load navbar component
-  $('header').load('/components/navbar.html')
+  $('header').load('/components/navbar.html', function () {
+    var cartCount = localStorage.getItem('cart')
+    if (cartCount && $('#cartCount').length) {
+      $('#cartCount').addClass('badge').text(JSON.parse(cartCount).length)
+    } else {
+      $('#cartCount').removeClass('badge')
+    }
+  })
 
   // set CSS classes on header
   $('header').addClass('sticky-top nav-bar')
@@ -15,17 +22,6 @@ function setUpNavbar() {
       $navbar.removeClass('bg-sdown-dark').addClass('bg-sup-dark')
     }
   })
-
-  $(document).ready(function () {
-    var cartCount = localStorage.getItem('cart')
-    if (cartCount) {
-      $('#cartCount').show()
-      $('#cartCount').addClass('badge')
-      $('#cartCount').text(JSON.parse(cartCount).length)
-    } else {
-      $('#cartCount').removeClass('badge')
-      $('#cartCount').hide()
-    }
-  })
 }
+
 setUpNavbar()

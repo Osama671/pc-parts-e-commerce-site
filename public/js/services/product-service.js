@@ -1,6 +1,6 @@
 class ProductService {
-  findProducts(callback) {
-    return $.getJSON('../api/products.json').success()
+  findProducts() {
+    return $.getJSON('/api/products.json')
   }
 }
 

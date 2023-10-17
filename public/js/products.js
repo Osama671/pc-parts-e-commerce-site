@@ -1,21 +1,17 @@
-console.log(productService)
-
-function getProductResults() {
-  function callback(products) {
-    products.forEach((product) => {
-      generateColumn(product.image, product.name)
-    })
-  }
-
-  productService.findProducts(callback)
+async function getProductResults() {
+  const products = await productService.findProducts()
+  const productTemplate = await $.get('/components/product-list.html')
+  products.forEach((product) =>
+    generateColumn(productTemplate, product.image, product.name)
+  )
 }
 
-function generateColumn(imgURL, Title) {
-  $.get('/components/product-list.html', function (data) {
-    const productList = $.parseHTML(data)
-    $(productList).find('.image-placeholder').attr('src', imgURL)
-    $(productList).find('.product-name').html(Title)
+function generateColumn(template, imgURL, Title) {
+  const productList = $.parseHTML(template)
+  $(productList).find('.image-placeholder').attr('src', imgURL)
+  $(productList).find('.product-name').html(Title)
 
-    $('#products-list').append(productList)
-  })
+  $('#products-list').append(productList)
 }
+
+getProductResults()

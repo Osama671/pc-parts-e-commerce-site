@@ -37,8 +37,10 @@
       crossorigin="anonymous"
     ></script>
 
+    <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/common.js"></script>
     <script defer src="/js/products.js"></script>
+
     <link rel="stylesheet" href="css/index.css" />
     <link href="css/products.css" rel="stylesheet" />
   </head>
@@ -71,106 +73,15 @@
             />
           </div>
           <button id="search-button" type="button" class="btn btn-primary">
-            <i class="bi bi-search" id="search-button"></i>
+            <i class="bi bi-search"></i>
           </button>
         </div>
       </form>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi ipsum
-        et, eius molestiae ut architecto ratione cum tenetur id odio odit
-        doloribus placeat quae laboriosam error temporibus consectetur numquam!
-        Quae!
-      </p>
+      <!-- Product search results -->
+      <div
+        class="container mt-5 justify-content-center d-flex flex-wrap"
+        id="products-list"
+      ></div>
     </div>
   </body>
 </html>

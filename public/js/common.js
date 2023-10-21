@@ -1,9 +1,9 @@
 function setUpNavbar() {
-  // load navbar component
+  $.getScript('js/services/cart-service.js')
   $('header').load('/components/navbar.html', function () {
-    var cartCount = localStorage.getItem('cart')
+    var cartCount = cartService.getCartItemsCount()
     if (cartCount && $('#cartCount').length) {
-      $('#cartCount').addClass('badge').text(JSON.parse(cartCount).length)
+      $('#cartCount').addClass('badge').text(cartCount)
     } else {
       $('#cartCount').removeClass('badge')
     }

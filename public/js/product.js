@@ -1,14 +1,3 @@
-const reviews = [
-  {
-    username: 'ayaya',
-    rating: 3.5,
-    content:
-      "According to all laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because don't care what humans think is impsosible. Yellow, black. Yellow, black. Yellow, black. Yellow, black.",
-  },
-  { username: 'Wide_Putin', rating: 69, content: 'Big Strong Russian Man' },
-  { username: 'WIDE_George', rating: 5, content: 'Discord Nitro Pro $69' },
-]
-
 function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.username').html(username)
   $(reviewElement)
@@ -17,7 +6,7 @@ function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.content').html(content)
 }
 
-function loadReview() {
+function loadReview(reviews) {
   $.get('/components/reviews.html', function (data) {
     reviews.forEach((review) => {
       const reviewElement = $.parseHTML(data)
@@ -25,13 +14,12 @@ function loadReview() {
         reviewElement,
         review.username,
         review.rating,
-        review.content
+        review.review
       )
       $('#reviews').append(reviewElement)
     })
   })
 }
-loadReview()
 
 $('.increaseQuantity').click(function (e) {
   e.preventDefault()
@@ -53,3 +41,27 @@ $('.decreaseQuantity').click(function (e) {
     $(this).prop('disabled', true)
   }
 })
+
+async function getProduct() {
+  var urlParams = new URLSearchParams(window.location.search)
+  var productID = parseInt(urlParams.get('id'))
+  const product = await productService.getProduct(parseInt(productID))
+  renderProduct(product)
+}
+
+function renderProduct(product) {
+  $('.product-title').text(product.name)
+  $('.description-details').text(product.description)
+  $('.product-image').attr('src', `./img/products/${product.id}.jpg`)
+  $('.price').text(
+    'C' +
+      new Intl.NumberFormat('en-CA', {
+        style: 'currency',
+        currency: 'CAD',
+      }).format(product.price)
+  )
+  loadReview(product.reviews)
+  // Expected output: "￥123,457"
+}
+
+getProduct()

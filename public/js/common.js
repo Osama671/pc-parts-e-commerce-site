@@ -3,10 +3,10 @@ async function setUpNavbar() {
 
   $('header').load('/components/navbar.html', function () {
     var cartCount = cartService.getCartItemsCount()
-    if (cartCount && $('#cartCount').length) {
-      $('#cartCount').addClass('badge').text(cartCount)
+    if (cartCount) {
+      $('#cart-count').show().text(cartCount)
     } else {
-      $('#cartCount').removeClass('badge')
+      $('#cartCount').hide()
     }
   })
 

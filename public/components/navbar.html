@@ -3,13 +3,17 @@
     <a class="navbar-brand text-light fw-medium" href="/index.html">
       PC SHOP
     </a>
-    <div class="" id="navbarNav">
-      <div class="ms-auto text-light">
-        <a href="/cart.html" style="position: relative">
-          <i class="bi bi-cart2 text-light fs-2"></i>
-          <span id="cartCount"> </span>
-        </a>
-      </div>
+    <div id="navbar-cart">
+      <a href="/cart.html" style="position: relative">
+        <i class="bi bi-cart2 text-light fs-2"></i>
+        <span
+          id="cart-count"
+          style="display: none"
+          class="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          0
+        </span>
+      </a>
     </div>
   </div>
 </nav>

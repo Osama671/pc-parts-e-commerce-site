@@ -79,12 +79,14 @@
   background-color: red !important;
 }
 
-#cartCount {
-  border-radius: 100%;
-  background-color: red;
-  right: -8px;
-  position: absolute;
+#cart-count {
+  top: -8px;
 }
+
+#navbar-cart {
+  margin-right: 4px;
+}
+
 .c-icon {
   width: 50% !important;
 }

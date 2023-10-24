@@ -3,11 +3,8 @@ class ProductService {
     return $.getJSON('/api/products.json')
   }
   async getProduct(id) {
-    var json = await $.getJSON('/api/products.json')
-    var out = json.filter((data) => {
-      return data.id === id
-    })
-    return out[0]
+    var products = await $.getJSON('/api/products.json')
+    return products.find((product) => product.id === id) || null
   }
 }
 

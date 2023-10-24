@@ -40,6 +40,11 @@ async function getProduct() {
   var urlParams = new URLSearchParams(window.location.search)
   var productID = parseInt(urlParams.get('id'))
   const product = await productService.getProduct(parseInt(productID))
+
+  if (!product) {
+    window.location.replace('/404')
+  }
+
   renderProduct(product)
 }
 

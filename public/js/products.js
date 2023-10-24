@@ -10,7 +10,11 @@ function generateColumn(template, id, imgURL, Title) {
   const productList = $.parseHTML(template)
   $(productList).find('.image-placeholder').attr('src', imgURL)
   $(productList).find('.product-name').html(Title)
-  $(productList).find('.product-link').attr('href', `/product?id=${id}`)
+  $(productList)
+    .find('.product-link')
+    .each(function () {
+      $(this).attr('href', `/product?id=${id}`)
+    })
 
   $('#products-list').append(productList)
 }

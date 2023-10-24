@@ -6,18 +6,12 @@ function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.content').html(content)
 }
 
-function loadReview(reviews) {
-  $.get('/components/reviews.html', function (data) {
-    reviews.forEach((review) => {
-      const reviewElement = $.parseHTML(data)
-      populateReview(
-        reviewElement,
-        review.username,
-        review.rating,
-        review.review
-      )
-      $('#reviews').append(reviewElement)
-    })
+async function loadReview(reviews) {
+  const template = await $.get('/components/reviews.html')
+  reviews.forEach((review) => {
+    const reviewElement = $.parseHTML(template)
+    populateReview(reviewElement, review.username, review.rating, review.review)
+    $('#reviews').append(reviewElement)
   })
 }
 

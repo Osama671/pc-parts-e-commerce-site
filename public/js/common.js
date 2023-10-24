@@ -1,5 +1,6 @@
-function setUpNavbar() {
-  $.getScript('js/services/cart-service.js')
+async function setUpNavbar() {
+  await $.getScript('js/services/cart-service.js')
+
   $('header').load('/components/navbar.html', function () {
     var cartCount = cartService.getCartItemsCount()
     if (cartCount && $('#cartCount').length) {

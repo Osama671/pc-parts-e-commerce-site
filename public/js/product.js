@@ -51,7 +51,7 @@ async function getProduct() {
 function renderProduct(product) {
   $('.product-title').text(product.name)
   $('.description-details').text(product.description)
-  $('.product-image').attr('src', `./img/products/${product.id}.jpg`)
+  $('.product-image').attr('src', product.image)
   $('.price').text(
     'C' +
       new Intl.NumberFormat('en-CA', {
@@ -60,7 +60,6 @@ function renderProduct(product) {
       }).format(product.price)
   )
   loadReview(product.reviews)
-  // Expected output: "￥123,457"
 }
 
 getProduct()

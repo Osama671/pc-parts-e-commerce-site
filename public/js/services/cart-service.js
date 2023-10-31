@@ -1,6 +1,13 @@
 class CartService {
   getCartProducts() {
-    return JSON.parse(localStorage.getItem('cart'))
+    return this.getCartItemsCount()
+      ? JSON.parse(localStorage.getItem('cart'))
+      : []
+  }
+
+  saveCartProducts(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart))
+    this.updateCart()
   }
 
   getCartItemsCount() {
@@ -14,28 +21,22 @@ class CartService {
   }
 
   addToCart(id, quantity) {
-    if (this.isCartEmpty()) {
-      localStorage.setItem('cart', JSON.stringify([{ id, quantity }]))
+    var cart = this.getCartProducts()
+    var index = cart.findIndex((x) => x.id == id)
+    if (index !== -1) {
+      cart[index].quantity = cart[index].quantity + quantity
     } else {
-      var cart = this.getCartProducts()
-      var index = cart.findIndex((x) => x.id == id)
-      if (index !== -1) {
-        cart[index].quantity = cart[index].quantity + quantity
-      } else {
-        cart.push({ id, quantity })
-      }
-      localStorage.setItem('cart', JSON.stringify(cart))
+      cart.push({ id, quantity })
     }
-    this.updateCart()
+    this.saveCartProducts(cart)
   }
 
   updateCart() {
-    var cartCount = this.getCartItemsCount()
-    if (cartCount) {
-      $('#cart-count').show().text(cartCount)
-    } else {
-      $('#cartCount').hide()
-    }
+    document.dispatchEvent(new Event('cartUpdate'))
+  }
+
+  onUpdateCart(fn) {
+    document.addEventListener('cartUpdate', fn)
   }
 }
 

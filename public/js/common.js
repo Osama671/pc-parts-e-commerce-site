@@ -1,7 +1,17 @@
+function updateCart() {
+  var cartCount = cartService.getCartItemsCount()
+  if (cartCount) {
+    $('#cart-count').show().text(cartCount)
+  } else {
+    $('#cartCount').hide()
+  }
+}
+
 async function setUpNavbar() {
   await $.getScript('js/services/cart-service.js')
 
   $('header').load('/components/navbar.html', function () {
+    cartService.onUpdateCart(updateCart)
     cartService.updateCart()
   })
 

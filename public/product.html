@@ -32,7 +32,7 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
-
+    <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/common.js"></script>
     <script defer src="/js/product.js"></script>
     <link rel="stylesheet" href="css/index.css" />
@@ -40,27 +40,19 @@
   </head>
   <body>
     <header></header>
-    <div class="container py-3"><span class="fs-4"> Product Title </span></div>
+    <div class="container py-3">
+      <span class="fs-4 product-title"> Product Title </span>
+    </div>
     <div class="container">
       <div class="row">
-        <div
-          class="img-container col-6 text-center w-100"
-          style="height: 200px !important"
-        >
-          <img src="#" alt="Product Image" />
+        <div class="img-container col-6 text-center w-100">
+          <img src="#" class="product-image" alt="Product Image" />
         </div>
         <div class="description col-6">
           <div class="desc-container">
             <b>Product Description</b>
-            <ul>
-              <li>Description</li>
-              <li>Description</li>
-              <li>Description</li>
-              <li>Description</li>
-              <li>Description</li>
-              <li>Description</li>
-              <li>Description</li>
-            </ul>
+            <p class="description-details"></p>
+            <p class="price"></p>
           </div>
           <div class="quantity-selector mt-2 d-flex justify-content-between">
             <div>
@@ -75,7 +67,7 @@
               />
               <button class="increaseQuantity">+</button>
             </div>
-            <button>Add to Cart</button>
+            <button class="addToCart">Add to Cart</button>
           </div>
         </div>
       </div>

@@ -1,14 +1,5 @@
-const reviews = [
-  {
-    username: 'ayaya',
-    rating: 3.5,
-    content:
-      "According to all laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because don't care what humans think is impsosible. Yellow, black. Yellow, black. Yellow, black. Yellow, black.",
-  },
-  { username: 'Wide_Putin', rating: 69, content: 'Big Strong Russian Man' },
-  { username: 'WIDE_George', rating: 5, content: 'Discord Nitro Pro $69' },
-]
-
+var urlParams = new URLSearchParams(window.location.search)
+var productID = parseInt(urlParams.get('id'))
 function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.username').html(username)
   $(reviewElement)
@@ -17,21 +8,14 @@ function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.content').html(content)
 }
 
-function loadReview() {
-  $.get('/components/reviews.html', function (data) {
-    reviews.forEach((review) => {
-      const reviewElement = $.parseHTML(data)
-      populateReview(
-        reviewElement,
-        review.username,
-        review.rating,
-        review.content
-      )
-      $('#reviews').append(reviewElement)
-    })
+async function loadReview(reviews) {
+  const template = await $.get('/components/reviews.html')
+  reviews.forEach((review) => {
+    const reviewElement = $.parseHTML(template)
+    populateReview(reviewElement, review.username, review.rating, review.review)
+    $('#reviews').append(reviewElement)
   })
 }
-loadReview()
 
 $('.increaseQuantity').click(function (e) {
   e.preventDefault()
@@ -53,3 +37,34 @@ $('.decreaseQuantity').click(function (e) {
     $(this).prop('disabled', true)
   }
 })
+
+$('.addToCart').click(async function (e) {
+  e.preventDefault()
+  var quantity = parseInt($('#quantity').val())
+  cartService.addToCart(productID, quantity)
+})
+
+async function getProduct() {
+  const product = await productService.getProduct(parseInt(productID))
+  if (!product) {
+    window.location.replace('/404')
+  }
+
+  renderProduct(product)
+}
+
+function renderProduct(product) {
+  $('.product-title').text(product.name)
+  $('.description-details').text(product.description)
+  $('.product-image').attr('src', product.image)
+  $('.price').text(
+    'C' +
+      new Intl.NumberFormat('en-CA', {
+        style: 'currency',
+        currency: 'CAD',
+      }).format(product.price)
+  )
+  loadReview(product.reviews)
+}
+
+getProduct()

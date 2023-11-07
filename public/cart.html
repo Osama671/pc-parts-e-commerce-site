@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Cart</title>
     <!-- import statement for Bootstrap icons -->
     <link
       rel="stylesheet"
@@ -34,10 +34,38 @@
     ></script>
 
     <link rel="stylesheet" href="css/index.css" />
+
+    <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/common.js"></script>
   </head>
   <body>
     <header></header>
-    <h1>Cart</h1>
+    <div class="container py-3">
+      <h1>Cart</h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-group cart-items"></ul>
+        </div>
+        <div class="col-12">
+          <h3>Cart Total</h3>
+          <table>
+            <tr>
+              <td>Subtotal</td>
+              <td class="subtotal">CD</td>
+            </tr>
+            <tr>
+              <td>Taxes</td>
+              <td class="taxes">CD</td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td class="total">CD</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

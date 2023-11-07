@@ -9,6 +9,7 @@ function updateCart() {
 
 async function setUpNavbar() {
   await $.getScript('js/services/cart-service.js')
+  await $.getScript('js/cart.js')
 
   $('header').load('/components/navbar.html', function () {
     cartService.onUpdateCart(updateCart)

@@ -3,7 +3,7 @@ function updateCart() {
   if (cartCount) {
     $('#cart-count').show().text(cartCount)
   } else {
-    $('#cartCount').hide()
+    $('#cart-count').hide()
   }
 }
 

@@ -1,6 +1,6 @@
 class ProductService {
   async findProducts(category = '', search = '') {
-    let products = await $.getJSON('/api/products.json')
+    let products = await this.getProducts()
 
     if (category) {
       products = products.filter(function (product) {
@@ -16,9 +16,29 @@ class ProductService {
 
     return products
   }
+
   async getProduct(id) {
-    var products = await $.getJSON('/api/products.json')
+    var products = await this.getProducts()
     return products.find((product) => product.id === id) || null
+  }
+
+  async getProducts() {
+    if (!this.products) {
+      this.products = await $.getJSON('/api/products.json')
+    }
+
+    return this.products
+  }
+
+  renderPrice(price) {
+    const priceInDollars = price / 100
+    return (
+      'C' +
+      new Intl.NumberFormat('en-CA', {
+        style: 'currency',
+        currency: 'CAD',
+      }).format(priceInDollars)
+    )
   }
 }
 

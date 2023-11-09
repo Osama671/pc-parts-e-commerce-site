@@ -107,3 +107,5 @@ cartService.onUpdateCart(() => {
   products = []
   getCart()
 })
+
+getCart()

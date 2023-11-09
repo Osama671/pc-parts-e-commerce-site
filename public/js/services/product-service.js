@@ -1,6 +1,20 @@
 class ProductService {
-  findProducts() {
-    return this.getProducts()
+  async findProducts(category = '', search = '') {
+    let products = await this.getProducts()
+
+    if (category) {
+      products = products.filter(function (product) {
+        return product.category === category
+      })
+    }
+
+    if (search) {
+      products = products.filter(function (product) {
+        return product.name.toLowerCase().includes(search)
+      })
+    }
+
+    return products
   }
 
   async getProduct(id) {

@@ -1,11 +1,21 @@
 class ProductService {
   findProducts() {
-    return $.getJSON('/api/products.json')
+    return this.getProducts()
   }
+
   async getProduct(id) {
-    var products = await $.getJSON('/api/products.json')
+    var products = await this.getProducts()
     return products.find((product) => product.id === id) || null
   }
+
+  async getProducts() {
+    if (!this.products) {
+      this.products = await $.getJSON('/api/products.json')
+    }
+
+    return this.products
+  }
+
   renderPrice(price) {
     const priceInDollars = price / 100
     return (

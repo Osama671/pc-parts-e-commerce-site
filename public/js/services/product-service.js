@@ -1,6 +1,20 @@
 class ProductService {
-  findProducts() {
-    return $.getJSON('/api/products.json')
+  async findProducts(category = '', search = '') {
+    let products = await $.getJSON('/api/products.json')
+
+    if (category) {
+      products = products.filter(function (product) {
+        return product.category === category
+      })
+    }
+
+    if (search) {
+      products = products.filter(function (product) {
+        return product.name.toLowerCase().includes(search)
+      })
+    }
+
+    return products
   }
   async getProduct(id) {
     var products = await $.getJSON('/api/products.json')

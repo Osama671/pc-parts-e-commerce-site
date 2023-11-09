@@ -20,6 +20,7 @@ class CartService {
     localStorage.setItem('cart', JSON.stringify(cart))
     if (refreshCart) {
       this.updateCart()
+      this.updateTotal()
     }
   }
 
@@ -60,6 +61,10 @@ class CartService {
       cart.splice(index, 1)
     }
     this.saveCartProducts(cart, true)
+  }
+
+  emptyCart() {
+    this.saveCartProducts([], true)
   }
 
   updateCart() {

@@ -76,7 +76,13 @@ async function getCart() {
   var cartCount = cartService.getCartItemsCount()
   if (!cartCount) {
     $('.cart-items').text('Your cart is empty')
+    $('.empty-cart').hide()
   } else {
+    $('.empty-cart').click((e) => {
+      e.preventDefault()
+      cartService.emptyCart()
+      cartService.updateTotal()
+    })
     await renderCart()
     cartService.updateTotal()
   }

@@ -20,7 +20,6 @@ function generateColumn(template, id, imgURL, Title) {
 }
 
 function reloadWebpageWithFilters() {
-  let params = new URLSearchParams(document.location.search)
   let searchValue = $('#search-input').val()
   if (!searchValue) {
     return

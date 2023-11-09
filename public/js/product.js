@@ -1,3 +1,5 @@
+var urlParams = new URLSearchParams(window.location.search)
+var productID = parseInt(urlParams.get('id'))
 function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.username').html(username)
   $(reviewElement)
@@ -36,11 +38,14 @@ $('.decreaseQuantity').click(function (e) {
   }
 })
 
-async function getProduct() {
-  var urlParams = new URLSearchParams(window.location.search)
-  var productID = parseInt(urlParams.get('id'))
-  const product = await productService.getProduct(parseInt(productID))
+$('.addToCart').click(async function (e) {
+  e.preventDefault()
+  var quantity = parseInt($('#quantity').val())
+  cartService.addToCart(productID, quantity)
+})
 
+async function getProduct() {
+  const product = await productService.getProduct(parseInt(productID))
   if (!product) {
     window.location.replace('/404')
   }
@@ -51,7 +56,7 @@ async function getProduct() {
 function renderProduct(product) {
   $('.product-title').text(product.name)
   $('.description-details').text(product.description)
-  $('.product-image').attr('src', `./img/products/${product.id}.jpg`)
+  $('.product-image').attr('src', product.image)
   $('.price').text(
     'C' +
       new Intl.NumberFormat('en-CA', {
@@ -60,7 +65,6 @@ function renderProduct(product) {
       }).format(product.price)
   )
   loadReview(product.reviews)
-  // Expected output: "￥123,457"
 }
 
 getProduct()

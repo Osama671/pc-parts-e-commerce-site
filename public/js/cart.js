@@ -1,14 +1,5 @@
 var cartAmount = 0
 var products = []
-function toDollars(price) {
-  return (
-    'C' +
-    new Intl.NumberFormat('en-CA', {
-      style: 'currency',
-      currency: 'CAD',
-    }).format(price)
-  )
-}
 
 function populateCart(cartElement, product, quantity) {
   $(cartElement)
@@ -20,7 +11,7 @@ function populateCart(cartElement, product, quantity) {
   $(cartElement).find('.product-name').html(product.name)
   $(cartElement)
     .find('.item-price')
-    .html(toDollars(product.price * quantity))
+    .html(productService.renderPrice(product.price * quantity))
   $(cartElement).find('.quantity').attr('value', quantity)
   $(cartElement)
     .find('.remove-product')
@@ -89,9 +80,9 @@ async function getCart() {
 }
 
 function setTotal(subtotal, taxes, total) {
-  $('.subtotal').html(toDollars(subtotal))
-  $('.taxes').html(toDollars(taxes))
-  $('.total').html(toDollars(total))
+  $('.subtotal').html(productService.renderPrice(subtotal))
+  $('.taxes').html(productService.renderPrice(taxes))
+  $('.total').html(productService.renderPrice(total))
 }
 
 function updateTotal() {

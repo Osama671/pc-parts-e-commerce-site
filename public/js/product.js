@@ -57,13 +57,7 @@ function renderProduct(product) {
   $('.product-title').text(product.name)
   $('.description-details').text(product.description)
   $('.product-image').attr('src', product.image)
-  $('.price').text(
-    'C' +
-      new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-      }).format(product.price)
-  )
+  $('.price').text(productService.renderPrice(product.price))
   loadReview(product.reviews)
 }
 

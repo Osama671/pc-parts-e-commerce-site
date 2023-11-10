@@ -40,42 +40,81 @@
   </head>
   <body>
     <header></header>
-    <div class="container py-3">
-      <span class="fs-4 product-title"> Product Title </span>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="img-container col-6 text-center w-100">
+    <div class="container-fluid d-flex" ; id="productContainer" ;>
+      <div class="row align-items-center column-gap-4">
+        <div class="img-container col-md-6 col-sm-12 text-center">
           <img src="#" class="product-image" alt="Product Image" />
         </div>
-        <div class="description col-6">
+        <div class="description col-md-6 col-sm-12">
           <div class="desc-container">
-            <b>Product Description</b>
-            <p class="description-details"></p>
-            <p class="price"></p>
-          </div>
-          <div class="quantity-selector mt-2 d-flex justify-content-between">
-            <div>
-              <button class="decreaseQuantity" disabled>-</button>
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                value="1"
-                disabled
-                min="1"
-              />
-              <button class="increaseQuantity">+</button>
+            <span class="product-title"> Product Title </span><br />
+            <p class="description-details mt-3 fs-5 lh-sm"></p>
+            <div class="quantity-selector d-flex justify-content-between">
+              <!--Price/Stock/Add To cart-->
+              <div>
+                <p class="price"></p>
+                <p class="stockCount fs-5">X left in stock</p>
+                <div class="stockButton">
+                  <button class="increaseQuantity" style="border: none">
+                    +
+                  </button>
+                  <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    value="1"
+                    disabled
+                    min="1"
+                    style="width: 120px; text-align: center; border: none"
+                  />
+                  <button
+                    class="decreaseQuantity"
+                    style="border: none"
+                    disabled
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+              <button class="addToCart">ADD TO CART</button>
             </div>
-            <button class="addToCart">Add to Cart</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="container d-inline-block" style="max-width: 768px">
+    <!--REVIEWS SECTION-->
+    <div class="container-fluid d-inline-block" id="reviewsSection">
       <div class="container d-inline-block" style="max-width: 768px">
-        <h2>Reviews</h2>
+        <h2 class="mt-4 fw-bold">Reviews</h2>
         <div id="reviews"></div>
+      </div>
+    </div>
+    <footer></footer>
+    <!--Will be dynamically rendered in common.js later-->
+    <div class="container-fluid bg-sdown-dark py-3 text-light vh-30">
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col">
+            <span class="fw-medium fs-4">PC SHOP </span>
+            <p class="fw-light">
+              Your trusted destination for all things PC: Unleash your digital
+              potential with us.
+            </p>
+          </div>
+          <div class="col d-flex justify-content-around fw-light">
+            <span class="px-2">Terms & Condition</span>
+            <span class="px-2">Privacy Policy</span>
+            <span class="px-2">FAQ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="container-fluid bg-sdown-dark p-3 d-flex justify-content-center text-light"
+    >
+      <div class="container text-end">
+        <hr class="border border-2 rounded" />
+        &copy; 2023 - PC Parts Project Lambton
       </div>
     </div>
   </body>

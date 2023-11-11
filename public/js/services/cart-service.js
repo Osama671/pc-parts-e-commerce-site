@@ -81,8 +81,10 @@ class CartService {
 
   getQuantity(id) {
     let products = JSON.parse(localStorage.getItem('cart'))
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id === id) return products[i].quantity
+    if (products) {
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) return products[i].quantity
+      }
     }
   }
 }

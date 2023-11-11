@@ -1,5 +1,6 @@
 var urlParams = new URLSearchParams(window.location.search)
 var productID = parseInt(urlParams.get('id'))
+var stockCount
 function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.username').html(username)
   $(reviewElement)
@@ -9,10 +10,10 @@ function populateReview(reviewElement, username, rating, content) {
 }
 
 async function loadReview(reviews) {
+  //!reviews didn't work smfh
   if (reviews.length === 0) {
-    //!reviews didn't work smfh
     $('#reviews').append(
-      "<p style='color: white;'> There are currently no reviews"
+      "<p style='color: white;'> There are currently no reviews."
     )
     return
   }
@@ -27,6 +28,7 @@ async function loadReview(reviews) {
 $('.increaseQuantity').click(function (e) {
   e.preventDefault()
   var quantity = parseInt($('#quantity').val())
+  if (quantity + 1 > stockCount) return
   $('#quantity').val(quantity + 1)
   if (quantity + 1 > 1) {
     $('.decreaseQuantity').prop('disabled', false)
@@ -47,6 +49,10 @@ $('.decreaseQuantity').click(function (e) {
 
 $('.addToCart').click(async function (e) {
   e.preventDefault()
+  if (stockCount === 0) {
+    alert('Sorry, this item is currently out of stock')
+    return
+  }
   var quantity = parseInt($('#quantity').val())
   cartService.addToCart(productID, quantity)
 })
@@ -56,7 +62,7 @@ async function getProduct() {
   if (!product) {
     window.location.replace('/404')
   }
-
+  stockCount = product.stock
   renderProduct(product)
 }
 
@@ -71,6 +77,7 @@ function renderProduct(product) {
         currency: 'CAD',
       }).format(product.price)
   )
+  $('.stockCount').text(product.stock + ' left in stock')
   loadReview(product.reviews)
 }
 

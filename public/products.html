@@ -36,7 +36,7 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
-
+    <script defer src="/js/services/cart-service.js"></script>
     <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/common.js"></script>
     <script defer src="/js/products.js"></script>
@@ -74,7 +74,7 @@
       >
     </div>
     <div class="main">
-      <form>
+      <form id="form">
         <div class="input-group justify-content-center">
           <div class="form-outline w-50">
             <input
@@ -82,9 +82,10 @@
               type="search"
               class="form-control"
               placeholder="Search"
+              name="search"
             />
           </div>
-          <button id="search-button" type="button" class="btn btn-primary">
+          <button id="search-button" class="btn btn-primary" type="submit">
             <i class="bi bi-search"></i>
           </button>
         </div>

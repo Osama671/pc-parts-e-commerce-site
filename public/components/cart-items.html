@@ -1,0 +1,28 @@
+<!-- When editing anchor hrefs, make sure to change both the img and the text-->
+
+<li class="list-group-item d-flex justify-content-between align-items-center">
+  <div class="product-details d-flex">
+    <img class="image-placeholder" alt="quixote" width="60" height="60" />
+    <div class="product">
+      <a class="product-link" href="/product?id=<product_id>">
+        <p class="product-name"></p>
+      </a>
+      <div class="quantity-selector">
+        <button class="decreaseQuantity" disabled>-</button>
+        <input
+          type="number"
+          class="quantity"
+          name="quantity"
+          value="1"
+          disabled
+          min="1"
+        />
+        <button class="increaseQuantity">+</button>
+      </div>
+    </div>
+  </div>
+  <div class="product-secondary d-flex flex-direction-column">
+    <a class="remove-product">REMOVE</a>
+    <div class="item-price pt-4">PRICE</div>
+  </div>
+</li>

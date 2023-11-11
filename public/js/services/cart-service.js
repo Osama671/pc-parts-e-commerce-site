@@ -38,6 +38,13 @@ class CartService {
   onUpdateCart(fn) {
     document.addEventListener('cartUpdate', fn)
   }
+
+  getQuantity(id) {
+    let products = JSON.parse(localStorage.getItem('cart'))
+    for (let i = 0; i < products.length; i++) {
+      if (products[i].id === id) return products[i].quantity
+    }
+  }
 }
 
 let cartService = new CartService()

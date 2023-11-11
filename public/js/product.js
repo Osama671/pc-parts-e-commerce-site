@@ -53,6 +53,13 @@ $('.addToCart').click(async function (e) {
     alert('Sorry, this item is currently out of stock')
     return
   }
+  if (
+    Number($('#quantity').val()) + cartService.getQuantity(productID) >
+    stockCount
+  ) {
+    alert("You've bought the whole damn thing")
+    return
+  }
   var quantity = parseInt($('#quantity').val())
   cartService.addToCart(productID, quantity)
 })

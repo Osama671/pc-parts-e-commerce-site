@@ -9,6 +9,13 @@ function populateReview(reviewElement, username, rating, content) {
 }
 
 async function loadReview(reviews) {
+  if (reviews.length === 0) {
+    //!reviews didn't work smfh
+    $('#reviews').append(
+      "<p style='color: white;'> There are currently no reviews"
+    )
+    return
+  }
   const template = await $.get('/components/reviews.html')
   reviews.forEach((review) => {
     const reviewElement = $.parseHTML(template)

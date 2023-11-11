@@ -42,15 +42,23 @@
     <header></header>
     <div class="container-fluid d-flex" ; id="productContainer" ;>
       <div class="row align-items-center column-gap-4">
-        <div class="img-container col-md-6 col-sm-12 text-center">
-          <img src="#" class="product-image" alt="Product Image" />
+        <div
+          class="img-container col-md-6 col-sm-12 text-center"
+          style="aspect-ratio: 1 / 1 !important"
+        >
+          <img
+            src="#"
+            class="product-image"
+            alt="Product Image"
+            style="max-width: 100%; height: 100%; object-fit: contain"
+          />
         </div>
         <div class="description col-md-6 col-sm-12">
           <div class="desc-container">
             <span class="product-title"> Product Title </span><br />
-            <p class="description-details mt-3 fs-5 lh-sm"></p>
+            <p class="description-details mt-3 fs-6 lh-sm"></p>
+            <!--Price/Stock/Add To cart-->
             <div class="quantity-selector d-flex justify-content-between">
-              <!--Price/Stock/Add To cart-->
               <div>
                 <p class="price"></p>
                 <p class="stockCount fs-5">X left in stock</p>
@@ -90,32 +98,5 @@
       </div>
     </div>
     <footer></footer>
-    <!--Will be dynamically rendered in common.js later-->
-    <div class="container-fluid bg-sdown-dark py-3 text-light vh-30">
-      <div class="container mt-3">
-        <div class="row">
-          <div class="col">
-            <span class="fw-medium fs-4">PC SHOP </span>
-            <p class="fw-light">
-              Your trusted destination for all things PC: Unleash your digital
-              potential with us.
-            </p>
-          </div>
-          <div class="col d-flex justify-content-around fw-light">
-            <span class="px-2">Terms & Condition</span>
-            <span class="px-2">Privacy Policy</span>
-            <span class="px-2">FAQ</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="container-fluid bg-sdown-dark p-3 d-flex justify-content-center text-light"
-    >
-      <div class="container text-end">
-        <hr class="border border-2 rounded" />
-        &copy; 2023 - PC Parts Project Lambton
-      </div>
-    </div>
   </body>
 </html>

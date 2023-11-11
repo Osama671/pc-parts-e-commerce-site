@@ -30,4 +30,9 @@ async function setUpNavbar() {
   })
 }
 
+function setUpFooter() {
+  $('footer').load('/components/footer.html')
+}
+
 setUpNavbar()
+setUpFooter()

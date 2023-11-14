@@ -1,5 +1,5 @@
 class ProductService {
-  async findProducts(category = '', search = '') {
+  async findProducts(category = '', search = '', pageNumber, productsPerPage) {
     let products = await this.getProducts()
 
     if (category) {
@@ -14,7 +14,19 @@ class ProductService {
       })
     }
 
-    return products
+    localStorage.setItem('totalProducts', products.length)
+    if (products.length > productsPerPage) {
+      localStorage.setItem('isPaginationRequired', 'true')
+      if (pageNumber != null) {
+        var startingIndex = (pageNumber - 1) * productsPerPage
+        return products.slice(startingIndex, startingIndex + productsPerPage)
+      } else {
+        return products
+      }
+    } else {
+      localStorage.setItem('isPaginationRequired', 'false')
+      return products
+    }
   }
 
   async getProduct(id) {

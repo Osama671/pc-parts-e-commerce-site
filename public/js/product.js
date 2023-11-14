@@ -75,7 +75,7 @@ async function getProduct() {
 
 function renderProduct(product) {
   $('.product-title').text(product.name)
-  $('.description-details').text(product.description)
+  $('.description-details').html(product.description)
   $('.product-image').attr('src', product.image)
   $('.price').text(
     'C' +

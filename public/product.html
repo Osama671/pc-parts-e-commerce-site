@@ -60,32 +60,39 @@
             <p class="description-details mt-3 fs-6 lh-sm"></p>
             <!--Price/Stock/Add To cart-->
             <div class="quantity-selector d-flex justify-content-between">
-              <div>
+              <div class="container-fluid">
                 <p class="price"></p>
-                <p class="stockCount fs-5">X left in stock</p>
-                <div class="stockButton">
-                  <button class="increaseQuantity" style="border: none">
-                    +
-                  </button>
-                  <input
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    value="1"
-                    disabled
-                    min="1"
-                    style="width: 120px; text-align: center; border: none"
-                  />
-                  <button
-                    class="decreaseQuantity"
-                    style="border: none"
-                    disabled
-                  >
-                    -
-                  </button>
+                <p class="stockCount">X left in stock</p>
+                <div
+                  class="container-fluid d-flex justify-content-between"
+                  style="align-items: center; font-size: large"
+                >
+                  <div class="stockButton">
+                    <button
+                      class="increaseQuantity"
+                      style="border: none; background-color: transparent"
+                    >
+                      +
+                    </button>
+                    <input
+                      type="number"
+                      id="quantity"
+                      name="quantity"
+                      value="1"
+                      disabled
+                      min="1"
+                    />
+                    <button
+                      class="decreaseQuantity"
+                      style="border: none; background-color: transparent"
+                      disabled
+                    >
+                      -
+                    </button>
+                  </div>
+                  <div><button class="addToCart">ADD TO CART</button></div>
                 </div>
               </div>
-              <button class="addToCart">ADD TO CART</button>
             </div>
           </div>
         </div>

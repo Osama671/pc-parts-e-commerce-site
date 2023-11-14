@@ -48,18 +48,20 @@ $('.decreaseQuantity').click(function (e) {
 })
 
 $('.addToCart').click(async function (e) {
+  console.log(e.target)
   e.preventDefault()
   if (stockCount === 0) {
-    alert('Sorry, this item is currently out of stock')
+    toastFail('Sorry, out of Stock')
     return
   }
   if (
     Number($('#quantity').val()) + cartService.getQuantity(productID) >
     stockCount
   ) {
-    alert("You've bought the whole damn thing")
+    toastFail("You've bought the whole damn thing bruh")
     return
   }
+  toastSuccess('Added to cart sucessfully!')
   var quantity = parseInt($('#quantity').val())
   cartService.addToCart(productID, quantity)
 })
@@ -88,4 +90,19 @@ function renderProduct(product) {
   loadReview(product.reviews)
 }
 
+function toastSuccess(message) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(
+    $('#liveToastSuccess')
+  )
+  $('.toast-text-success').text(message)
+  toastBootstrap.show()
+}
+
+function toastFail(message) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(
+    $('#liveToastFail')
+  )
+  $('.toast-text-fail').text(message)
+  toastBootstrap.show()
+}
 getProduct()

@@ -48,7 +48,6 @@ $('.decreaseQuantity').click(function (e) {
 })
 
 $('.addToCart').click(async function (e) {
-  console.log(e.target)
   e.preventDefault()
   if (stockCount === 0) {
     toastFail('Sorry, out of Stock')

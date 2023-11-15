@@ -79,6 +79,10 @@ class CartService {
     document.addEventListener('cartUpdate', fn)
   }
 
+  onUpdateTotal(fn) {
+    document.addEventListener('updateTotal', fn)
+  }
+
   getQuantity(id) {
     let products = JSON.parse(localStorage.getItem('cart'))
     if (products) {

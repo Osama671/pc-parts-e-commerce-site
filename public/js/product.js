@@ -60,7 +60,7 @@ $('.addToCart').click(async function (e) {
     toastFail("You've bought the whole damn thing bruh")
     return
   }
-  toastSuccess('Added to cart sucessfully!')
+  toastSuccess('Added to cart!')
   var quantity = parseInt($('#quantity').val())
   cartService.addToCart(productID, quantity)
 })

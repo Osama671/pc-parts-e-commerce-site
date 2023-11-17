@@ -37,6 +37,7 @@
     <script defer src="/js/common.js"></script>
     <script defer src="/js/product.js"></script>
     <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/buttons.css" />
     <link href="css/product.css" rel="stylesheet" />
   </head>
   <body>
@@ -67,13 +68,8 @@
                   class="container-fluid d-flex justify-content-between"
                   id="stockAndCart"
                 >
-                  <div class="stockButton">
-                    <button
-                      class="increaseQuantity"
-                      style="border: none; background-color: transparent"
-                    >
-                      +
-                    </button>
+                  <div class="stockButton stockButton-outline">
+                    <button class="increaseQuantity">+</button>
                     <input
                       type="number"
                       id="quantity"
@@ -82,16 +78,13 @@
                       disabled
                       min="1"
                     />
-                    <button
-                      class="decreaseQuantity"
-                      style="border: none; background-color: transparent"
-                      disabled
-                    >
-                      -
-                    </button>
+                    <button class="decreaseQuantity" disabled>-</button>
                   </div>
                   <div>
-                    <button class="addToCart" id="addToCart">
+                    <button
+                      class="addToCart button-round button-round-filled"
+                      id="addToCart"
+                    >
                       ADD TO CART
                     </button>
                   </div>

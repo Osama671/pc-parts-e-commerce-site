@@ -35,6 +35,7 @@
 
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/cart.css" />
+    <link rel="stylesheet" href="css/buttons.css" />
     <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/services/cart-service.js"></script>
     <script defer src="/js/common.js"></script>
@@ -43,30 +44,42 @@
   <body>
     <header></header>
     <div class="container title-container py-3">
-      <h1>Cart</h1>
-      <button class="empty-cart">Empty Cart</button>
+      <h1>Your Cart</h1>
+      <button class="button-round button-round-filled empty-cart">
+        Empty Cart
+      </button>
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-md-8">
           <ul class="list-group cart-items"></ul>
         </div>
-        <div class="col-12">
-          <h3>Cart Total</h3>
-          <table>
-            <tr>
-              <td>Subtotal</td>
-              <td class="subtotal">CD</td>
-            </tr>
-            <tr>
-              <td>Taxes</td>
-              <td class="taxes">CD</td>
-            </tr>
-            <tr>
-              <td><strong>Total</strong></td>
-              <td class="total">CD</td>
-            </tr>
-          </table>
+        <div class="col-12 col-md-4 cart-total">
+          <div class="summary-container">
+            <h3>Summary</h3>
+            <hr style="color: white" />
+            <table>
+              <tr>
+                <td>Subtotal</td>
+                <td class="subtotal">CD</td>
+              </tr>
+              <tr>
+                <td>Taxes</td>
+                <td class="taxes">CD</td>
+              </tr>
+            </table>
+          </div>
+          <div class="checkout-container">
+            <table>
+              <tr>
+                <td><strong>Total</strong></td>
+                <td class="total">CD</td>
+              </tr>
+            </table>
+            <div class="checkout">
+              <button class="btn btn-checkout" type="button">Checkout</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,9 @@
-* {
-  margin: none;
-  padding: none;
+.box {
+  width: 70px;
 }
-.sidenav {
-  height: 100%;
-  width: 200px;
-  position: absolute;
-  z-index: 1;
-  left: 0;
-}
-.main {
-  margin-left: 200px;
-  padding: 0px 10px;
+
+@media screen and (max-width: 768px) {
+  .box {
+    width: 50px;
+  }
 }

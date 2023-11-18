@@ -16,7 +16,6 @@ class ProductService {
 
     localStorage.setItem('totalProducts', products.length)
     if (products.length > productsPerPage) {
-      localStorage.setItem('isPaginationRequired', 'true')
       if (pageNumber != null) {
         var startingIndex = (pageNumber - 1) * productsPerPage
         return products.slice(startingIndex, startingIndex + productsPerPage)
@@ -24,7 +23,6 @@ class ProductService {
         return products
       }
     } else {
-      localStorage.setItem('isPaginationRequired', 'false')
       return products
     }
   }

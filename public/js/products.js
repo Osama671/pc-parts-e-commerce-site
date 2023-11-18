@@ -18,18 +18,12 @@ async function loadProducts(category = '', search = '') {
       null,
       productsPerPage
     )
-    if (localStorage.getItem('isPaginationRequired'))
-      paginateProducts(1, products)
-    else {
-      document.getElementById('pagination_div').hidden = true
-      displayProducts(products)
-    }
+    paginateProducts(1, products)
+    displayProducts(products)
   }
 }
 
 async function paginateProducts(activePage, products) {
-  document.getElementById('pagination_div').hidden = false
-
   totalProducts = localStorage.getItem('totalProducts')
   totalPages = Math.ceil(totalProducts / productsPerPage)
   setUpPagination(activePage, totalPages)
@@ -52,7 +46,7 @@ function setUpPagination(activePage, totalPages) {
   var url = new URL(window.location.href)
 
   $('#pagination_div .pagination').append(
-    '<li class="page-item"> <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>'
+    '<li class="page-item"> <a class="page-link" href="#" aria-label="Previous">&laquo;</a></li>'
   )
   for (let i = 0; i < totalPages; i++) {
     $('#pagination_div .pagination').append(
@@ -63,10 +57,9 @@ function setUpPagination(activePage, totalPages) {
   }
 
   $('#pagination_div .pagination').append(
-    '<li class="page-item"> <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&raquo;</span></a></li>'
+    '<li class="page-item"> <a class="page-link" href="#" aria-label="Next">&raquo;</a></li>'
   )
 
-  // set default 1st page as active
   $('#pagination_div .pagination .page-item a')[activePage].setAttribute(
     'class',
     'page-link active'
@@ -75,8 +68,21 @@ function setUpPagination(activePage, totalPages) {
   $('#pagination_div .pagination .page-item a').click(function () {
     var target = getEventTarget(event)
     var requestedPageIndex = target.innerHTML.toString()
-
-    url.searchParams.set('page', requestedPageIndex.trim())
+    if (window.location.href.includes('page'))
+      var pageNumber = Number(url.searchParams.get('page'))
+    else
+      var pageNumber = $('#pagination_div .pagination a.active')
+        .parent()
+        .index()
+    if (target.ariaLabel == 'Previous') {
+      if (pageNumber == 1) url.searchParams.set('page', pageNumber)
+      else url.searchParams.set('page', pageNumber - 1)
+    } else if (target.ariaLabel == 'Next') {
+      if (pageNumber == totalPages) url.searchParams.set('page', pageNumber)
+      else url.searchParams.set('page', pageNumber + 1)
+    } else {
+      url.searchParams.set('page', requestedPageIndex.trim())
+    }
     window.location.href = url.toString()
   })
 }

@@ -26,7 +26,13 @@ async function paginateProducts(activePage, products, totalPages) {
 async function displayProducts(products) {
   const productTemplate = await $.get('/components/product-list.html')
   products.forEach((product) =>
-    generateColumn(productTemplate, product.id, product.image, product.name)
+    generateColumn(
+      productTemplate,
+      product.id,
+      product.image,
+      product.name,
+      product.price
+    )
   )
 }
 
@@ -89,6 +95,7 @@ function generateColumn(template, id, imgURL, Title) {
     .each(function () {
       $(this).attr('href', `/product?id=${id}`)
     })
+  $(productList).find('.product-price').text(productService.renderPrice(price))
 
   $('#products-list').append(productList)
 }

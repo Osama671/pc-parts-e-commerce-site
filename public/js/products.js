@@ -1,31 +1,24 @@
 const productsPerPage = 50
 async function loadProducts(category = '', search = '') {
   var url = new URL(window.location.href)
-  var products
+  let productDetails = new ProductsDetails()
+  var pageNumber
   if (window.location.href.includes('page')) {
-    var pageNumber = Number(url.searchParams.get('page'))
-    products = await productService.findProducts(
-      category,
-      search,
-      pageNumber,
-      productsPerPage
-    )
-    paginateProducts(pageNumber, products)
-  } else {
-    products = await productService.findProducts(
-      category,
-      search,
-      null,
-      productsPerPage
-    )
-    paginateProducts(1, products)
-    displayProducts(products)
-  }
+    pageNumber = Number(url.searchParams.get('page'))
+  } else pageNumber = 1
+
+  productDetails = await productService.findProducts(
+    category,
+    search,
+    pageNumber,
+    productsPerPage
+  )
+  var products = productDetails.products
+  paginateProducts(pageNumber, products, productDetails.totalPages)
+  displayProducts(products)
 }
 
-async function paginateProducts(activePage, products) {
-  totalProducts = localStorage.getItem('totalProducts')
-  totalPages = Math.ceil(totalProducts / productsPerPage)
+async function paginateProducts(activePage, products, totalPages) {
   setUpPagination(activePage, totalPages)
   await displayProducts(products)
 }

@@ -1,30 +1,47 @@
+class ProductsDetails {
+  products = []
+  productsPerPage
+  pageNumber
+  totalPages
+  totalProducts
+
+  constructor(
+    products,
+    productsPerPage,
+    pageNumber,
+    totalPages,
+    totalProducts
+  ) {
+    ;(this.products = products),
+      (this.productsPerPage = productsPerPage),
+      (this.pageNumber = pageNumber),
+      (this.totalPages = totalPages),
+      (this.totalProducts = totalProducts)
+  }
+}
 class ProductService {
-  async findProducts(category = '', search = '', pageNumber, productsPerPage) {
+  async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts()
 
-    if (category) {
-      products = products.filter(function (product) {
-        return product.category === category
-      })
-    }
+    products = this.filterProducts(products, category, search)
 
-    if (search) {
-      products = products.filter(function (product) {
-        return product.name.toLowerCase().includes(search)
-      })
-    }
+    var totalPages = Math.ceil(products.length / productsPerPage)
 
-    localStorage.setItem('totalProducts', products.length)
-    if (products.length > productsPerPage) {
-      if (pageNumber != null) {
-        var startingIndex = (pageNumber - 1) * productsPerPage
-        return products.slice(startingIndex, startingIndex + productsPerPage)
-      } else {
-        return products
-      }
+    if (pageNumber != null) {
+      var startingIndex = (pageNumber - 1) * productsPerPage
+      products = products.slice(startingIndex, startingIndex + productsPerPage)
     } else {
-      return products
+      pageNumber = 1
     }
+
+    let productDetails = new ProductsDetails(
+      products,
+      productsPerPage,
+      pageNumber,
+      totalPages,
+      products.length
+    )
+    return productDetails
   }
 
   async getProduct(id) {
@@ -49,6 +66,21 @@ class ProductService {
         currency: 'CAD',
       }).format(priceInDollars)
     )
+  }
+
+  filterProducts(products, category = '', search = '') {
+    if (category) {
+      products = products.filter(function (product) {
+        return product.category === category
+      })
+    }
+
+    if (search) {
+      products = products.filter(function (product) {
+        return product.name.toLowerCase().includes(search)
+      })
+    }
+    return products
   }
 }
 

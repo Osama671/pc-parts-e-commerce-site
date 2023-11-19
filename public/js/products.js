@@ -86,7 +86,7 @@ function setUpPagination(activePage, totalPages) {
   })
 }
 
-function generateColumn(template, id, imgURL, Title) {
+function generateColumn(template, id, imgURL, Title, price) {
   const productList = $.parseHTML(template)
   $(productList).find('.image-placeholder').attr('src', imgURL)
   $(productList).find('.product-name').html(Title)

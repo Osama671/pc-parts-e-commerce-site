@@ -73,10 +73,11 @@ async function getCart() {
   $('.cart-items').html(' ')
   var cartCount = cartService.getCartItemsCount()
   if (!cartCount) {
-    $('.cart-items').text('Your cart is empty')
-    $('.empty-cart').hide()
+    $('.empty-cart-button').hide()
     $('.cart-total').hide()
+    $('.empty-cart-logo').show()
   } else {
+    $('.empty-cart-logo').hide()
     $('.empty-cart').click((e) => {
       e.preventDefault()
       cartService.emptyCart()

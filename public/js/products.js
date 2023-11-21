@@ -2,11 +2,17 @@ async function loadProducts(category = '', search = '') {
   const products = await productService.findProducts(category, search)
   const productTemplate = await $.get('/components/product-list.html')
   products.forEach((product) =>
-    generateColumn(productTemplate, product.id, product.image, product.name)
+    generateColumn(
+      productTemplate,
+      product.id,
+      product.image,
+      product.name,
+      product.price
+    )
   )
 }
 
-function generateColumn(template, id, imgURL, Title) {
+function generateColumn(template, id, imgURL, Title, price) {
   const productList = $.parseHTML(template)
   $(productList).find('.image-placeholder').attr('src', imgURL)
   $(productList).find('.product-name').html(Title)
@@ -15,6 +21,7 @@ function generateColumn(template, id, imgURL, Title) {
     .each(function () {
       $(this).attr('href', `/product?id=${id}`)
     })
+  $(productList).find('.product-price').text(productService.renderPrice(price))
 
   $('#products-list').append(productList)
 }

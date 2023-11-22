@@ -37,9 +37,11 @@
     <link rel="stylesheet" href="css/index.css" />
     <link href="css/home.css" rel="stylesheet" />
     <link href="css/common.css" rel="stylesheet" />
+    <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/services/cart-service.js"></script>
     <script defer src="/js/common.js"></script>
     <script defer src="/js/home.js"></script>
+    <script defer src="/js/index.js"></script>
   </head>
   <body>
     <header></header>
@@ -154,8 +156,24 @@
         </a>
       </div>
     </div>
-    <div class="container-fluid bg-sup-dark p-3 d-flex justify-content-center">
-      <img src="img/home/ad.png" class="w-75 rounded" alt="" />
+
+    <div
+      class="container-fluid bg-sup-dark p-3 d-flex flex-column justify-content-center"
+    >
+      <div
+        id="featured"
+        class="container d-flex flex-column bg-sup-dark align-items-center"
+      >
+        <p class="text-light fs-3 fw-bold">Featured Products</p>
+        <p class="text-light fs-3">
+          Hurry up! Our best products are running out!
+        </p>
+      </div>
+      <!--Featured Images-->
+      <div id="products-list" class="container d-flex border"></div>
+      <div class="d-flex justify-content-center">
+        <img src="img/home/ad.png" class="w-75 rounded" alt="" />
+      </div>
     </div>
     <div class="container-fluid bg-sdown-dark py-3 text-light vh-30">
       <div class="container mt-3">

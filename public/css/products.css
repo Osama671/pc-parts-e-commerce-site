@@ -2,18 +2,14 @@
   width: 70px;
 }
 
-.product-link
-{
-  font-size:14px !important;
+.product-link {
+  font-size: 14px !important;
 }
 
-
 .two-line-ellipsis {
-  
-  
-  border:1rem solid #0000;
-  box-shadow:0 0px 0 #000; /* your border */
-  width:100%;
+  border: 1rem solid #0000;
+  box-shadow: 0 0px 0 #000; /* your border */
+  width: 100%;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;

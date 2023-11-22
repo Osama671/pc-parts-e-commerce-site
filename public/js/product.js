@@ -77,7 +77,6 @@ async function getProduct() {
 function renderProduct(product) {
   $('.product-title').text(product.name)
   $('.description-details').html(product.description)
-  $('.product-image').attr('src', product.image)
   $('.price').text(
     'C' +
       new Intl.NumberFormat('en-CA', {
@@ -86,6 +85,7 @@ function renderProduct(product) {
       }).format(product.price)
   )
   $('.stockCount').text(product.stock + ' left in stock')
+  loadImages(product.image, product.alt_images)
   loadReview(product.reviews)
 }
 
@@ -104,4 +104,27 @@ function toastFail(message) {
   $('.toast-text-fail').text(message)
   toastBootstrap.show()
 }
+
+async function loadImages(image, alt_images) {
+  const template = await $.get('/components/carousel-items.html')
+  let allImages = [image]
+  alt_images.forEach((image) => {
+    allImages.push(image)
+  })
+
+  allImages.forEach((image, index) => {
+    imageTemplate = $.parseHTML(template)
+    populateImages(imageTemplate, image, index)
+    $('#carousel-items').append(imageTemplate)
+  })
+}
+
+function populateImages(imageElement, img, index) {
+  $(imageElement).find('img').attr('src', img)
+  if (index === 0) $(imageElement).find('.child').parent().addClass('active')
+  // Yes, the code above on line 124 is written stupidly, but it's the only way it worked
+  // since $('.carousel-item') refused to work, so I couldn't select the tag I needed in
+  // components/carousel-items.html
+}
+
 getProduct()

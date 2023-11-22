@@ -11,8 +11,8 @@ function populateCart(cartElement, product, quantity) {
   $(cartElement).find('.product-name').html(product.name)
   $(cartElement)
     .find('.item-price')
-    .html(productService.renderPrice(product.price * quantity))
-  $(cartElement).find('.quantity').attr('value', quantity)
+    .text(productService.renderPrice(product.price * quantity))
+  $(cartElement).find('#quantity').attr('value', quantity)
   $(cartElement)
     .find('.remove-product')
     .click(() => {
@@ -21,7 +21,7 @@ function populateCart(cartElement, product, quantity) {
 
   var increaseButton = $(cartElement).find('.increaseQuantity')
   var decreaseButton = $(cartElement).find('.decreaseQuantity')
-  var quantityElem = $(cartElement).find('.quantity')
+  var quantityElem = $(cartElement).find('#quantity')
 
   if (quantity > 1) {
     decreaseButton.prop('disabled', false)
@@ -34,6 +34,9 @@ function populateCart(cartElement, product, quantity) {
     if (currentQuantity + 1 > 1) {
       decreaseButton.prop('disabled', false)
     }
+    $(cartElement)
+      .find('.item-price')
+      .text(productService.renderPrice(product.price * (currentQuantity + 1)))
     cartService.updateTotal()
   })
 
@@ -43,10 +46,14 @@ function populateCart(cartElement, product, quantity) {
     if (currentQuantity > 1) {
       quantityElem.val(currentQuantity - 1)
       cartService.setQuantity(product.id, currentQuantity - 1)
+
       if (quantityElem.val() == 1) {
         $(this).prop('disabled', true)
       }
     }
+    $(cartElement)
+      .find('.item-price')
+      .text(productService.renderPrice(product.price * (currentQuantity - 1)))
     cartService.updateTotal()
   })
 }
@@ -66,9 +73,11 @@ async function getCart() {
   $('.cart-items').html(' ')
   var cartCount = cartService.getCartItemsCount()
   if (!cartCount) {
-    $('.cart-items').text('Your cart is empty')
-    $('.empty-cart').hide()
+    $('.empty-cart-button').hide()
+    $('.cart-total').hide()
+    $('.empty-cart-logo').show()
   } else {
+    $('.empty-cart-logo').hide()
     $('.empty-cart').click((e) => {
       e.preventDefault()
       cartService.emptyCart()

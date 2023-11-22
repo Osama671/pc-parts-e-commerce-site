@@ -1,47 +1,24 @@
-class ProductsDetails {
+class PaginatedProducts {
   products = []
   productsPerPage
   pageNumber
   totalPages
-  totalProducts
 
-  constructor(
-    products,
-    productsPerPage,
-    pageNumber,
-    totalPages,
-    totalProducts
-  ) {
-    ;(this.products = products),
-      (this.productsPerPage = productsPerPage),
-      (this.pageNumber = pageNumber),
-      (this.totalPages = totalPages),
-      (this.totalProducts = totalProducts)
+  constructor(products, productsPerPage, pageNumber, totalPages) {
+    this.products = products
+    this.productsPerPage = productsPerPage
+    this.pageNumber = pageNumber
+    this.totalPages = totalPages
   }
 }
+
 class ProductService {
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts()
 
     products = this.filterProducts(products, category, search)
 
-    var totalPages = Math.ceil(products.length / productsPerPage)
-
-    if (pageNumber != null) {
-      var startingIndex = (pageNumber - 1) * productsPerPage
-      products = products.slice(startingIndex, startingIndex + productsPerPage)
-    } else {
-      pageNumber = 1
-    }
-
-    let productDetails = new ProductsDetails(
-      products,
-      productsPerPage,
-      pageNumber,
-      totalPages,
-      products.length
-    )
-    return productDetails
+    return this.paginateProducts(products, pageNumber, productsPerPage)
   }
 
   async getProduct(id) {
@@ -81,6 +58,18 @@ class ProductService {
       })
     }
     return products
+  }
+
+  paginateProducts(products, pageNumber, productsPerPage) {
+    var startingIndex = (pageNumber - 1) * productsPerPage
+    var totalPages = Math.ceil(products.length / productsPerPage)
+
+    return new PaginatedProducts(
+      products.slice(startingIndex, startingIndex + productsPerPage),
+      productsPerPage,
+      pageNumber,
+      totalPages
+    )
   }
 }
 

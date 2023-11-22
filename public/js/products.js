@@ -1,25 +1,13 @@
 const productsPerPage = 50
-async function loadProducts(category = '', search = '') {
-  var url = new URL(window.location.href)
-  let productDetails = new ProductsDetails()
-  var pageNumber
-  if (window.location.href.includes('page')) {
-    pageNumber = Number(url.searchParams.get('page'))
-  } else pageNumber = 1
-
-  productDetails = await productService.findProducts(
+async function loadProducts(category = '', search = '', pageNumber = 1) {
+  var productDetails = await productService.findProducts(
     category,
     search,
     pageNumber,
     productsPerPage
   )
   var products = productDetails.products
-  paginateProducts(pageNumber, products, productDetails.totalPages)
-  displayProducts(products)
-}
-
-async function paginateProducts(activePage, products, totalPages) {
-  setUpPagination(activePage, totalPages)
+  setUpPagination(pageNumber, productDetails.totalPages)
   await displayProducts(products)
 }
 
@@ -116,8 +104,9 @@ function retrieveFiltersFromURL() {
   let params = new URLSearchParams(document.location.search) // Fetches current URL
   let category = params.get('category') || '' // Stores the value from the url after "category=" and stops at & if present. If category isn't present, category = ''
   let search = params.get('search') || ''
+  let page = parseInt(params.get('page') || '1')
   // Fetches products with the category and search filters
-  loadProducts(category, search)
+  loadProducts(category, search, page)
 }
 
 function onSubmit(e) {

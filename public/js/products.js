@@ -24,54 +24,47 @@ async function displayProducts(products) {
   )
 }
 
-function getEventTarget(e) {
-  e = e || window.event
-  return e.target || e.srcElement
-}
-
 function setUpPagination(activePage, totalPages) {
-  var url = new URL(window.location.href)
+  if (totalPages > 1) {
+    const page1Button = $('.page-number')
+    const buttons = []
 
-  $('#pagination_div .pagination').append(
-    '<li class="page-item"> <a class="page-link" href="#" aria-label="Previous">&laquo;</a></li>'
-  )
-  for (let i = 0; i < totalPages; i++) {
-    $('#pagination_div .pagination').append(
-      `<li class="page-item"><a class="page-link" href="#" data-page="${
-        i + 1
-      }"> ${i + 1} </a></li>`
-    )
+    for (let i = 2; i <= totalPages; i++) {
+      const button = page1Button.clone()
+      $(button).children('.page-link').attr('data-page', i).text(i)
+      buttons.push(button)
+    }
+
+    page1Button.after(buttons)
   }
 
-  $('#pagination_div .pagination').append(
-    '<li class="page-item"> <a class="page-link" href="#" aria-label="Next">&raquo;</a></li>'
-  )
+  $(`[data-page=${activePage}]`).addClass('active')
 
-  $('#pagination_div .pagination .page-item a')[activePage].setAttribute(
-    'class',
-    'page-link active'
-  )
-
-  $('#pagination_div .pagination .page-item a').click(function () {
-    var target = getEventTarget(event)
-    var requestedPageIndex = target.innerHTML.toString()
-    if (window.location.href.includes('page'))
-      var pageNumber = Number(url.searchParams.get('page'))
-    else
-      var pageNumber = $('#pagination_div .pagination a.active')
-        .parent()
-        .index()
-    if (target.ariaLabel == 'Previous') {
-      if (pageNumber == 1) url.searchParams.set('page', pageNumber)
-      else url.searchParams.set('page', pageNumber - 1)
-    } else if (target.ariaLabel == 'Next') {
-      if (pageNumber == totalPages) url.searchParams.set('page', pageNumber)
-      else url.searchParams.set('page', pageNumber + 1)
-    } else {
-      url.searchParams.set('page', requestedPageIndex.trim())
+  $('.page-item.previous .page-link').click(function () {
+    if (activePage > 1) {
+      goToPage(activePage - 1)
     }
-    window.location.href = url.toString()
+    return false
   })
+
+  $('.page-item.next .page-link').click(function () {
+    if (activePage < totalPages) {
+      goToPage(activePage + 1)
+    }
+    return false
+  })
+
+  $('.page-item.page-number .page-link').click(function () {
+    var pageNumber = parseInt($(this).attr('data-page'))
+    goToPage(pageNumber)
+    return false
+  })
+}
+
+function goToPage(pageNumber) {
+  const url = new URL(window.location)
+  url.searchParams.set('page', pageNumber)
+  window.location.href = url
 }
 
 function generateColumn(template, id, imgURL, Title, price) {

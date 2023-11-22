@@ -109,7 +109,6 @@ async function loadImages(image, alt_images) {
   const template = await $.get('/components/carousel-items.html')
   let allImages = [image]
   alt_images.forEach((image) => {
-    debugger
     allImages.push(image)
   })
 

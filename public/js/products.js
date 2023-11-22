@@ -1,12 +1,73 @@
-async function loadProducts(category = '', search = '') {
-  const products = await productService.findProducts(category, search)
+const productsPerPage = 50
+async function loadProducts(category = '', search = '', pageNumber = 1) {
+  var productDetails = await productService.findProducts(
+    category,
+    search,
+    pageNumber,
+    productsPerPage
+  )
+  var products = productDetails.products
+  setUpPagination(pageNumber, productDetails.totalPages)
+  await displayProducts(products)
+}
+
+async function displayProducts(products) {
   const productTemplate = await $.get('/components/product-list.html')
   products.forEach((product) =>
-    generateColumn(productTemplate, product.id, product.image, product.name)
+    generateColumn(
+      productTemplate,
+      product.id,
+      product.image,
+      product.name,
+      product.price
+    )
   )
 }
 
-function generateColumn(template, id, imgURL, Title) {
+function setUpPagination(activePage, totalPages) {
+  if (totalPages > 1) {
+    const page1Button = $('.page-number')
+    const buttons = []
+
+    for (let i = 2; i <= totalPages; i++) {
+      const button = page1Button.clone()
+      $(button).children('.page-link').attr('data-page', i).text(i)
+      buttons.push(button)
+    }
+
+    page1Button.after(buttons)
+  }
+
+  $(`[data-page=${activePage}]`).addClass('active')
+
+  $('.page-item.previous .page-link').click(function () {
+    if (activePage > 1) {
+      goToPage(activePage - 1)
+    }
+    return false
+  })
+
+  $('.page-item.next .page-link').click(function () {
+    if (activePage < totalPages) {
+      goToPage(activePage + 1)
+    }
+    return false
+  })
+
+  $('.page-item.page-number .page-link').click(function () {
+    var pageNumber = parseInt($(this).attr('data-page'))
+    goToPage(pageNumber)
+    return false
+  })
+}
+
+function goToPage(pageNumber) {
+  const url = new URL(window.location)
+  url.searchParams.set('page', pageNumber)
+  window.location.href = url
+}
+
+function generateColumn(template, id, imgURL, Title, price) {
   const productList = $.parseHTML(template)
   $(productList).find('.image-placeholder').attr('src', imgURL)
   $(productList).find('.product-name').html(Title)
@@ -15,6 +76,7 @@ function generateColumn(template, id, imgURL, Title) {
     .each(function () {
       $(this).attr('href', `/product?id=${id}`)
     })
+  $(productList).find('.product-price').text(productService.renderPrice(price))
 
   $('#products-list').append(productList)
 }
@@ -35,8 +97,9 @@ function retrieveFiltersFromURL() {
   let params = new URLSearchParams(document.location.search) // Fetches current URL
   let category = params.get('category') || '' // Stores the value from the url after "category=" and stops at & if present. If category isn't present, category = ''
   let search = params.get('search') || ''
+  let page = parseInt(params.get('page') || '1')
   // Fetches products with the category and search filters
-  loadProducts(category, search)
+  loadProducts(category, search, page)
 }
 
 function onSubmit(e) {

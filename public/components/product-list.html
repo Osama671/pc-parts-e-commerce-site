@@ -1,17 +1,28 @@
-<!-- When editing anchor hrefs, make sure to change both the img and the text-->
-
-<div class="col-3">
-  <div class="mb-2" style="width: 65%; height: 150px">
-    <!-- img dimensions adjusted here -->
-    <a class="product-link" href="/product?id=<product_id>">
-      <img
-        class="image-placeholder"
-        src="Wide_Putin.RU"
-        style="max-width: 100%; height: 100%"
-      />
+<div class="col">
+  <div class="bg-sdown-dark h-100 overflow-hidden d-flex flex-column">
+    <a
+      class="product-link text-decoration-none h-100 d-flex flex-column"
+      href="/product?id=<product_id>"
+    >
+      <div
+        class="overflow-hidden d-flex justify-content-center p-1"
+        style="aspect-ratio: 1 / 1 !important; background-color: #fff"
+      >
+        <!-- img dimensions adjusted here -->
+        <img
+          class="image-placeholder img-fluid"
+          src="Wide_Putin.RU"
+          style="max-width: 100%; height: 100%; object-fit: contain"
+          alt="Product Image"
+        />
+      </div>
+      <div class="product-name text-light two-line-ellipsis">product-name</div>
+      <div
+        class="product-price p-2 text-light fw-bold mt-auto"
+        style="border: 1rem solid #0000"
+      >
+        C$ 0000
+      </div>
     </a>
   </div>
-  <a class="product-link" href="/product?id=<product_id>">
-    <div class="product-name">product-name</div></a
-  >
 </div>

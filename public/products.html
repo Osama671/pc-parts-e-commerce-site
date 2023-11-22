@@ -36,65 +36,184 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
-
+    <script defer src="/js/services/cart-service.js"></script>
     <script defer src="/js/services/product-service.js"></script>
     <script defer src="/js/common.js"></script>
     <script defer src="/js/products.js"></script>
 
     <link rel="stylesheet" href="css/index.css" />
     <link href="css/products.css" rel="stylesheet" />
+    <link href="css/common.css" rel="stylesheet" />
   </head>
   <body>
     <header></header>
-    <div class="sidenav">
-      <a href="/products.html"> <div class="mt-4 mx-3 category">All</div></a>
-      <a href="/products?category=cpu">
-        <div class="mt-4 mx-3 category">CPU</div></a
-      >
-      <a href="/products?category=gpu">
-        <div class="mt-4 mx-3 category">GPU</div></a
-      >
-      <a href="/products?category=memory">
-        <div class="mt-4 mx-3 category">Memory</div></a
-      >
-      <a href="/products?category=cases">
-        <div class="mt-4 mx-3 category">Cases</div></a
-      >
-      <a href="/products?category=storage"
-        ><div class="mt-4 mx-3 category">Storage</div></a
-      >
-      <a href="/products?category=power"
-        ><div class="mt-4 mx-3 category">Power Supply</div></a
-      >
-      <a href="/products?category=monitors"
-        ><div class="mt-4 mx-3 category">Monitor</div></a
-      >
-      <a href="/products?category=accessories"
-        ><div class="mt-4 mx-3 category">Accessories</div></a
-      >
-    </div>
+
     <div class="main">
-      <form id="form">
-        <div class="input-group justify-content-center">
-          <div class="form-outline w-50">
-            <input
-              id="search-input"
-              type="search"
-              class="form-control"
-              placeholder="Search"
-              name="search"
-            />
+      <!-- Search bar container -->
+      <div class="container mt-3 py-3">
+        <form id="form">
+          <div class="input-group justify-content-center">
+            <div class="form-outline w-50">
+              <input
+                id="search-input"
+                type="search"
+                class="form-control"
+                placeholder="Search"
+                name="search"
+              />
+            </div>
+            <button
+              id="search-button"
+              class="btn btn-primary bg-sup-dark border-0"
+              type="submit"
+            >
+              <i class="bi bi-search"></i>
+            </button>
           </div>
-          <button id="search-button" class="btn btn-primary" type="submit">
-            <i class="bi bi-search"></i>
-          </button>
+        </form>
+      </div>
+      <!-- Category Filter Container -->
+
+      <div class="container my-3 pt-3">
+        <div class="fs-2 fw-medium">Category</div>
+        <hr />
+        <div class="d-flex flex-row overflow-x-auto text-center fs-6">
+          <a
+            href="/products"
+            class="d-flex d-flex flex-column align-items-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="/img/home/c-icons/all.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+            />
+            <label for="" class="text-light">.</label>
+          </a>
+          <a
+            href="/products?category=cpu"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/cpu.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">CPU</span>
+          </a>
+          <a
+            href="/products?category=gpu"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/GPU.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1"> </span>
+
+            GPU
+          </a>
+          <a
+            href="/products?category=memory"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/ram.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">Memory</span>
+          </a>
+          <a
+            href="/products?category=cases"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/cases.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">Cases</span>
+          </a>
+          <a
+            href="/products?category=storage"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/storage.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">Storage</span>
+          </a>
+          <a
+            href="/products?category=power"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/power.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">Power</span>
+          </a>
+          <a
+            href="/products?category=monitor"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/monitor.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">Monitor</span>
+          </a>
+          <a
+            href="/products?category=accessories"
+            class="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+          >
+            <img
+              src="img/home/c-icons/keyboard.png"
+              class="box p-1 bg-sdown-dark rounded"
+              alt=""
+              srcset=""
+            />
+            <span class="pt-1">Accessories</span>
+          </a>
         </div>
-      </form>
+      </div>
       <!-- Product search results -->
-      <div
-        class="container mt-5 justify-content-center d-flex flex-wrap"
-        id="products-list"
-      ></div>
+
+      <div class="container-fluid pt-3 bg-sup-dark">
+        <div class="container">
+          <div
+            class="row p-0 m-0 row-cols-2 row-cols-md-5 g-3 justify-content-center"
+            id="products-list"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div id="pagination_div">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item previous">
+            <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
+          </li>
+          <li class="page-item page-number">
+            <a class="page-link" href="#" data-page="1"> 1 </a>
+          </li>
+          <li class="page-item next">
+            <a class="page-link" href="#" aria-label="Next">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </body>
 </html>

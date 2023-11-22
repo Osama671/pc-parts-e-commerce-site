@@ -3,16 +3,14 @@ function updateCart() {
   if (cartCount) {
     $('#cart-count').show().text(cartCount)
   } else {
-    $('#cartCount').hide()
+    $('#cart-count').hide()
   }
 }
 
 async function setUpNavbar() {
-  await $.getScript('js/services/cart-service.js')
-
   $('header').load('/components/navbar.html', function () {
     cartService.onUpdateCart(updateCart)
-    cartService.updateCart()
+    updateCart()
   })
 
   // set CSS classes on header
@@ -30,4 +28,9 @@ async function setUpNavbar() {
   })
 }
 
+function setUpFooter() {
+  $('footer').load('/components/footer.html')
+}
+
 setUpNavbar()
+setUpFooter()

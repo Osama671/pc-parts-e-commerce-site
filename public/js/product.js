@@ -1,5 +1,6 @@
 var urlParams = new URLSearchParams(window.location.search)
 var productID = parseInt(urlParams.get('id'))
+var stockCount
 function populateReview(reviewElement, username, rating, content) {
   $(reviewElement).find('.username').html(username)
   $(reviewElement)
@@ -9,6 +10,13 @@ function populateReview(reviewElement, username, rating, content) {
 }
 
 async function loadReview(reviews) {
+  //!reviews didn't work smfh
+  if (reviews.length === 0) {
+    $('#reviews').append(
+      "<p style='color: white;'> There are currently no reviews."
+    )
+    return
+  }
   const template = await $.get('/components/reviews.html')
   reviews.forEach((review) => {
     const reviewElement = $.parseHTML(template)
@@ -20,6 +28,7 @@ async function loadReview(reviews) {
 $('.increaseQuantity').click(function (e) {
   e.preventDefault()
   var quantity = parseInt($('#quantity').val())
+  if (quantity + 1 > stockCount) return
   $('#quantity').val(quantity + 1)
   if (quantity + 1 > 1) {
     $('.decreaseQuantity').prop('disabled', false)
@@ -40,6 +49,18 @@ $('.decreaseQuantity').click(function (e) {
 
 $('.addToCart').click(async function (e) {
   e.preventDefault()
+  if (stockCount === 0) {
+    toastFail('Sorry, out of Stock')
+    return
+  }
+  if (
+    Number($('#quantity').val()) + cartService.getQuantity(productID) >
+    stockCount
+  ) {
+    toastFail("You've bought the whole damn thing bruh")
+    return
+  }
+  toastSuccess('Added to cart!')
   var quantity = parseInt($('#quantity').val())
   cartService.addToCart(productID, quantity)
 })
@@ -49,14 +70,13 @@ async function getProduct() {
   if (!product) {
     window.location.replace('/404')
   }
-
+  stockCount = product.stock
   renderProduct(product)
 }
 
 function renderProduct(product) {
   $('.product-title').text(product.name)
-  $('.description-details').text(product.description)
-  $('.product-image').attr('src', product.image)
+  $('.description-details').html(product.description)
   $('.price').text(
     'C' +
       new Intl.NumberFormat('en-CA', {
@@ -64,7 +84,47 @@ function renderProduct(product) {
         currency: 'CAD',
       }).format(product.price)
   )
+  $('.stockCount').text(product.stock + ' left in stock')
+  loadImages(product.image, product.alt_images)
   loadReview(product.reviews)
+}
+
+function toastSuccess(message) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(
+    $('#liveToastSuccess')
+  )
+  $('.toast-text-success').text(message)
+  toastBootstrap.show()
+}
+
+function toastFail(message) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(
+    $('#liveToastFail')
+  )
+  $('.toast-text-fail').text(message)
+  toastBootstrap.show()
+}
+
+async function loadImages(image, alt_images) {
+  const template = await $.get('/components/carousel-items.html')
+  let allImages = [image]
+  alt_images.forEach((image) => {
+    allImages.push(image)
+  })
+
+  allImages.forEach((image, index) => {
+    imageTemplate = $.parseHTML(template)
+    populateImages(imageTemplate, image, index)
+    $('#carousel-items').append(imageTemplate)
+  })
+}
+
+function populateImages(imageElement, img, index) {
+  $(imageElement).find('img').attr('src', img)
+  if (index === 0) $(imageElement).find('.child').parent().addClass('active')
+  // Yes, the code above on line 124 is written stupidly, but it's the only way it worked
+  // since $('.carousel-item') refused to work, so I couldn't select the tag I needed in
+  // components/carousel-items.html
 }
 
 getProduct()

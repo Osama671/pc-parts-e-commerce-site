@@ -73,6 +73,7 @@
         </form>
       </div>
       <!-- Category Filter Container -->
+
       <div class="container my-3 pt-3">
         <div class="fs-2 fw-medium">Category</div>
         <hr />
@@ -83,7 +84,7 @@
           >
             <img
               src="/img/home/c-icons/all.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
             />
             <label for="" class="text-light">.</label>
@@ -94,11 +95,11 @@
           >
             <img
               src="img/home/c-icons/cpu.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            CPU
+            <span class="pt-1">CPU</span>
           </a>
           <a
             href="/products?category=gpu"
@@ -106,10 +107,12 @@
           >
             <img
               src="img/home/c-icons/GPU.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
+            <span class="pt-1"> </span>
+
             GPU
           </a>
           <a
@@ -118,11 +121,11 @@
           >
             <img
               src="img/home/c-icons/ram.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            Memory
+            <span class="pt-1">Memory</span>
           </a>
           <a
             href="/products?category=cases"
@@ -130,11 +133,11 @@
           >
             <img
               src="img/home/c-icons/cases.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            Cases
+            <span class="pt-1">Cases</span>
           </a>
           <a
             href="/products?category=storage"
@@ -142,11 +145,11 @@
           >
             <img
               src="img/home/c-icons/storage.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            Storage
+            <span class="pt-1">Storage</span>
           </a>
           <a
             href="/products?category=power"
@@ -154,11 +157,11 @@
           >
             <img
               src="img/home/c-icons/power.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            Power
+            <span class="pt-1">Power</span>
           </a>
           <a
             href="/products?category=monitor"
@@ -166,11 +169,11 @@
           >
             <img
               src="img/home/c-icons/monitor.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            Monitor
+            <span class="pt-1">Monitor</span>
           </a>
           <a
             href="/products?category=accessories"
@@ -178,24 +181,39 @@
           >
             <img
               src="img/home/c-icons/keyboard.png"
-              class="box p-1 bg-sdown-dark rounded-circle"
+              class="box p-1 bg-sdown-dark rounded"
               alt=""
               srcset=""
             />
-            Accessories
+            <span class="pt-1">Accessories</span>
           </a>
         </div>
       </div>
       <!-- Product search results -->
 
-      <div class="container-fluid bg-sup-dark pt-3">
+      <div class="container-fluid pt-3 bg-sup-dark">
         <div class="container">
           <div
-            class="row p-0 m-0 row-cols-1 row-cols-md-4 g-3 justify-content-center"
+            class="row p-0 m-0 row-cols-2 row-cols-md-5 g-3 justify-content-center"
             id="products-list"
           ></div>
         </div>
       </div>
+    </div>
+    <div id="pagination_div">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item previous">
+            <a class="page-link" href="#" aria-label="Previous">&laquo;</a>
+          </li>
+          <li class="page-item page-number">
+            <a class="page-link" href="#" data-page="1"> 1 </a>
+          </li>
+          <li class="page-item next">
+            <a class="page-link" href="#" aria-label="Next">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </body>
 </html>

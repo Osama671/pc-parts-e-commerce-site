@@ -60,14 +60,9 @@ class ProductService {
     return products
   }
 
-  async getProductLength() {
-    var products = await this.getProducts()
-
-    let counter = 0
-    for (const obj of products) {
-      counter++
-    }
-    return counter
+  async getTotalProducts() {
+    let products = await this.getProducts()
+    return this.products.length
   }
 
   paginateProducts(products, pageNumber, productsPerPage) {

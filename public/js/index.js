@@ -1,10 +1,9 @@
-async function getRandomInt() {
-  productService.getProductLength().then((num) => {
-    getProduct(num)
-  })
+async function retrieveJSONLength() {
+  getProduct(await productService.getProductLength())
 }
 
-async function getProduct(num, amount = 4) {
+async function getProduct(num, amount = 5) {
+  //amount is how many products will load.
   let productIds = []
 
   for (let i = 0; i < amount; i++) {
@@ -14,7 +13,6 @@ async function getProduct(num, amount = 4) {
       continue
     }
   }
-  console.log(productIds)
   for (let i = 0; i < productIds.length; i++) {
     let product = await productService.getProduct(parseInt(productIds[i]))
     displayProducts(product)
@@ -36,8 +34,7 @@ function checkIfUnique(productIds) {
 }
 
 async function displayProducts(products) {
-  const productTemplate = await $.get('/components/product-list.html')
-
+  const productTemplate = await $.get('/components/featured-products.html')
   generateColumn(
     productTemplate,
     products.id,
@@ -61,4 +58,4 @@ function generateColumn(template, id, imgURL, Title, price) {
   $('#products-list').append(productList)
 }
 
-getRandomInt()
+retrieveJSONLength()

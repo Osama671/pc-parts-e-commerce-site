@@ -113,6 +113,10 @@ footer {
   width: 100%;
 }
 
+.modal-dialog {
+  margin-top: 10rem;
+}
+
 @media (max-width: 768px) {
   .summary-container {
     margin: 20px 12px 0px 12px;

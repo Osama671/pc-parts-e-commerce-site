@@ -17,6 +17,12 @@
   text-overflow: hidden;
 }
 
+.page-item > .active {
+  background-color: white !important;
+  color: black !important;
+  border-color: white;
+}
+
 @media screen and (max-width: 768px) {
   .box {
     width: 50px;

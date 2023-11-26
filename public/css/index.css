@@ -59,7 +59,7 @@ body {
 * {
   box-sizing: border-box;
   font-family: 'Inter';
-  font-size: 14px !important;
+  font-size: 14px;
 }
 
 .navbar {
@@ -98,6 +98,21 @@ body {
 
 .vh-30 {
   min-height: 30vh;
+}
+/* 
+#featured, #products-list {
+  margin: 48px auto;
+} */
+
+.two-line-ellipsis {
+  border: 1rem solid #0000;
+  box-shadow: 0 0px 0 #000; /* your border */
+  width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: hidden;
 }
 
 @media screen and (max-width: 768px) {

@@ -17,7 +17,6 @@ async function renderSummary() {
   products = await cartService.getCartProducts()
 
   if (products.length < 1) {
-    console.log('umm')
     location.replace('/404.html')
   }
 

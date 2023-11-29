@@ -1,6 +1,5 @@
 async function getProduct(amount = 5) {
   //amount is how many products will load.
-  debugger
   let productIds = []
   let totalProducts = await productService.getTotalProducts()
 

@@ -113,6 +113,9 @@ footer {
   width: 100%;
 }
 
+.modal-dialog {
+  margin-top: 10rem;
+}
 input[type='number'] {
   -moz-appearance: textfield;
 }

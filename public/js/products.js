@@ -1,5 +1,11 @@
 const productsPerPage = 50
 async function loadProducts(category = '', search = '', pageNumber = 1) {
+  const productPlaceholder = await $.get(
+    '/components/products-placeholder.html'
+  )
+  $('#placeholder-product').append(productPlaceholder)
+  $('#products-list').hide()
+  $('#placeholder-product').show()
   var productDetails = await productService.findProducts(
     category,
     search,
@@ -8,7 +14,10 @@ async function loadProducts(category = '', search = '', pageNumber = 1) {
   )
   var products = productDetails.products
   setUpPagination(pageNumber, productDetails.totalPages)
+
   await displayProducts(products)
+  $('#placeholder-product').hide()
+  $('#products-list').show()
 }
 
 async function displayProducts(products) {

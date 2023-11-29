@@ -60,6 +60,11 @@ h2 {
   font-size: large;
   padding: 0px;
 }
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 @media (max-width: 510px) {
   .stockCount {
     font-size: 16px;

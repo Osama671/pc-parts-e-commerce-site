@@ -44,7 +44,7 @@
   <body>
     <header></header>
 
-    <div class="container-fluid d-flex" ; id="productContainer" ;>
+    <div class="container-fluid d-flex" id="productContainer">
       <div class="row align-items-center column-gap-4">
         <div
           class="img-container col-md-6 col-sm-12 text-center"
@@ -86,13 +86,32 @@
         </div>
         <div class="description col-md-6 col-sm-12">
           <div class="desc-container">
-            <span class="product-title"> Product Title </span><br />
-            <p class="description-details mt-3 fs-6 lh-sm"></p>
+            <div class="loader placeholder-glow">
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+            </div>
+            <span class="product-title loaded"></span><br />
+            <p class="description-details loaded mt-3 fs-6 lh-sm"></p>
+            <p class="loader mt-3 fs-6 lh-sm placeholder-glow">
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-12"></span>
+            </p>
             <!--Price/Stock/Add To cart-->
             <div class="quantity-selector d-flex justify-content-between">
               <div class="container-fluid">
-                <p class="price"></p>
-                <p class="stockCount">X left in stock</p>
+                <div class="loader placeholder-glow">
+                  <span class="placeholder col-4" style="height: 40px"></span>
+                </div>
+                <p class="price loaded"></p>
+                <div class="loader placeholder-glow">
+                  <span class="placeholder col-4"></span>
+                </div>
+                <p class="stockCount loaded">X left in stock</p>
                 <div
                   class="container-fluid d-flex justify-content-between"
                   id="stockAndCart"

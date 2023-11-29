@@ -66,12 +66,16 @@ $('.addToCart').click(async function (e) {
 })
 
 async function getProduct() {
+  $('.loader').show()
+  $('.loaded').hide()
   const product = await productService.getProduct(parseInt(productID))
   if (!product) {
     window.location.replace('/404')
   }
   stockCount = product.stock
   renderProduct(product)
+  $('.loader').hide()
+  $('.loaded').show()
 }
 
 function renderProduct(product) {

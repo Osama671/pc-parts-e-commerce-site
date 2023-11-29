@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 import mysql.connector
 from dotenv import load_dotenv
 from os import environ
@@ -13,6 +13,12 @@ app = Flask(__name__)
 example_cursor = db.cursor()
 example_cursor.execute('SELECT * FROM product')
 print(example_cursor.fetchall())
+
+
+def get_user_id():
+    if request.authorization == None or request.authorization.type != 'basic':
+        abort(401)
+    return request.authorization.get('username')
 
 
 @app.route('/products/featured', methods=['GET'])
@@ -186,8 +192,7 @@ def get_product(product_id):
 
 @app.route('/cart', methods=['GET'])
 def get_cart():
-    # Check if `user_id` is empty/None. if it is, set response.status_code to 401 and return body: { message: "Unauthorized" }
-    user_id = request.authorization.parameters['username']
+    user_id = get_user_id()
     print(user_id)
 
     # Hardcoded. Replace with actual data from DB
@@ -211,8 +216,7 @@ def get_cart():
 
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
-    # Check if `user_id` is empty/None. if it is, set response.status_code to 401 and return body: { message: "Unauthorized" }
-    user_id = request.authorization.parameters['username']
+    user_id = get_user_id()
     print(user_id)
 
     cart_item = request.get_json()
@@ -242,8 +246,7 @@ def add_to_cart():
 
 @app.route('/cart/item/<cart_item_id>', methods=['DELETE'])
 def delete_from_cart(cart_item_id):
-    # Check if `user_id` is empty/None. if it is, set response.status_code to 401 and return body: { message: "Unauthorized" }
-    user_id = request.authorization.parameters['username']
+    user_id = get_user_id()
     print(user_id)
 
     print(cart_item_id)
@@ -270,8 +273,7 @@ def delete_from_cart(cart_item_id):
 
 @app.route('/cart', methods=['DELETE'])
 def clear_cart():
-    # Check if `user_id` is empty/None. if it is, set response.status_code to 401 and return body: { message: "Unauthorized" }
-    user_id = request.authorization.parameters['username']
+    user_id = get_user_id()
     print(user_id)
 
     # Hardcoded. Replace with actual data from DB
@@ -287,8 +289,7 @@ def clear_cart():
 
 @app.route('/cart/checkout', methods=['POST'])
 def checkout():
-    # Check if `user_id` is empty/None. if it is, set response.status_code to 401 and return body: { message: "Unauthorized" }
-    user_id = request.authorization.parameters['username']
+    user_id = get_user_id()
     print(user_id)
 
     # Hardcoded. Replace with actual data from DB
@@ -308,8 +309,7 @@ def checkout():
 
 @app.route('/order/<order_id>', methods=['POST'])
 def get_order(order_id):
-    # Check if `user_id` is empty/None. if it is, set response.status_code to 401 and return body: { message: "Unauthorized" }
-    user_id = request.authorization.parameters['username']
+    user_id = get_user_id()
     print(user_id)
 
     print(order_id)

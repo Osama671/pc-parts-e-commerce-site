@@ -1,7 +1,18 @@
 from flask import Flask, request, jsonify
 import mysql.connector
+from dotenv import load_dotenv
+from os import environ
 
+load_dotenv()
+
+db = mysql.connector.connect(
+    host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
 app = Flask(__name__)
+
+# example query
+example_cursor = db.cursor()
+example_cursor.execute('SELECT * FROM product')
+print(example_cursor.fetchall())
 
 
 @app.route('/products/featured', methods=['GET'])

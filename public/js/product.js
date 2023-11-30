@@ -81,13 +81,7 @@ async function getProduct() {
 function renderProduct(product) {
   $('.product-title').text(product.name)
   $('.description-details').html(product.description)
-  $('.price').text(
-    'C' +
-      new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-      }).format(product.price)
-  )
+  $('.price').text(productService.renderPrice(product.price))
   $('.stockCount').text(product.stock + ' left in stock')
   loadImages(product.image, product.alt_images)
   loadReview(product.reviews)

@@ -10,9 +10,9 @@ db = mysql.connector.connect(
 app = Flask(__name__)
 
 # example query
-example_cursor = db.cursor()
-example_cursor.execute('SELECT * FROM product')
-print(example_cursor.fetchall())
+# example_cursor = db.cursor()
+# example_cursor.execute('SELECT * FROM product')
+# print(example_cursor.fetchall())
 
 
 def get_user_id():

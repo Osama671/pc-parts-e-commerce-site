@@ -156,8 +156,6 @@ def get_products():
 
 @app.route('/products/<int:product_id>', methods=['GET'])
 def get_product(product_id):
-
-    # product ID passed in URL `/products/<id>`
     print(product_id)
 
     product_cursor = db.cursor()
@@ -171,7 +169,6 @@ def get_product(product_id):
     else:
         response = make_response(json.loads(product_data[0]), 200)
 
-    response.status_code = 200
     return response
 
 

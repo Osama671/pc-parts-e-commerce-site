@@ -30,7 +30,7 @@ def get_featured_products():
     
     c_featuredProducts = db.cursor(dictionary=True)
     
-    c_featuredProducts.execute('SELECT details FROM product LIMIT 4')
+    c_featuredProducts.execute('SELECT details FROM product ORDER  BY RAND() LIMIT 4')
     details_data = c_featuredProducts.fetchall()
 
     c_featuredProducts.close() 
@@ -39,17 +39,7 @@ def get_featured_products():
     for index, details in enumerate(details_data, start=1):
         product_details = json.loads(details["details"]) if details["details"] else {}
 
-        response_data["products"].append({
-            "id": index,
-            "name": product_details.get("name", ""),
-            "price": product_details.get("price", None),
-            "category": product_details.get("category", ""),
-            "stock": product_details.get("stock", None),
-            "description": product_details.get("description", ""),
-            "image": product_details.get("image", ""),
-            "alt_images": product_details.get("alt_images", []) if product_details.get("alt_images") else [],
-            "reviews": [product_details.get("reviews")]   
-        })
+        response_data["products"].append(product_details)
 
     response = jsonify(response_data)
     response.status_code = 200

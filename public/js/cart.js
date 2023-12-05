@@ -26,11 +26,11 @@ function populateCart(cartElement, product, quantity) {
   if (quantity > 1) {
     decreaseButton.prop('disabled', false)
   }
-  increaseButton.click(function (e) {
+  increaseButton.click(async function (e) {
     e.preventDefault()
     var currentQuantity = parseInt(quantityElem.val())
     quantityElem.val(currentQuantity + 1)
-    cartService.setQuantity(product.id, currentQuantity + 1)
+    await cartService.setQuantity(product.id, currentQuantity + 1)
     if (currentQuantity + 1 > 1) {
       decreaseButton.prop('disabled', false)
     }
@@ -40,12 +40,12 @@ function populateCart(cartElement, product, quantity) {
     cartService.updateTotal()
   })
 
-  decreaseButton.click(function (e) {
+  decreaseButton.click(async function (e) {
     e.preventDefault()
     var currentQuantity = parseInt(quantityElem.val())
     if (currentQuantity > 1) {
       quantityElem.val(currentQuantity - 1)
-      cartService.setQuantity(product.id, currentQuantity - 1)
+      await cartService.setQuantity(product.id, currentQuantity - 1)
 
       if (quantityElem.val() == 1) {
         $(this).prop('disabled', true)
@@ -71,7 +71,7 @@ async function renderCart() {
 
 async function getCart() {
   $('.cart-items').html(' ')
-  var cartCount = cartService.getCartItemsCount()
+  var cartCount = await cartService.getCartItemsCount()
   if (!cartCount) {
     $('.empty-cart-button').hide()
     $('.cart-total').hide()
@@ -94,8 +94,8 @@ function setTotal(subtotal, taxes, total) {
   $('.total').html(productService.renderPrice(total))
 }
 
-function updateTotal() {
-  var cart = cartService.getCartItems()
+async function updateTotal() {
+  var cart = await cartService.getCartItems()
   cartAmount = 0
   products.forEach((product, i) => {
     cartAmount += product.price * cart[i].quantity

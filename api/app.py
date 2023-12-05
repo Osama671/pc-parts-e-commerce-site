@@ -1,13 +1,18 @@
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, make_response
 import mysql.connector
+import json
 from dotenv import load_dotenv
 from os import environ
+from flask_cors import CORS, cross_origin
+import base64
 
 load_dotenv()
 
 db = mysql.connector.connect(
     host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # example query
 # example_cursor = db.cursor()
@@ -16,9 +21,13 @@ app = Flask(__name__)
 
 
 def get_user_id():
-    if request.authorization == None or request.authorization.type != 'basic':
+    auth_header = request.headers.get('Authorization')
+    auth_header = auth_header.split(" ")
+    decoded_bytes = base64.b64decode(auth_header[1])
+    decoded_string = decoded_bytes.decode('utf-8')
+    if auth_header[0].lower() != 'basic':
         abort(401)
-    return request.authorization.get('username')
+    return decoded_string
 
 
 @app.route('/products/featured', methods=['GET'])
@@ -82,6 +91,7 @@ def get_featured_products():
 
 
 @app.route('/products', methods=['GET'])
+@cross_origin()
 def get_products():
     args = request.args.to_dict()
 
@@ -191,6 +201,7 @@ def get_product(product_id):
 
 
 @app.route('/cart', methods=['GET'])
+@cross_origin()
 def get_cart():
     user_id = get_user_id()
     print(user_id)
@@ -215,6 +226,7 @@ def get_cart():
 
 
 @app.route('/cart/add', methods=['POST'])
+@cross_origin()
 def add_to_cart():
     user_id = get_user_id()
     print(user_id)
@@ -243,35 +255,49 @@ def add_to_cart():
     response.status_code = 200
     return response
 
+@app.route('/cart/setquantity', methods=['POST'])
+@cross_origin()
+def set_product_quantity():
+    user_id = get_user_id()
+    cart_item = request.get_json()
+    quantity = cart_item['quantity']
+    product_id = cart_item['product_id']
+    cursor = db.cursor()
+    cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s', (quantity, user_id, product_id))
+    db.commit()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    output =  cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart' : result_list})
+    response.status_code = 200
+    
+    return response
+
 
 @app.route('/cart/item/<cart_item_id>', methods=['DELETE'])
+@cross_origin()
 def delete_from_cart(cart_item_id):
     user_id = get_user_id()
-    print(user_id)
-
-    print(cart_item_id)
-
-    # Hardcoded. Replace with actual data from DB
-    # Use `cart_item_id` and delete from cart table where id = that
-    # after deleting, return all items in this user's cart (Same kind of query+response as /cart API above)
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
-
+    cursor = db.cursor()
+    cursor.execute('DELETE from cart WHERE user_id=%s AND product_id=%s', (user_id, cart_item_id))
+    response = []
+    db.commit()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', (user_id))
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart' : result_list})
     response.status_code = 200
     return response
 
 
 @app.route('/cart', methods=['DELETE'])
+@cross_origin()
 def clear_cart():
     user_id = get_user_id()
     print(user_id)

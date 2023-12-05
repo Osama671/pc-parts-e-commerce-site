@@ -1,70 +1,157 @@
 class CartService {
-  getCartItems() {
-    return this.getCartItemsCount()
-      ? JSON.parse(localStorage.getItem('cart'))
-      : []
+  cartItems = []
+
+  async getCartItems() {
+    if (!this.cartItems.length) {
+      let cartRes = await $.ajax({
+        url: 'http://127.0.0.1:5000/cart', // Replace URL with the prod url
+        type: 'GET',
+        headers: {
+          Authorization: 'Basic ' + btoa(userService.getUser()),
+          'Content-Type': 'application/json',
+        },
+        success: () => {
+          // Add success logic if any
+        },
+        error: function (_, status, error) {
+          console.error(
+            'GET request failed with status',
+            status,
+            'and error',
+            error
+          )
+        },
+      })
+      return cartRes.cart
+    }
+    return this.cartItems
   }
 
   async getCartProducts() {
-    var items = this.getCartItems()
+    var items = await this.getCartItems()
     var fetchedProdcuts = []
     var promises = items.map(async (item) => {
-      const product = await productService.getProduct(item.id)
+      const product = await productService.getProduct(item.product_id)
       fetchedProdcuts.push(product)
     })
     await Promise.all(promises)
     return fetchedProdcuts
   }
 
-  saveCartProducts(cart, refreshCart) {
-    localStorage.setItem('cart', JSON.stringify(cart))
-    if (refreshCart) {
-      this.updateCart()
-      this.updateTotal()
-    }
+  refreshCart() {
+    this.updateCart()
+    this.updateTotal()
   }
 
-  getCartItemsCount() {
-    return localStorage.getItem('cart')
-      ? JSON.parse(localStorage.getItem('cart')).length
-      : 0
+  async getCartItemsCount() {
+    var cartCount = await this.getCartItems()
+    return cartCount.length
   }
 
   isCartEmpty() {
     return !localStorage.getItem('cart') ? true : false
   }
 
-  addToCart(id, quantity) {
-    var cart = this.getCartItems()
-    var index = cart.findIndex((x) => x.id == id)
-    if (index !== -1) {
-      cart[index].quantity = cart[index].quantity + quantity
-    } else {
-      cart.push({ id, quantity })
-    }
-    this.saveCartProducts(cart, true)
+  async addToCart(id, quantity) {
+    let response = await $.ajax({
+      url: 'http://127.0.0.1:5000/cart/add', // Replace URL with the prod url
+      type: 'POST',
+      data: JSON.stringify({
+        product_id: id,
+        quantity: quantity,
+      }),
+      headers: {
+        Authorization: 'Basic ' + btoa(userService.getUser()),
+        'Content-Type': 'application/json',
+      },
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    this.cartItems = response.cart
+    this.refreshCart()
   }
 
-  setQuantity(id, quantity) {
-    var cart = this.getCartItems()
-    var index = cart.findIndex((x) => x.id == id)
-    if (index !== -1) {
-      cart[index].quantity = quantity
-    }
-    this.saveCartProducts(cart, false)
+  async setQuantity(id, quantity) {
+    let response = await $.ajax({
+      url: 'http://127.0.0.1:5000/cart/setquantity', // Replace URL with the prod url
+      type: 'POST',
+      data: JSON.stringify({
+        product_id: id,
+        quantity: quantity,
+      }),
+      headers: {
+        Authorization: 'Basic ' + btoa(userService.getUser()),
+        'Content-Type': 'application/json',
+      },
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    this.cartItems = response.cart
   }
 
-  removeFromCart(id) {
-    var cart = this.getCartItems()
-    var index = cart.findIndex((x) => x.id == id)
-    if (index !== -1) {
-      cart.splice(index, 1)
-    }
-    this.saveCartProducts(cart, true)
+  async removeFromCart(id) {
+    let response = await $.ajax({
+      url: 'http://127.0.0.1:5000/cart/item/' + id, // Replace URL with the prod url
+      type: 'DELETE',
+      headers: {
+        Authorization: 'Basic ' + btoa(userService.getUser()),
+        'Content-Type': 'application/json',
+      },
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    this.cartItems = response.cart
+    this.refreshCart(true)
   }
 
-  emptyCart() {
-    this.saveCartProducts([], true)
+  async emptyCart() {
+    let response = await $.ajax({
+      url: 'http://127.0.0.1:5000/cart/', // Replace URL with the prod url
+      type: 'DELETE',
+      headers: {
+        Authorization: 'Basic ' + btoa(userService.getUser()),
+        'Content-Type': 'application/json',
+      },
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    this.cartItems = response.cart
   }
 
   updateCart() {
@@ -83,8 +170,8 @@ class CartService {
     document.addEventListener('updateTotal', fn)
   }
 
-  getQuantity(id) {
-    let products = JSON.parse(localStorage.getItem('cart'))
+  async getQuantity(id) {
+    var products = await this.getCartItems()
     if (products) {
       for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) return products[i].quantity

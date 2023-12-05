@@ -15,20 +15,48 @@ class PaginatedProducts {
 class ProductService {
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts()
-
     products = this.filterProducts(products, category, search)
 
     return this.paginateProducts(products, pageNumber, productsPerPage)
   }
 
   async getProduct(id) {
-    var products = await this.getProducts()
-    return products.find((product) => product.id === id) || null
+    let output = await $.ajax({
+      url: 'http://127.0.0.1:5000/products/' + id, // Replace URL with the prod url
+      type: 'GET',
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    return output
   }
 
   async getProducts() {
     if (!this.products) {
-      this.products = await $.getJSON('/api/products.json')
+      let output = await $.ajax({
+        url: 'http://127.0.0.1:5000/products', // Replace URL with the prod url
+        type: 'GET',
+        success: () => {
+          // Add success logic if any
+        },
+        error: function (_, status, error) {
+          console.error(
+            'GET request failed with status',
+            status,
+            'and error',
+            error
+          )
+        },
+      })
+      this.products = output.products
     }
 
     return this.products
@@ -60,9 +88,23 @@ class ProductService {
     return products
   }
 
-  async getTotalProducts() {
-    let products = await this.getProducts()
-    return this.products.length
+  async getFeaturedProducts() {
+    let output = await $.ajax({
+      url: 'http://127.0.0.1:5000/products/featured', // Replace URL with the prod url
+      type: 'GET',
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    return output.products
   }
 
   paginateProducts(products, pageNumber, productsPerPage) {

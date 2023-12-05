@@ -1,5 +1,5 @@
-function updateCart() {
-  var cartCount = cartService.getCartItemsCount()
+async function updateCart() {
+  var cartCount = await cartService.getCartItemsCount()
   if (cartCount) {
     $('#cart-count').show().text(cartCount)
   } else {

@@ -143,14 +143,13 @@ def get_cart():
     cursor = db.cursor()
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
     result = cursor.fetchall()
-    response = []
+    cart = []
     for product in result:
-        response.append({
+        cart.append({
             "product_id": product[2],
             "quantity": product[3],
         })
-    return response
-
+    return jsonify({"cart": cart})
 
 
 @app.route('/cart/add', methods=['POST'])

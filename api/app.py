@@ -246,7 +246,7 @@ def checkout():
     return response
 
 
-@app.route('/order/<order_id>', methods=['POST'])
+@app.route('/order/<order_id>', methods=['GET'])
 def get_order(order_id):
     user_id = get_user_id()
     print(user_id)

@@ -6,14 +6,18 @@ import json
 
 load_dotenv()
 
-db = mysql.connector.connect(
-    host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
 app = Flask(__name__)
 
 # example query
 # example_cursor = db.cursor()
 # example_cursor.execute('SELECT * FROM product')
 # print(example_cursor.fetchall())
+
+
+def create_connection():
+    db = mysql.connector.connect(
+        host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
+    return db
 
 
 def get_user_id():
@@ -27,17 +31,19 @@ def get_featured_products():
     # Hardcoded. Replace with actual data from DB
     # select 4 random products from product table
     # return them as a list
-    
+    db = create_connection()
     c_featuredProducts = db.cursor(dictionary=True)
-    
-    c_featuredProducts.execute('SELECT details FROM product ORDER  BY RAND() LIMIT 4')
+
+    c_featuredProducts.execute(
+        'SELECT details FROM product ORDER  BY RAND() LIMIT 4')
     details_data = c_featuredProducts.fetchall()
 
-    c_featuredProducts.close() 
+    c_featuredProducts.close()
     response_data = {"products": []}
 
     for index, details in enumerate(details_data, start=1):
-        product_details = json.loads(details["details"]) if details["details"] else {}
+        product_details = json.loads(
+            details["details"]) if details["details"] else {}
 
         response_data["products"].append(product_details)
 
@@ -121,7 +127,7 @@ def get_products():
 
 @app.route('/products/<int:product_id>', methods=['GET'])
 def get_product(product_id):
-
+    db = create_connection()
     product_cursor = db.cursor()
     product_cursor.execute(
         'SELECT details FROM product WHERE id=%s', [product_id])
@@ -138,6 +144,7 @@ def get_product(product_id):
 
 @app.route('/cart', methods=['GET'])
 def get_cart():
+    db = create_connection()
     user_id = get_user_id()
     print(user_id)
     cursor = db.cursor()
@@ -154,6 +161,7 @@ def get_cart():
 
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
+    db = create_connection()
     user_id = get_user_id()
     addCart = request.get_json()
     product_id = addCart['product_id']
@@ -163,21 +171,22 @@ def add_to_cart():
         'SELECT * FROM cart WHERE user_id=%s AND product_id=%s', (user_id, product_id))
     data = cursor.fetchone()
     if data is None:
-        cursor.execute('INSERT INTO cart (`user_id`, `product_id`, `quantity`) VALUES (%s, %s, %s)', (user_id, product_id, quantity))
+        cursor.execute('INSERT INTO cart (`user_id`, `product_id`, `quantity`) VALUES (%s, %s, %s)',
+                       (user_id, product_id, quantity))
     else:
         new_quantity = int(quantity) + data[3]
-        cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s', (new_quantity, user_id, product_id))
+        cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s',
+                       (new_quantity, user_id, product_id))
     db.commit()
-    
+
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
     output = cursor.fetchall()
     result_list = []
     for row in output:
         result_dict = dict(zip(cursor.column_names, row))
         result_list.append(result_dict)
-    response = jsonify({'cart' : result_list})
+    response = jsonify({'cart': result_list})
     response.status_code = 200
-
 
     response.status_code = 200
     return response

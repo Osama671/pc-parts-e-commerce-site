@@ -194,21 +194,17 @@ def add_to_cart():
     else:
         new_quantity = int(quantity) + data[3]
         cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s', (new_quantity, user_id, product_id))
+    db.commit()
     
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
-    data = cursor.fetchall()
-    print(data)
-    response = []
-    for product in data:
-        response.append({
-            "product_id": product[2],
-            "quantity": product[3],
-        })
-    response = jsonify({
-        "cart": response
-    })
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart' : result_list})
+    response.status_code = 200
 
-    db.commit()
 
     response.status_code = 200
     return response

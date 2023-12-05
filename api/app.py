@@ -129,39 +129,20 @@ def get_products():
     return response
 
 
-@app.route('/products/<product_id>', methods=['GET'])
+@app.route('/products/<int:product_id>', methods=['GET'])
 def get_product(product_id):
 
-    # product ID passed in URL `/products/<id>`
-    print(product_id)
+    product_cursor = db.cursor()
+    product_cursor.execute(
+        'SELECT details FROM product WHERE id=%s', [product_id])
 
-    # Hardcoded. Replace with actual data from DB
-    # Use `id` above to SELECT from product table. There can only be one item.
-    # if product with `id` doesn't exist, set response.status_code = 404 and response body: { "error": "Product not found" }
-    response = jsonify({
-        "id": 1,
-        "name": "Amazon Basics USB Wired Computer Keyboard and Wired Mouse Bundle Pack",
-        "price": 2599,
-        "category": "accessories",
-        "stock": 41,
-        "description": "<ul><li><span> Low-profile keys provide a quiet, comfortable typing experience  </span></li>",
-        "image": "https://m.media-amazon.com/images/I/71y-jMVFfTL._AC_SL1500_.jpg",
-        "alt_images": [
-                "https://m.media-amazon.com/images/I/51o3dhWxLSL._AC_SL1500_.jpg",
-                "https://m.media-amazon.com/images/I/51P4u8QBpJL._AC_SL1367_.jpg",
-                "https://m.media-amazon.com/images/I/81zDsqaBwAL._AC_SL1500_.jpg",
-                "https://m.media-amazon.com/images/I/91K61OKfPkL._AC_SL1500_.jpg"
-        ],
-        "reviews": [
-            {
-                "username": "Maxime1",
-                "rating": 5,
-                "review": "If you are into basics, I don't think you can get a better deal than this."
-            }
-        ]
-    })
+    product_data = product_cursor.fetchone()
 
-    response.status_code = 200
+    if product_data is None:
+        response = make_response({"error": "Product not found"}, 404)
+    else:
+        response = make_response(json.loads(product_data[0]), 200)
+
     return response
 
 
@@ -170,52 +151,46 @@ def get_product(product_id):
 def get_cart():
     user_id = get_user_id()
     print(user_id)
-
-    # Hardcoded. Replace with actual data from DB
-    # use `user_id` above to SELECT from cart table. There can be 0 or more items. Return as a list
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
-
-    response.status_code = 200
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    result = cursor.fetchall()
+    response = []
+    for product in result:
+        response.append({
+            "product_id": product[2],
+            "quantity": product[3],
+        })
     return response
+
 
 
 @app.route('/cart/add', methods=['POST'])
 @cross_origin()
 def add_to_cart():
     user_id = get_user_id()
-    print(user_id)
+    addCart = request.get_json()
+    product_id = addCart['product_id']
+    quantity = addCart['quantity']
+    cursor = db.cursor()
+    cursor.execute(
+        'SELECT * FROM cart WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+    data = cursor.fetchone()
+    if data is None:
+        cursor.execute('INSERT INTO cart (`user_id`, `product_id`, `quantity`) VALUES (%s, %s, %s)', (user_id, product_id, quantity))
+    else:
+        new_quantity = int(quantity) + data[3]
+        cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s', (new_quantity, user_id, product_id))
+    db.commit()
+    
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart' : result_list})
+    response.status_code = 200
 
-    cart_item = request.get_json()
-    print(cart_item['product_id'], cart_item['quantity'])
-
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and `product_id` and check if there is already an entry in cart table
-    # if there is an entry, increase the quantity column by the `cart_item.quantity` value above
-    # if there isn't an entry, INSERT a new row
-    # after inserting, return all items in this user's cart (Same kind of query+response as /cart API above)
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
 
     response.status_code = 200
     return response

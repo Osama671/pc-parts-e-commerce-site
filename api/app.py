@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, abort
 import mysql.connector
 from dotenv import load_dotenv
 from os import environ
+import json
 
 load_dotenv()
 
@@ -26,57 +27,21 @@ def get_featured_products():
     # Hardcoded. Replace with actual data from DB
     # select 4 random products from product table
     # return them as a list
-    response = jsonify({
-        "products": [
-            {
-                "id": 1,
-                "name": "Amazon Basics USB Wired Computer Keyboard and Wired Mouse Bundle Pack",
-                "price": 2599,
-                "category": "accessories",
-                "stock": 41,
-                "description": "<ul><li><span> Low-profile keys provide a quiet, comfortable typing experience  </span></li>",
-                "image": "https://m.media-amazon.com/images/I/71y-jMVFfTL._AC_SL1500_.jpg",
-                "alt_images": [
-                    "https://m.media-amazon.com/images/I/51o3dhWxLSL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/51P4u8QBpJL._AC_SL1367_.jpg",
-                    "https://m.media-amazon.com/images/I/81zDsqaBwAL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/91K61OKfPkL._AC_SL1500_.jpg"
-                ],
-                "reviews": [
-                    {
-                        "username": "Maxime1",
-                        "rating": 5,
-                        "review": "If you are into basics, I don't think you can get a better deal than this."
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "name": "Wireless Keyboard and Mouse Combo",
-                "price": 4299,
-                "category": "accessories",
-                "stock": 60,
-                "description": "<ul><li><span> ?Ergonomic Wireless Keyboard and Mouse? JOYACCESS wireless keyboard and mouse combo designed ergonomic</li></ul>",
-                "image": "https://m.media-amazon.com/images/I/71fH1bumcBL._AC_SL1500_.jpg",
-                "alt_images": [
-                    "https://m.media-amazon.com/images/I/71xCKnpg08L._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/71CYi3hoZKL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/61mpN2N5yeL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/712-hRbokcL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/71y-DSs04JL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/71zrUEKoX2L._AC_SL1500_.jpg"
-                ],
-                "reviews": [
-                    {
-                        "username": "Frieda.Krajcik72",
-                        "rating": 4,
-                        "review": "Super clavier!"
-                    }
-                ]
-            }
-        ]
-    })
+    
+    c_featuredProducts = db.cursor(dictionary=True)
+    
+    c_featuredProducts.execute('SELECT details FROM product ORDER  BY RAND() LIMIT 4')
+    details_data = c_featuredProducts.fetchall()
 
+    c_featuredProducts.close() 
+    response_data = {"products": []}
+
+    for index, details in enumerate(details_data, start=1):
+        product_details = json.loads(details["details"]) if details["details"] else {}
+
+        response_data["products"].append(product_details)
+
+    response = jsonify(response_data)
     response.status_code = 200
     return response
 

@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from os import environ
 from flask_cors import CORS, cross_origin
 import base64
-import json
 
 load_dotenv()
 

@@ -36,9 +36,6 @@ def get_user_id():
 
 @app.route('/products/featured', methods=['GET'])
 def get_featured_products():
-    # Hardcoded. Replace with actual data from DB
-    # select 4 random products from product table
-    # return them as a list
     db = create_connection()
     c_featuredProducts = db.cursor(dictionary=True)
 
@@ -64,7 +61,6 @@ def get_featured_products():
 @cross_origin()
 def get_products():
     args = request.args.to_dict()
-
     search = args.get("search")
     category = args.get("category")
     page = args.get("page")
@@ -156,7 +152,6 @@ def get_product(product_id):
 def get_cart():
     db = create_connection()
     user_id = get_user_id()
-    print(user_id)
     cursor = db.cursor()
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
     result = cursor.fetchall()
@@ -230,10 +225,10 @@ def delete_from_cart(product_id):
     user_id = get_user_id()
     db = create_connection()
     cursor = db.cursor()
-    cursor.execute('DELETE from cart WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+    cursor.execute('DELETE from cart WHERE user_id=%s AND product_id=%s', [user_id, product_id])
     response = []
     db.commit()
-    cursor.execute('SELECT * FROM cart WHERE user_id=%s', (user_id))
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
     output = cursor.fetchall()
     result_list = []
     for row in output:
@@ -248,11 +243,11 @@ def delete_from_cart(product_id):
 @cross_origin()
 def clear_cart():
     user_id = get_user_id()
-    print(user_id)
-
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and delete all rows in cart table where user_id = that
-    # return this empty cart list
+    db = create_connection()
+    cursor = db.cursor()
+    cursor.execute('DELETE from cart WHERE user_id=%s', [user_id])
+    response = []
+    db.commit()
     response = jsonify({
         "cart": []
     })

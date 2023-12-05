@@ -48,10 +48,6 @@ class CartService {
     return cartCount.length
   }
 
-  isCartEmpty() {
-    return !localStorage.getItem('cart') ? true : false
-  }
-
   async addToCart(id, quantity) {
     let response = await $.ajax({
       url: 'http://127.0.0.1:5000/cart/add', // Replace URL with the prod url
@@ -69,7 +65,7 @@ class CartService {
       },
       error: function (_, status, error) {
         console.error(
-          'GET request failed with status',
+          'POST request failed with status',
           status,
           'and error',
           error
@@ -82,10 +78,9 @@ class CartService {
 
   async setQuantity(id, quantity) {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart/setquantity', // Replace URL with the prod url
+      url: 'http://127.0.0.1:5000/cart/item/' + id, // Replace URL with the prod url
       type: 'POST',
       data: JSON.stringify({
-        product_id: id,
         quantity: quantity,
       }),
       headers: {
@@ -97,7 +92,7 @@ class CartService {
       },
       error: function (_, status, error) {
         console.error(
-          'GET request failed with status',
+          'POST request failed with status',
           status,
           'and error',
           error
@@ -120,7 +115,7 @@ class CartService {
       },
       error: function (_, status, error) {
         console.error(
-          'GET request failed with status',
+          'DELETE request failed with status',
           status,
           'and error',
           error
@@ -133,7 +128,7 @@ class CartService {
 
   async emptyCart() {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart/', // Replace URL with the prod url
+      url: 'http://127.0.0.1:5000/cart', // Replace URL with the prod url
       type: 'DELETE',
       headers: {
         Authorization: 'Basic ' + btoa(userService.getUser()),
@@ -144,7 +139,7 @@ class CartService {
       },
       error: function (_, status, error) {
         console.error(
-          'GET request failed with status',
+          'DELETE request failed with status',
           status,
           'and error',
           error
@@ -152,6 +147,7 @@ class CartService {
       },
     })
     this.cartItems = response.cart
+    this.refreshCart(true)
   }
 
   updateCart() {

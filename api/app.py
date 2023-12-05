@@ -182,28 +182,29 @@ def get_cart():
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
     user_id = get_user_id()
-    print(user_id)
+    addCart = request.get_json()
+    product_id = addCart['product_id']
+    quantity = addCart['quantity']
+    cursor = db.cursor()
+    cursor.execute(
+        'SELECT * FROM cart WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+    data = cursor.fetchone()
+    if data is None:
+        cursor.execute('INSERT INTO cart (`user_id`, `product_id`, `quantity`) VALUES (%s, %s, %s)', (user_id, product_id, quantity))
+    else:
+        new_quantity = int(quantity) + data[3]
+        cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s', (new_quantity, user_id, product_id))
+    db.commit()
+    
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart' : result_list})
+    response.status_code = 200
 
-    cart_item = request.get_json()
-    print(cart_item['product_id'], cart_item['quantity'])
-
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and `product_id` and check if there is already an entry in cart table
-    # if there is an entry, increase the quantity column by the `cart_item.quantity` value above
-    # if there isn't an entry, INSERT a new row
-    # after inserting, return all items in this user's cart (Same kind of query+response as /cart API above)
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
 
     response.status_code = 200
     return response

@@ -159,24 +159,17 @@ def get_product(product_id):
 def get_cart():
     user_id = get_user_id()
     print(user_id)
-
-    # Hardcoded. Replace with actual data from DB
-    # use `user_id` above to SELECT from cart table. There can be 0 or more items. Return as a list
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
-
-    response.status_code = 200
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    result = cursor.fetchall()
+    response = []
+    for product in result:
+        response.append({
+            "product_id": product[2],
+            "quantity": product[3],
+        })
     return response
+
 
 
 @app.route('/cart/add', methods=['POST'])

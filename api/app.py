@@ -257,26 +257,25 @@ def checkout():
 
 @app.route('/order/<order_id>', methods=['GET'])
 def get_order(order_id):
+    db = create_connection()
     user_id = get_user_id()
-    print(user_id)
+    # Getting the order from the table
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM `order` WHERE id=%s', [int(order_id)])
+    order_data = cursor.fetchall()
 
-    print(order_id)
+    # If no order is found, return a 404 response
+    if not order_data:
+        response = make_response({"error": "Order not found"}, 404)
+    else:
+        order_items = [{"product_id": item[2], "quantity": item[3]} for item in order_data]
 
-    # Hardcoded. Replace with actual data from DB
-    # find items in order table where id = order_id
-    response = jsonify({
-        "order": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
+        # Create a JSON response
+        response_data = {"order": order_items}
+        response = jsonify(response_data)
 
+  
+    db.close()
     response.status_code = 200
     return response
 

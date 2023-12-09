@@ -3,7 +3,6 @@ import mysql.connector
 from dotenv import load_dotenv
 from os import environ
 import json
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -237,22 +236,52 @@ def clear_cart():
 
 @app.route('/cart/checkout', methods=['POST'])
 def checkout():
+    # Get user_id from the Authorization header
     user_id = get_user_id()
-    print(user_id)
+    db = create_connection()
+    cursor = db.cursor()
 
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and find all items in the user's cart (WHERE user_id = )
-    # generate a random order ID like this: AAAA111111 (4 random letters, 4 random number)
-    # INSERT each cart item into into the order table along with this order ID
-    # after inserting into order table, clear the user's cart. ie, DELETE everything in cart table where user_id = this user (similar to DELETE: /cart API above)
-    # finally, return the random order id
-    # if there were no items in the user's cart, set response.status_code = 400, and body: { message: "Cart is empty" }
-    response = jsonify({
-        "order_id": "ABCD123456"
-    })
+    # Find all items in the user's cart
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    cart_items = cursor.fetchall()
 
+    # Check if the cart is empty
+    if not cart_items:
+        response = jsonify({"error": "Cart is empty"})
+        response.status_code = 400
+        return response
+
+    order_id = generate_order_id(cursor)
+    print(order_id)
+    # Insert rows into the order_table for each item in the cart
+    for item in cart_items:
+        product_id = item[2]
+        quantity = item[3]
+        print(order_id)
+        cursor.execute('INSERT INTO `order` (id, user_id, product_id, quantity) VALUES (%s, %s, %s, %s)',
+                       (order_id, user_id, product_id, quantity))
+
+    cursor.execute('DELETE FROM cart WHERE user_id=%s', [user_id])
+    db.commit()
+
+    # Return the order ID
+    response = jsonify({"order_id": order_id})
     response.status_code = 200
     return response
+
+# function to generate order id
+
+
+def generate_order_id(cursor):
+    cursor.execute('SELECT MAX(id) FROM `order`')
+    max_order_id = cursor.fetchone()[0]
+
+    if max_order_id is not None:
+        new_order_id = max_order_id + 1
+    else:
+        new_order_id = 100
+
+    return new_order_id
 
 
 @app.route('/order/<order_id>', methods=['GET'])

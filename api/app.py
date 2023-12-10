@@ -87,25 +87,27 @@ def get_featured_products():
     return response
 
 def get_products_query(search, category, offset):    
-    main_query = "SELECT * FROM product WHERE 1=1"
-    count_query = "SELECT COUNT(*) as count FROM product WHERE 1=1"
-
-    params = []
+    main_query = "SELECT * FROM product"
+    count_query = "SELECT COUNT(*) as count FROM product"
     
+    filters = []
+    params = []
+
     if search:
-        main_query += " AND name LIKE %s"
-        count_query += " AND name LIKE %s"
-        params.append(f'%{search}%')      
-        
+        filters.append('name LIKE %s')
+        params.append(f'%{search}%')
 
     if category:
-        main_query += " AND category = %s"
-        count_query += " AND category = %s"
+        filters.append('category = %s')
         params.append(category)
-        
-    main_query += " LIMIT 50 OFFSET %s"
-    params.append(offset)
 
+
+    if len(filters) > 0:
+        where_clause = " WHERE " + (" AND ".join(filters))
+        main_query += where_clause
+        count_query += where_clause
+    
+    main_query += f" LIMIT 50 OFFSET {offset}"
     return main_query, count_query, tuple(params)
 
 @app.route('/products', methods=['GET'])
@@ -121,51 +123,33 @@ def get_products():
 
     main_query, count_query, params = get_products_query(search, category, offset)
     
-    try:
-        if(search != None):
-            search = '%'+search+'%' 
-        else:
-            search = '%%' 
+    cursor = db.cursor(dictionary=True)
+    # Execute the main query to get product details
+    cursor.execute(main_query, params)
+    products = cursor.fetchall()
+
+    # Execute the count query to get the total number of products
+    cursor.execute(count_query, params)
+    count_result = cursor.fetchone()
+
+    total_count = count_result['count']
+
+    # Calculate total pages
+    total_pages = math.ceil(total_count / 50)
+
+    # Parse details column as JSON
+    for product in products:
+        product['details'] = json.loads(product['details'])
+
+    # Prepare the response JSON
+    response = {
+        "total_products": total_count,
+        "total_pages": total_pages,
+        "products": products
+    }
+    cursor.close()
+    return jsonify(response)
         
-        if category is None:
-            category = '%%'
-        
-        cursor = db.cursor(dictionary=True)
-        # Execute the main query to get product details
-        cursor.execute("SELECT details FROM product WHERE 1=1 AND name LIKE %s AND category LIKE %s LIMIT 50 OFFSET %s", [search, category, offset])
-        products = cursor.fetchall()
-
-        # Execute the count query to get the total number of products
-        cursor.execute('SELECT COUNT(*) as count FROM product WHERE 1=1 AND name LIKE %s AND category LIKE %s',[search, category])
-        count_result = cursor.fetchone()
-
-        total_count = count_result['count']
-
-        # Calculate total pages
-        total_pages = math.ceil(total_count / 50)
-
-        # Parse details column as JSON
-        for product in products:
-            product['details'] = json.loads(product['details'])
-
-        # Prepare the response JSON
-        response = {
-            "total_products": total_count,
-            "total_pages": total_pages,
-            "products": products
-        }
-
-        return jsonify(response)
-
-    except Exception as e:
-        traceback.print_exc()  # Print the full traceback
-        print(f"Error executing query: {e}")
-        return jsonify({"error": "Failed to retrieve products"}), 500
-
-    finally:
-        if cursor:
-            cursor.close()
-
 @app.route('/cart', methods=['GET'])
 def get_cart():
     user_id = get_user_id()

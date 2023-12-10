@@ -1,16 +1,11 @@
 import math
-import traceback
 from flask import Flask, request, jsonify, abort, make_response
 import mysql.connector
 from dotenv import load_dotenv
 from os import environ
 import json
-
-import json
 load_dotenv()
 
-db = mysql.connector.connect(
-    host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
 app = Flask(__name__)
 
 # Stops flask.jsonify() from automatically sorting dictionaries.
@@ -20,6 +15,12 @@ app.json.sort_keys = False
 # example_cursor = db.cursor()
 # example_cursor.execute('SELECT * FROM product')
 # print(example_cursor.fetchall())
+
+
+def create_connection():
+    db = mysql.connector.connect(
+        host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
+    return db
 
 
 def get_user_id():
@@ -33,17 +34,19 @@ def get_featured_products():
     # Hardcoded. Replace with actual data from DB
     # select 4 random products from product table
     # return them as a list
-    
+    db = create_connection()
     c_featuredProducts = db.cursor(dictionary=True)
-    
-    c_featuredProducts.execute('SELECT details FROM product ORDER  BY RAND() LIMIT 4')
+
+    c_featuredProducts.execute(
+        'SELECT details FROM product ORDER  BY RAND() LIMIT 4')
     details_data = c_featuredProducts.fetchall()
 
-    c_featuredProducts.close() 
+    c_featuredProducts.close()
     response_data = {"products": []}
 
     for index, details in enumerate(details_data, start=1):
-        product_details = json.loads(details["details"]) if details["details"] else {}
+        product_details = json.loads(
+            details["details"]) if details["details"] else {}
 
         response_data["products"].append(product_details)
 
@@ -78,6 +81,7 @@ def get_products_query(search, category, offset):
 @app.route('/products', methods=['GET'])
 def get_products():
     args = request.args.to_dict()
+    db = create_connection()
 
     search = args.get("search")
     category = args.get("category")
@@ -114,56 +118,68 @@ def get_products():
     }
     cursor.close()
     return jsonify(response)
+
+@app.route('/products/<int:product_id>', methods=['GET'])
+def get_product(product_id):
+    db = create_connection()
+    product_cursor = db.cursor()
+    product_cursor.execute(
+        'SELECT details FROM product WHERE id=%s', [product_id])
+
+    product_data = product_cursor.fetchone()
+
+    if product_data is None:
+        response = make_response({"error": "Product not found"}, 404)
+    else:
+        response = make_response(json.loads(product_data[0]), 200)
+
+    return response
         
 @app.route('/cart', methods=['GET'])
 def get_cart():
+    db = create_connection()
     user_id = get_user_id()
     print(user_id)
-
-    # Hardcoded. Replace with actual data from DB
-    # use `user_id` above to SELECT from cart table. There can be 0 or more items. Return as a list
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
-
-    response.status_code = 200
-    return response
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    result = cursor.fetchall()
+    cart = []
+    for product in result:
+        cart.append({
+            "product_id": product[2],
+            "quantity": product[3],
+        })
+    return jsonify({"cart": cart})
 
 
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
+    db = create_connection()
     user_id = get_user_id()
-    print(user_id)
+    addCart = request.get_json()
+    product_id = addCart['product_id']
+    quantity = addCart['quantity']
+    cursor = db.cursor()
+    cursor.execute(
+        'SELECT * FROM cart WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+    data = cursor.fetchone()
+    if data is None:
+        cursor.execute('INSERT INTO cart (`user_id`, `product_id`, `quantity`) VALUES (%s, %s, %s)',
+                       (user_id, product_id, quantity))
+    else:
+        new_quantity = int(quantity) + data[3]
+        cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s',
+                       (new_quantity, user_id, product_id))
+    db.commit()
 
-    cart_item = request.get_json()
-    print(cart_item['product_id'], cart_item['quantity'])
-
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and `product_id` and check if there is already an entry in cart table
-    # if there is an entry, increase the quantity column by the `cart_item.quantity` value above
-    # if there isn't an entry, INSERT a new row
-    # after inserting, return all items in this user's cart (Same kind of query+response as /cart API above)
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart': result_list})
+    response.status_code = 200
 
     response.status_code = 200
     return response
@@ -214,46 +230,75 @@ def clear_cart():
 
 @app.route('/cart/checkout', methods=['POST'])
 def checkout():
+    # Get user_id from the Authorization header
     user_id = get_user_id()
-    print(user_id)
+    db = create_connection()
+    cursor = db.cursor()
 
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and find all items in the user's cart (WHERE user_id = )
-    # generate a random order ID like this: AAAA111111 (4 random letters, 4 random number)
-    # INSERT each cart item into into the order table along with this order ID
-    # after inserting into order table, clear the user's cart. ie, DELETE everything in cart table where user_id = this user (similar to DELETE: /cart API above)
-    # finally, return the random order id
-    # if there were no items in the user's cart, set response.status_code = 400, and body: { message: "Cart is empty" }
-    response = jsonify({
-        "order_id": "ABCD123456"
-    })
+    # Find all items in the user's cart
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    cart_items = cursor.fetchall()
 
+    # Check if the cart is empty
+    if not cart_items:
+        response = jsonify({"error": "Cart is empty"})
+        response.status_code = 400
+        return response
+
+    order_id = generate_order_id(cursor)
+    print(order_id)
+    # Insert rows into the order_table for each item in the cart
+    for item in cart_items:
+        product_id = item[2]
+        quantity = item[3]
+        print(order_id)
+        cursor.execute('INSERT INTO `order` (id, user_id, product_id, quantity) VALUES (%s, %s, %s, %s)',
+                       (order_id, user_id, product_id, quantity))
+
+    cursor.execute('DELETE FROM cart WHERE user_id=%s', [user_id])
+    db.commit()
+
+    # Return the order ID
+    response = jsonify({"order_id": order_id})
     response.status_code = 200
     return response
 
+# function to generate order id
 
-@app.route('/order/<order_id>', methods=['POST'])
+
+def generate_order_id(cursor):
+    cursor.execute('SELECT MAX(id) FROM `order`')
+    max_order_id = cursor.fetchone()[0]
+
+    if max_order_id is not None:
+        new_order_id = max_order_id + 1
+    else:
+        new_order_id = 100
+
+    return new_order_id
+
+
+@app.route('/order/<order_id>', methods=['GET'])
 def get_order(order_id):
+    db = create_connection()
     user_id = get_user_id()
-    print(user_id)
+    # Getting the order from the table
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM `order` WHERE id=%s', [int(order_id)])
+    order_data = cursor.fetchall()
 
-    print(order_id)
+    # If no order is found, return a 404 response
+    if not order_data:
+        response = make_response({"error": "Order not found"}, 404)
+    else:
+        order_items = [{"product_id": item[2], "quantity": item[3]} for item in order_data]
 
-    # Hardcoded. Replace with actual data from DB
-    # find items in order table where id = order_id
-    response = jsonify({
-        "order": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
+        # Create a JSON response
+        response_data = {"order": order_items}
+        response = jsonify(response_data)
 
+  
+    db.close()
     response.status_code = 200
     return response
 

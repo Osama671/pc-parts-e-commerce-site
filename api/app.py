@@ -1,3 +1,4 @@
+import math
 from flask import Flask, request, jsonify, abort, make_response
 import mysql.connector
 from dotenv import load_dotenv
@@ -6,6 +7,9 @@ import json
 load_dotenv()
 
 app = Flask(__name__)
+
+# Stops flask.jsonify() from automatically sorting dictionaries.
+app.json.sort_keys = False
 
 # example query
 # example_cursor = db.cursor()
@@ -50,79 +54,70 @@ def get_featured_products():
     response.status_code = 200
     return response
 
+def get_products_query(search, category, offset):    
+    main_query = "SELECT * FROM product"
+    count_query = "SELECT COUNT(*) as count FROM product"
+    
+    filters = []
+    params = []
+
+    if search:
+        filters.append('name LIKE %s')
+        params.append(f'%{search}%')
+
+    if category:
+        filters.append('category = %s')
+        params.append(category)
+
+
+    if len(filters) > 0:
+        where_clause = " WHERE " + (" AND ".join(filters))
+        main_query += where_clause
+        count_query += where_clause
+    
+    main_query += f" LIMIT 50 OFFSET {offset}"
+    return main_query, count_query, tuple(params)
 
 @app.route('/products', methods=['GET'])
 def get_products():
     args = request.args.to_dict()
+    db = create_connection()
 
     search = args.get("search")
     category = args.get("category")
-    page = args.get("page")
+    page = int(args.get('page', 1))
 
-    # Could be `None` or could be some string
-    print(search, category, page)
+    # Calculate OFFSET value based on the page number
+    offset = (page - 1) * 50
 
-    # Hardcoded response. Replace with actual data from DB.
-    # Use SQL query to select from DB using search, category and page variables above (check if each one has some value)
-    # if `search` has some value, filter by product.name column
-    # if `category` has some value, filter by product.category column
-    # if `page` has some value, use LIMIT = 50, OFFSET = (page - 1). If `page` has no value, default to 1
-    # "total_products" should be the total number of results after filtering (without LIMIT)
-    response = jsonify({
-        "total_products": 2,
-        "products": [
-            {
-                "id": 1,
-                "name": "Amazon Basics USB Wired Computer Keyboard and Wired Mouse Bundle Pack",
-                "price": 2599,
-                "category": "accessories",
-                "stock": 41,
-                "description": "<ul><li><span> Low-profile keys provide a quiet, comfortable typing experience  </span></li>",
-                "image": "https://m.media-amazon.com/images/I/71y-jMVFfTL._AC_SL1500_.jpg",
-                "alt_images": [
-                    "https://m.media-amazon.com/images/I/51o3dhWxLSL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/51P4u8QBpJL._AC_SL1367_.jpg",
-                    "https://m.media-amazon.com/images/I/81zDsqaBwAL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/91K61OKfPkL._AC_SL1500_.jpg"
-                ],
-                "reviews": [
-                    {
-                        "username": "Maxime1",
-                        "rating": 5,
-                        "review": "If you are into basics, I don't think you can get a better deal than this."
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "name": "Wireless Keyboard and Mouse Combo",
-                "price": 4299,
-                "category": "accessories",
-                "stock": 60,
-                "description": "<ul><li><span> ?Ergonomic Wireless Keyboard and Mouse? JOYACCESS wireless keyboard and mouse combo designed ergonomic</li></ul>",
-                "image": "https://m.media-amazon.com/images/I/71fH1bumcBL._AC_SL1500_.jpg",
-                "alt_images": [
-                    "https://m.media-amazon.com/images/I/71xCKnpg08L._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/71CYi3hoZKL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/61mpN2N5yeL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/712-hRbokcL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/71y-DSs04JL._AC_SL1500_.jpg",
-                    "https://m.media-amazon.com/images/I/71zrUEKoX2L._AC_SL1500_.jpg"
-                ],
-                "reviews": [
-                    {
-                        "username": "Frieda.Krajcik72",
-                        "rating": 4,
-                        "review": "Super clavier!"
-                    }
-                ]
-            }
-        ]
-    })
+    main_query, count_query, params = get_products_query(search, category, offset)
+    
+    cursor = db.cursor(dictionary=True)
+    # Execute the main query to get product details
+    cursor.execute(main_query, params)
+    products = cursor.fetchall()
 
-    response.status_code = 200
-    return response
+    # Execute the count query to get the total number of products
+    cursor.execute(count_query, params)
+    count_result = cursor.fetchone()
 
+    total_count = count_result['count']
+
+    # Calculate total pages
+    total_pages = math.ceil(total_count / 50)
+
+    # Parse details column as JSON
+    for product in products:
+        product['details'] = json.loads(product['details'])
+
+    # Prepare the response JSON
+    response = {
+        "total_products": total_count,
+        "total_pages": total_pages,
+        "products": products
+    }
+    cursor.close()
+    return jsonify(response)
 
 @app.route('/products/<int:product_id>', methods=['GET'])
 def get_product(product_id):
@@ -139,8 +134,7 @@ def get_product(product_id):
         response = make_response(json.loads(product_data[0]), 200)
 
     return response
-
-
+        
 @app.route('/cart', methods=['GET'])
 def get_cart():
     db = create_connection()

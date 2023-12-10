@@ -12,6 +12,9 @@ db = mysql.connector.connect(
     host=environ['DB_HOST'], user=environ['DB_USER'], password=environ['DB_PASSWORD'], database=environ['DB_NAME'])
 app = Flask(__name__)
 
+# Stops flask.jsonify() from automatically sorting dictionaries.
+app.json.sort_keys = False
+
 # example query
 # example_cursor = db.cursor()
 # example_cursor.execute('SELECT * FROM product')
@@ -88,11 +91,12 @@ def get_products_query(search, category, offset):
     count_query = "SELECT COUNT(*) as count FROM product WHERE 1=1"
 
     params = []
-
+    
     if search:
         main_query += " AND name LIKE %s"
         count_query += " AND name LIKE %s"
         params.append(f'%{search}%')      
+        
 
     if category:
         main_query += " AND category = %s"
@@ -101,7 +105,7 @@ def get_products_query(search, category, offset):
         
     main_query += " LIMIT 50 OFFSET %s"
     params.append(offset)
-    
+
     return main_query, count_query, tuple(params)
 
 @app.route('/products', methods=['GET'])
@@ -122,22 +126,18 @@ def get_products():
             search = '%'+search+'%' 
         else:
             search = '%%' 
+        
+        if category is None:
+            category = '%%'
+        
         cursor = db.cursor(dictionary=True)
-
         # Execute the main query to get product details
-        cursor.execute('SELECT details FROM product WHERE 1=1 AND name LIKE %s AND category = %s LIMIT 50 OFFSET %s', [search, category, offset])
+        cursor.execute("SELECT details FROM product WHERE 1=1 AND name LIKE %s AND category LIKE %s LIMIT 50 OFFSET %s", [search, category, offset])
         products = cursor.fetchall()
 
         # Execute the count query to get the total number of products
-        cursor.execute('SELECT COUNT(*) as count FROM product WHERE 1=1 AND name LIKE %s AND category = %s',[search, category])
+        cursor.execute('SELECT COUNT(*) as count FROM product WHERE 1=1 AND name LIKE %s AND category LIKE %s',[search, category])
         count_result = cursor.fetchone()
-
-        #cursor.execute(main_query, params)
-        #products = cursor.fetchall()
-
-        # Execute the count query to get the total number of products
-        #cursor.execute(count_query, params)
-        #count_result = cursor.fetchone()
 
         total_count = count_result['count']
 

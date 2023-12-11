@@ -83,6 +83,11 @@ async function getCart() {
       cartService.emptyCart()
       cartService.updateTotal()
     })
+    $('.btn-checkout').click(async (e) => {
+      e.preventDefault()
+      var orderID = await cartService.checkout()
+      location.replace(`./success?orderID=${orderID}`)
+    })
     await renderCart()
     cartService.updateTotal()
   }

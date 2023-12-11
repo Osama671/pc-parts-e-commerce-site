@@ -320,9 +320,8 @@ def get_order(order_id):
         response_data = {"order": order_items}
         response = jsonify(response_data)
 
-  
     db.close()
-    response.status_code = 200
+    
     return response
 
 

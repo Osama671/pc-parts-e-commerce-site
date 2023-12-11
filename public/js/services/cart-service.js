@@ -150,6 +150,57 @@ class CartService {
     this.refreshCart(true)
   }
 
+  async checkout() {
+    let response = await $.ajax({
+      url: 'http://127.0.0.1:5000/cart/checkout', // Replace URL with the prod url
+      type: 'POST',
+      headers: {
+        Authorization: 'Basic ' + btoa(userService.getUser()),
+        'Content-Type': 'application/json',
+      },
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'POST request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    this.cartItems = []
+    return response.order_id
+  }
+
+  async getOrder(orderID) {
+    try {
+      let response = await $.ajax({
+        url: 'http://127.0.0.1:5000/order/' + orderID, // Replace URL with the prod url
+        type: 'GET',
+        headers: {
+          Authorization: 'Basic ' + btoa(userService.getUser()),
+          'Content-Type': 'application/json',
+        },
+        success: () => {
+          // Add success logic if any
+        },
+        error: function (_, status, error) {
+          console.error(
+            'POST request failed with status',
+            status,
+            'and error',
+            error
+          )
+        },
+      })
+      return response.order
+    } catch {
+      return []
+    }
+  }
+
   updateCart() {
     document.dispatchEvent(new Event('cartUpdate'))
   }

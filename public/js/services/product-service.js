@@ -14,8 +14,7 @@ class PaginatedProducts {
 
 class ProductService {
   async findProducts(category, search, pageNumber, productsPerPage) {
-    let products = await this.getProducts()
-    products = this.filterProducts(products, category, search)
+    let products = await this.getProducts(pageNumber, category, search)
 
     return this.paginateProducts(products, pageNumber, productsPerPage)
   }
@@ -39,27 +38,23 @@ class ProductService {
     return output
   }
 
-  async getProducts() {
-    if (!this.products) {
-      let output = await $.ajax({
-        url: 'http://127.0.0.1:5000/products', // Replace URL with the prod url
-        type: 'GET',
-        success: () => {
-          // Add success logic if any
-        },
-        error: function (_, status, error) {
-          console.error(
-            'GET request failed with status',
-            status,
-            'and error',
-            error
-          )
-        },
-      })
-      this.products = output.products
-    }
-
-    return this.products
+  async getProducts(pageNumber, category, search) {
+    let output = await $.ajax({
+      url: `http://127.0.0.1:5000/products?pageNumber=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
+      type: 'GET',
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    return output
   }
 
   renderPrice(price) {
@@ -108,11 +103,10 @@ class ProductService {
   }
 
   paginateProducts(products, pageNumber, productsPerPage) {
-    var startingIndex = (pageNumber - 1) * productsPerPage
-    var totalPages = Math.ceil(products.length / productsPerPage)
+    var totalPages = products.total_pages
 
     return new PaginatedProducts(
-      products.slice(startingIndex, startingIndex + productsPerPage),
+      products.products,
       productsPerPage,
       pageNumber,
       totalPages

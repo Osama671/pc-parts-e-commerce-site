@@ -66,24 +66,22 @@ $('.addToCart').click(async function (e) {
 })
 
 async function getProduct() {
+  $('.loader').show()
+  $('.loaded').hide()
   const product = await productService.getProduct(parseInt(productID))
   if (!product) {
     window.location.replace('/404')
   }
   stockCount = product.stock
   renderProduct(product)
+  $('.loader').hide()
+  $('.loaded').show()
 }
 
 function renderProduct(product) {
   $('.product-title').text(product.name)
   $('.description-details').html(product.description)
-  $('.price').text(
-    'C' +
-      new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-      }).format(product.price)
-  )
+  $('.price').text(productService.renderPrice(product.price))
   $('.stockCount').text(product.stock + ' left in stock')
   loadImages(product.image, product.alt_images)
   loadReview(product.reviews)

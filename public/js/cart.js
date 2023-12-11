@@ -119,4 +119,15 @@ cartService.onUpdateCart(() => {
   getCart()
 })
 
+//Confirm Payment extra validation on top of credit card library validation
+$('#confirmpayment').on('click', function () {
+  if (
+    $('.card-number').val().length < 19 ||
+    $('.cvc').val().length < 3 ||
+    $('.expiry').val().length < 7 ||
+    $('#the-card-name-id').val().length < 2
+  )
+    return false
+})
+
 getCart()

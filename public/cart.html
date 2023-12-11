@@ -9,6 +9,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
+    <link
+      href="./libraries/credit-card-validation-type-detection/card-js.min.css"
+      rel="stylesheet"
+    />
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link
@@ -32,6 +36,7 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
+    <script src="./libraries/credit-card-validation-type-detection/card-js.min.js"></script>
 
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/cart.css" />
@@ -83,7 +88,14 @@
               </tr>
             </table>
             <div class="checkout">
-              <a class="btn btn-checkout" type="button">Checkout</a>
+              <button
+                class="btn btn-checkout"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Checkout
+              </button>
             </div>
           </div>
         </div>
@@ -131,6 +143,73 @@
         </div>
       </div>
     </div>
+    <!-- Payment Info Modal -->
+    <form>
+      <div
+        class="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-2 ps-2" id="staticBackdropLabel">
+                Payment Info
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="card-js modal-body">
+              <input
+                class="card-number my-custom-class"
+                name="card-number"
+                required
+              />
+
+              <input
+                class="name"
+                id="the-card-name-id"
+                name="card-holders-name"
+                placeholder="Name on card"
+                required
+              />
+
+              <input class="expiry-month" name="expiry-month" required />
+
+              <input class="expiry-year" name="expiry-year" required />
+
+              <input class="cvc" name="cvc" required />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <a href="/success">
+                <button
+                  id="confirmpayment"
+                  type="button"
+                  class="btn btn-primary button-continue"
+                >
+                  Confirm Payment
+                </button></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
     <footer></footer>
   </body>
 </html>

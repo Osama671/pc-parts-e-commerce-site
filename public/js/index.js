@@ -1,24 +1,9 @@
-async function getProduct(amount = 5) {
+async function getProduct() {
   //amount is how many products will load.
-  debugger
-  let productIds = []
-  let totalProducts = await productService.getTotalProducts()
-
-  for (let i = 0; i < amount; i++) {
-    let randomId
-    do {
-      randomId = generateRandomID(totalProducts)
-    } while (productIds.includes(randomId))
-    productIds.push(generateRandomID(randomId))
-  }
-  productIds.forEach(async (element) => {
-    let product = await productService.getProduct(parseInt(element))
+  let featuredProducts = await productService.getFeaturedProducts()
+  featuredProducts.forEach(async (product) => {
     displayProducts(product)
   })
-}
-
-function generateRandomID(max) {
-  return Math.floor(Math.random() * max)
 }
 
 async function displayProducts(products) {

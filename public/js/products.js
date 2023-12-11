@@ -17,9 +17,9 @@ async function displayProducts(products) {
     generateColumn(
       productTemplate,
       product.id,
-      product.image,
+      product.details.image,
       product.name,
-      product.price
+      product.details.price
     )
   )
 }

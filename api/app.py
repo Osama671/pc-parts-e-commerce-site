@@ -1,20 +1,19 @@
 import math
 from flask import Flask, request, jsonify, abort, make_response
 import mysql.connector
+import json
 from dotenv import load_dotenv
 from os import environ
-import json
+from flask_cors import CORS, cross_origin
+
 load_dotenv()
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Stops flask.jsonify() from automatically sorting dictionaries.
 app.json.sort_keys = False
-
-# example query
-# example_cursor = db.cursor()
-# example_cursor.execute('SELECT * FROM product')
-# print(example_cursor.fetchall())
 
 
 def create_connection():
@@ -31,9 +30,6 @@ def get_user_id():
 
 @app.route('/products/featured', methods=['GET'])
 def get_featured_products():
-    # Hardcoded. Replace with actual data from DB
-    # select 4 random products from product table
-    # return them as a list
     db = create_connection()
     c_featuredProducts = db.cursor(dictionary=True)
 
@@ -54,10 +50,11 @@ def get_featured_products():
     response.status_code = 200
     return response
 
-def get_products_query(search, category, offset):    
+
+def get_products_query(search, category, offset):
     main_query = "SELECT * FROM product"
     count_query = "SELECT COUNT(*) as count FROM product"
-    
+
     filters = []
     params = []
 
@@ -69,16 +66,17 @@ def get_products_query(search, category, offset):
         filters.append('category = %s')
         params.append(category)
 
-
     if len(filters) > 0:
         where_clause = " WHERE " + (" AND ".join(filters))
         main_query += where_clause
         count_query += where_clause
-    
+
     main_query += f" LIMIT 50 OFFSET {offset}"
     return main_query, count_query, tuple(params)
 
+
 @app.route('/products', methods=['GET'])
+@cross_origin()
 def get_products():
     args = request.args.to_dict()
     db = create_connection()
@@ -90,8 +88,9 @@ def get_products():
     # Calculate OFFSET value based on the page number
     offset = (page - 1) * 50
 
-    main_query, count_query, params = get_products_query(search, category, offset)
-    
+    main_query, count_query, params = get_products_query(
+        search, category, offset)
+
     cursor = db.cursor(dictionary=True)
     # Execute the main query to get product details
     cursor.execute(main_query, params)
@@ -119,6 +118,7 @@ def get_products():
     cursor.close()
     return jsonify(response)
 
+
 @app.route('/products/<int:product_id>', methods=['GET'])
 def get_product(product_id):
     db = create_connection()
@@ -134,12 +134,13 @@ def get_product(product_id):
         response = make_response(json.loads(product_data[0]), 200)
 
     return response
-        
+
+
 @app.route('/cart', methods=['GET'])
+@cross_origin()
 def get_cart():
     db = create_connection()
     user_id = get_user_id()
-    print(user_id)
     cursor = db.cursor()
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
     result = cursor.fetchall()
@@ -153,6 +154,7 @@ def get_cart():
 
 
 @app.route('/cart/add', methods=['POST'])
+@cross_origin()
 def add_to_cart():
     db = create_connection()
     user_id = get_user_id()
@@ -185,41 +187,59 @@ def add_to_cart():
     return response
 
 
-@app.route('/cart/item/<cart_item_id>', methods=['DELETE'])
-def delete_from_cart(cart_item_id):
+@app.route('/cart/item/<product_id>', methods=['POST'])
+@cross_origin()
+def set_product_quantity(product_id):
     user_id = get_user_id()
-    print(user_id)
+    db = create_connection()
+    cart_item = request.get_json()
+    quantity = cart_item['quantity']
+    cursor = db.cursor()
+    cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s',
+                   (quantity, user_id, product_id))
+    db.commit()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart': result_list})
+    response.status_code = 200
 
-    print(cart_item_id)
+    return response
 
-    # Hardcoded. Replace with actual data from DB
-    # Use `cart_item_id` and delete from cart table where id = that
-    # after deleting, return all items in this user's cart (Same kind of query+response as /cart API above)
-    response = jsonify({
-        "cart": [
-            {
-                "product_id": 1,
-                "quantity": 2
-            },
-            {
-                "product_id": 2,
-                "quantity": 1
-            }
-        ]
-    })
 
+@app.route('/cart/item/<product_id>', methods=['DELETE'])
+@cross_origin()
+def delete_from_cart(product_id):
+    user_id = get_user_id()
+    db = create_connection()
+    cursor = db.cursor()
+    cursor.execute('DELETE from cart WHERE user_id=%s AND product_id=%s', [
+                   user_id, product_id])
+    response = []
+    db.commit()
+    cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
+    output = cursor.fetchall()
+    result_list = []
+    for row in output:
+        result_dict = dict(zip(cursor.column_names, row))
+        result_list.append(result_dict)
+    response = jsonify({'cart': result_list})
     response.status_code = 200
     return response
 
 
 @app.route('/cart', methods=['DELETE'])
+@cross_origin()
 def clear_cart():
     user_id = get_user_id()
-    print(user_id)
-
-    # Hardcoded. Replace with actual data from DB
-    # Use `user_id` and delete all rows in cart table where user_id = that
-    # return this empty cart list
+    db = create_connection()
+    cursor = db.cursor()
+    cursor.execute('DELETE from cart WHERE user_id=%s', [user_id])
+    response = []
+    db.commit()
     response = jsonify({
         "cart": []
     })
@@ -291,15 +311,15 @@ def get_order(order_id):
     if not order_data:
         response = make_response({"error": "Order not found"}, 404)
     else:
-        order_items = [{"product_id": item[2], "quantity": item[3]} for item in order_data]
+        order_items = [{"product_id": item[2], "quantity": item[3]}
+                       for item in order_data]
 
         # Create a JSON response
         response_data = {"order": order_items}
         response = jsonify(response_data)
 
-  
     db.close()
-    response.status_code = 200
+
     return response
 
 

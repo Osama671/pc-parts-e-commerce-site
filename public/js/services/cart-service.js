@@ -35,6 +35,7 @@ class CartService {
 
         this.cartItems = cartRes.cart
         resolve(this.cartItems)
+        this.cartItemsPromise = null
       })
 
       return this.cartItemsPromise

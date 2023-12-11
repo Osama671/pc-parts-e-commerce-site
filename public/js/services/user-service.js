@@ -15,6 +15,7 @@ class UserService {
     var userName = localStorage.getItem('userName')
     if (!userName) {
       userName = this.generateRandomUsername()
+      localStorage.setItem('userName', userName)
     }
     return userName
   }

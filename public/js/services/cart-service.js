@@ -1,28 +1,43 @@
 class CartService {
   cartItems = []
 
+  url = 'https://fsdm-pc-parts-ecommerce.onrender.com'
+  //url = 'http://127.0.0.1:5000'
+
+  cartItemsPromise = null
+
   async getCartItems() {
+    if (this.cartItemsPromise) {
+      return this.cartItemsPromise
+    }
+
     if (!this.cartItems.length) {
-      let cartRes = await $.ajax({
-        url: 'http://127.0.0.1:5000/cart', // Replace URL with the prod url
-        type: 'GET',
-        headers: {
-          Authorization: 'Basic ' + btoa(`${userService.getUser()}:`),
-          'Content-Type': 'application/json',
-        },
-        success: () => {
-          // Add success logic if any
-        },
-        error: function (_, status, error) {
-          console.error(
-            'GET request failed with status',
-            status,
-            'and error',
-            error
-          )
-        },
+      this.cartItemsPromise = new Promise(async (resolve) => {
+        const cartRes = await $.ajax({
+          url: `${this.url}/cart`, // Replace URL with the prod url
+          type: 'GET',
+          headers: {
+            Authorization: userService.getAuth(),
+            'Content-Type': 'application/json',
+          },
+          success: () => {
+            // Add success logic if any
+          },
+          error: function (_, status, error) {
+            console.error(
+              'GET request failed with status',
+              status,
+              'and error',
+              error
+            )
+          },
+        })
+
+        this.cartItems = cartRes.cart
+        resolve(this.cartItems)
       })
-      return cartRes.cart
+
+      return this.cartItemsPromise
     }
     return this.cartItems
   }
@@ -50,14 +65,14 @@ class CartService {
 
   async addToCart(id, quantity) {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart/add', // Replace URL with the prod url
+      url: `${this.url}/cart/add`, // Replace URL with the prod url
       type: 'POST',
       data: JSON.stringify({
         product_id: id,
         quantity: quantity,
       }),
       headers: {
-        Authorization: 'Basic ' + btoa(userService.getUser()),
+        Authorization: userService.getAuth(),
         'Content-Type': 'application/json',
       },
       success: () => {
@@ -78,13 +93,13 @@ class CartService {
 
   async setQuantity(id, quantity) {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart/item/' + id, // Replace URL with the prod url
+      url: `${this.url}/cart/item/` + id, // Replace URL with the prod url
       type: 'POST',
       data: JSON.stringify({
         quantity: quantity,
       }),
       headers: {
-        Authorization: 'Basic ' + btoa(userService.getUser()),
+        Authorization: userService.getAuth(),
         'Content-Type': 'application/json',
       },
       success: () => {
@@ -104,10 +119,10 @@ class CartService {
 
   async removeFromCart(id) {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart/item/' + id, // Replace URL with the prod url
+      url: `${this.url}/cart/item/` + id, // Replace URL with the prod url
       type: 'DELETE',
       headers: {
-        Authorization: 'Basic ' + btoa(userService.getUser()),
+        Authorization: userService.getAuth(),
         'Content-Type': 'application/json',
       },
       success: () => {
@@ -128,10 +143,10 @@ class CartService {
 
   async emptyCart() {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart', // Replace URL with the prod url
+      url: `${this.url}/cart`, // Replace URL with the prod url
       type: 'DELETE',
       headers: {
-        Authorization: 'Basic ' + btoa(userService.getUser()),
+        Authorization: userService.getAuth(),
         'Content-Type': 'application/json',
       },
       success: () => {
@@ -152,10 +167,10 @@ class CartService {
 
   async checkout() {
     let response = await $.ajax({
-      url: 'http://127.0.0.1:5000/cart/checkout', // Replace URL with the prod url
+      url: `${this.url}/cart/checkout`, // Replace URL with the prod url
       type: 'POST',
       headers: {
-        Authorization: 'Basic ' + btoa(userService.getUser()),
+        Authorization: userService.getAuth(),
         'Content-Type': 'application/json',
       },
       success: () => {
@@ -177,10 +192,10 @@ class CartService {
   async getOrder(orderID) {
     try {
       let response = await $.ajax({
-        url: 'http://127.0.0.1:5000/order/' + orderID, // Replace URL with the prod url
+        url: `${this.url}/order/` + orderID, // Replace URL with the prod url
         type: 'GET',
         headers: {
-          Authorization: 'Basic ' + btoa(userService.getUser()),
+          Authorization: userService.getAuth(),
           'Content-Type': 'application/json',
         },
         success: () => {

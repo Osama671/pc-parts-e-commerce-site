@@ -19,6 +19,9 @@ class UserService {
     }
     return userName
   }
+  getAuth() {
+    return 'Basic ' + btoa(`${userService.getUser()}:`)
+  }
 }
 
 var userService = new UserService()

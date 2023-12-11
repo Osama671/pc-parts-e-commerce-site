@@ -13,6 +13,9 @@ class PaginatedProducts {
 }
 
 class ProductService {
+  url = 'https://fsdm-pc-parts-ecommerce.onrender.com'
+  //url = 'http://127.0.0.1:5000'
+
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts(pageNumber, category, search)
 
@@ -21,7 +24,7 @@ class ProductService {
 
   async getProduct(id) {
     let output = await $.ajax({
-      url: 'http://127.0.0.1:5000/products/' + id, // Replace URL with the prod url
+      url: `${this.url}/products/` + id, // Replace URL with the prod url
       type: 'GET',
       success: () => {
         // Add success logic if any
@@ -40,7 +43,7 @@ class ProductService {
 
   async getProducts(pageNumber, category, search) {
     let output = await $.ajax({
-      url: `http://127.0.0.1:5000/products?pageNumber=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
+      url: `${this.url}/products?pageNumber=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
       type: 'GET',
       success: () => {
         // Add success logic if any
@@ -85,7 +88,7 @@ class ProductService {
 
   async getFeaturedProducts() {
     let output = await $.ajax({
-      url: 'http://127.0.0.1:5000/products/featured', // Replace URL with the prod url
+      url: `${this.url}/products/featured`, // Replace URL with the prod url
       type: 'GET',
       success: () => {
         // Add success logic if any

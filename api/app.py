@@ -16,11 +16,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # Stops flask.jsonify() from automatically sorting dictionaries.
 app.json.sort_keys = False
 
-# example query
-# example_cursor = db.cursor()
-# example_cursor.execute('SELECT * FROM product')
-# print(example_cursor.fetchall())
-
 
 def create_connection():
     db = mysql.connector.connect(
@@ -29,13 +24,9 @@ def create_connection():
 
 
 def get_user_id():
-    auth_header = request.headers.get('Authorization')
-    auth_header = auth_header.split(" ")
-    decoded_bytes = base64.b64decode(auth_header[1])
-    decoded_string = decoded_bytes.decode('utf-8')
-    if auth_header[0].lower() != 'basic':
+    if request.authorization == None or request.authorization.type != 'basic':
         abort(401)
-    return decoded_string
+    return request.authorization.get('username')
 
 
 @app.route('/products/featured', methods=['GET'])
@@ -60,10 +51,11 @@ def get_featured_products():
     response.status_code = 200
     return response
 
-def get_products_query(search, category, offset):    
+
+def get_products_query(search, category, offset):
     main_query = "SELECT * FROM product"
     count_query = "SELECT COUNT(*) as count FROM product"
-    
+
     filters = []
     params = []
 
@@ -75,14 +67,14 @@ def get_products_query(search, category, offset):
         filters.append('category = %s')
         params.append(category)
 
-
     if len(filters) > 0:
         where_clause = " WHERE " + (" AND ".join(filters))
         main_query += where_clause
         count_query += where_clause
-    
+
     main_query += f" LIMIT 50 OFFSET {offset}"
     return main_query, count_query, tuple(params)
+
 
 @app.route('/products', methods=['GET'])
 @cross_origin()
@@ -97,8 +89,9 @@ def get_products():
     # Calculate OFFSET value based on the page number
     offset = (page - 1) * 50
 
-    main_query, count_query, params = get_products_query(search, category, offset)
-    
+    main_query, count_query, params = get_products_query(
+        search, category, offset)
+
     cursor = db.cursor(dictionary=True)
     # Execute the main query to get product details
     cursor.execute(main_query, params)
@@ -126,6 +119,7 @@ def get_products():
     cursor.close()
     return jsonify(response)
 
+
 @app.route('/products/<int:product_id>', methods=['GET'])
 def get_product(product_id):
     db = create_connection()
@@ -141,7 +135,8 @@ def get_product(product_id):
         response = make_response(json.loads(product_data[0]), 200)
 
     return response
-        
+
+
 @app.route('/cart', methods=['GET'])
 @cross_origin()
 def get_cart():
@@ -192,6 +187,7 @@ def add_to_cart():
     response.status_code = 200
     return response
 
+
 @app.route('/cart/item/<product_id>', methods=['POST'])
 @cross_origin()
 def set_product_quantity(product_id):
@@ -200,17 +196,18 @@ def set_product_quantity(product_id):
     cart_item = request.get_json()
     quantity = cart_item['quantity']
     cursor = db.cursor()
-    cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s', (quantity, user_id, product_id))
+    cursor.execute('UPDATE cart SET quantity = %s WHERE user_id=%s AND product_id=%s',
+                   (quantity, user_id, product_id))
     db.commit()
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
-    output =  cursor.fetchall()
+    output = cursor.fetchall()
     result_list = []
     for row in output:
         result_dict = dict(zip(cursor.column_names, row))
         result_list.append(result_dict)
-    response = jsonify({'cart' : result_list})
+    response = jsonify({'cart': result_list})
     response.status_code = 200
-    
+
     return response
 
 
@@ -220,7 +217,8 @@ def delete_from_cart(product_id):
     user_id = get_user_id()
     db = create_connection()
     cursor = db.cursor()
-    cursor.execute('DELETE from cart WHERE user_id=%s AND product_id=%s', [user_id, product_id])
+    cursor.execute('DELETE from cart WHERE user_id=%s AND product_id=%s', [
+                   user_id, product_id])
     response = []
     db.commit()
     cursor.execute('SELECT * FROM cart WHERE user_id=%s', [user_id])
@@ -229,7 +227,7 @@ def delete_from_cart(product_id):
     for row in output:
         result_dict = dict(zip(cursor.column_names, row))
         result_list.append(result_dict)
-    response = jsonify({'cart' : result_list})
+    response = jsonify({'cart': result_list})
     response.status_code = 200
     return response
 
@@ -314,14 +312,15 @@ def get_order(order_id):
     if not order_data:
         response = make_response({"error": "Order not found"}, 404)
     else:
-        order_items = [{"product_id": item[2], "quantity": item[3]} for item in order_data]
+        order_items = [{"product_id": item[2], "quantity": item[3]}
+                       for item in order_data]
 
         # Create a JSON response
         response_data = {"order": order_items}
         response = jsonify(response_data)
 
     db.close()
-    
+
     return response
 
 

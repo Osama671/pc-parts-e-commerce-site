@@ -7,7 +7,7 @@ class CartService {
         url: 'http://127.0.0.1:5000/cart', // Replace URL with the prod url
         type: 'GET',
         headers: {
-          Authorization: 'Basic ' + btoa(userService.getUser()),
+          Authorization: 'Basic ' + btoa(`${userService.getUser()}:`),
           'Content-Type': 'application/json',
         },
         success: () => {

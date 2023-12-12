@@ -13,25 +13,51 @@ class PaginatedProducts {
 }
 
 class ProductService {
-  async findProducts(category, search, pageNumber, productsPerPage) {
-    let products = await this.getProducts()
+  url = 'https://fsdm-pc-parts-ecommerce.onrender.com'
+  //url = 'http://127.0.0.1:5000'
 
-    products = this.filterProducts(products, category, search)
+  async findProducts(category, search, pageNumber, productsPerPage) {
+    let products = await this.getProducts(pageNumber, category, search)
 
     return this.paginateProducts(products, pageNumber, productsPerPage)
   }
 
   async getProduct(id) {
-    var products = await this.getProducts()
-    return products.find((product) => product.id === id) || null
+    let output = await $.ajax({
+      url: `${this.url}/products/` + id, // Replace URL with the prod url
+      type: 'GET',
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    return output
   }
 
-  async getProducts() {
-    if (!this.products) {
-      this.products = await $.getJSON('/api/products.json')
-    }
-
-    return this.products
+  async getProducts(pageNumber, category, search) {
+    let output = await $.ajax({
+      url: `${this.url}/products?pageNumber=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
+      type: 'GET',
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    return output
   }
 
   renderPrice(price) {
@@ -60,17 +86,30 @@ class ProductService {
     return products
   }
 
-  async getTotalProducts() {
-    let products = await this.getProducts()
-    return this.products.length
+  async getFeaturedProducts() {
+    let output = await $.ajax({
+      url: `${this.url}/products/featured`, // Replace URL with the prod url
+      type: 'GET',
+      success: () => {
+        // Add success logic if any
+      },
+      error: function (_, status, error) {
+        console.error(
+          'GET request failed with status',
+          status,
+          'and error',
+          error
+        )
+      },
+    })
+    return output.products
   }
 
   paginateProducts(products, pageNumber, productsPerPage) {
-    var startingIndex = (pageNumber - 1) * productsPerPage
-    var totalPages = Math.ceil(products.length / productsPerPage)
+    var totalPages = products.total_pages
 
     return new PaginatedProducts(
-      products.slice(startingIndex, startingIndex + productsPerPage),
+      products.products,
       productsPerPage,
       pageNumber,
       totalPages

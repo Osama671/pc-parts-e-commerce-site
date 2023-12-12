@@ -14,38 +14,22 @@ function renderItem(cartElement, product, quantity) {
 
 async function renderSummary() {
   const template = await $.get('/components/order-summary-item.html')
-  products = await cartService.getCartProducts()
-
-  if (products.length < 1) {
+  var urlParams = new URLSearchParams(window.location.search)
+  var orderID = parseInt(urlParams.get('orderID'))
+  $('.order-items').hide()
+  $('.order-id').text(orderID)
+  const order = await cartService.getOrder(orderID)
+  if (order.length == 0) {
     location.replace('/404.html')
   }
-
-  var cart = await cartService.getCartItems()
-  $('.order-id').text(getRandomOrderId())
-  products.forEach((product, i) => {
+  var elementArray = order.map(async (item, i) => {
     const orderItemElement = $.parseHTML(template)
-    renderItem(orderItemElement, product, cart[i].quantity)
+    const product = await productService.getProduct(item.product_id)
+    renderItem(orderItemElement, product, item.quantity)
     $('.order-items').append(orderItemElement)
   })
-  cartService.emptyCart()
-}
-
-function getRandomOrderId() {
-  // Function to generate a random capital letter
-  function getRandomLetter() {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    return alphabet[Math.floor(Math.random() * alphabet.length)]
-  }
-
-  // Function to generate a random digit
-  function getRandomDigit() {
-    return Math.floor(Math.random() * 10)
-  }
-
-  return [
-    ...Array(4).fill(null).map(getRandomDigit),
-    ...Array(6).fill(null).map(getRandomLetter),
-  ].join('')
+  await Promise.all(elementArray)
+  $('.order-items').show()
 }
 
 renderSummary()

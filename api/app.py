@@ -28,29 +28,6 @@ def get_user_id():
     return request.authorization.get('username')
 
 
-@app.route('/products/featured', methods=['GET'])
-def get_featured_products():
-    db = create_connection()
-    c_featuredProducts = db.cursor(dictionary=True)
-
-    c_featuredProducts.execute(
-        'SELECT details FROM product ORDER  BY RAND() LIMIT 4')
-    details_data = c_featuredProducts.fetchall()
-
-    c_featuredProducts.close()
-    response_data = {"products": []}
-
-    for index, details in enumerate(details_data, start=1):
-        product_details = json.loads(
-            details["details"]) if details["details"] else {}
-
-        response_data["products"].append(product_details)
-
-    response = jsonify(response_data)
-    response.status_code = 200
-    return response
-
-
 def get_products_query(search, category, offset):
     main_query = "SELECT * FROM product"
     count_query = "SELECT COUNT(*) as count FROM product"
@@ -73,6 +50,29 @@ def get_products_query(search, category, offset):
 
     main_query += f" LIMIT 50 OFFSET {offset}"
     return main_query, count_query, tuple(params)
+
+
+@app.route('/products/featured', methods=['GET'])
+def get_featured_products():
+    db = create_connection()
+    c_featuredProducts = db.cursor(dictionary=True)
+
+    c_featuredProducts.execute(
+        'SELECT details FROM product ORDER  BY RAND() LIMIT 4')
+    details_data = c_featuredProducts.fetchall()
+
+    c_featuredProducts.close()
+    response_data = {"products": []}
+
+    for index, details in enumerate(details_data, start=1):
+        product_details = json.loads(
+            details["details"]) if details["details"] else {}
+
+        response_data["products"].append(product_details)
+
+    response = jsonify(response_data)
+    response.status_code = 200
+    return response
 
 
 @app.route('/products', methods=['GET'])

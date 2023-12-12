@@ -83,11 +83,6 @@ async function getCart() {
       cartService.emptyCart()
       cartService.updateTotal()
     })
-    $('.btn-checkout').click(async (e) => {
-      e.preventDefault()
-      var orderID = await cartService.checkout()
-      location.replace(`./success?orderID=${orderID}`)
-    })
     await renderCart()
     cartService.updateTotal()
   }
@@ -120,14 +115,17 @@ cartService.onUpdateCart(() => {
 })
 
 //Confirm Payment extra validation on top of credit card library validation
-$('#confirmpayment').on('click', function () {
+$('#confirmpayment').on('click', async function () {
   if (
     $('.card-number').val().length < 19 ||
     $('.cvc').val().length < 3 ||
     $('.expiry').val().length < 7 ||
     $('#the-card-name-id').val().length < 2
-  )
-    return false
+  ) {
+    var orderID = await cartService.checkout()
+    location.replace(`./success?orderID=${orderID}`)
+  }
+  return false
 })
 
 getCart()

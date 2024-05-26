@@ -1,0 +1,21 @@
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: fsdm
+      MYSQL_PASSWORD: fsdm
+      MYSQL_DATABASE: pc_shop
+    ports:
+      - 3306:3306
+  flask:
+    build:
+      dockerfile: flask.Dockerfile
+      context: .
+    environment:
+      DB_HOST: db
+      DB_USER: fsdm
+      DB_PASSWORD: fsdm
+      DB_NAME: pc_shop
+    ports:
+      - 8000:8000

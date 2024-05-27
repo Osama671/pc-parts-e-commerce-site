@@ -58,7 +58,7 @@ jobs:
             IdentityFile ~/.ssh/id
             StrictHostKeyChecking no" > ~/.ssh/config
 
-      - name: Test ssh
+      - name: Deploy
         run: |
           patch="{
             \"spec\": {

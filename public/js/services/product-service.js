@@ -13,8 +13,7 @@ class PaginatedProducts {
 }
 
 class ProductService {
-  url = 'https://fsdm-pc-parts-ecommerce.onrender.com'
-  //url = 'http://127.0.0.1:5000'
+  url = 'https://fsdm-pc-shop-v1.georgevm.com'
 
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts(pageNumber, category, search)

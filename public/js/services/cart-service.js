@@ -1,8 +1,7 @@
 class CartService {
   cartItems = []
 
-  url = 'https://fsdm-pc-parts-ecommerce.onrender.com'
-  //url = 'http://127.0.0.1:5000'
+  url = 'https://fsdm-pc-shop-v1.georgevm.com'
 
   cartItemsPromise = null
 

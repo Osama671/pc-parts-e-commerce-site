@@ -6,8 +6,8 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY public public
-COPY api/ .
+COPY server/v1/ .
+COPY server/content/products.json server/content/products.json
 
 EXPOSE 8000
 

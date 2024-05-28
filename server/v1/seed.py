@@ -14,7 +14,7 @@ try:
     cursor.execute("SELECT * FROM product LIMIT 1")
     cursor.fetchall()
 except:
-    with open('public/api/products.json', 'r') as file:
+    with open('server/content/products.json', 'r') as file:
         # Load the JSON data from the file
         data = json.load(file)
         cursor = db.cursor()

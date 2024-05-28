@@ -7,21 +7,34 @@
     "node": ">= 18"
   },
   "scripts": {
-    "start": "node --watch server/index.js",
+    "start:web": "vite",
+    "start:server": "node --watch server/index.js",
+    "build:web": "vite build",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+    "lint": "eslint web server --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
   "author": "FSDM S23 Group 3",
   "license": "Unlicense",
   "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
     "http-server": "^14.1.1",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
-    "prettier": "3.0.3"
+    "prettier": "3.0.3",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "vite": "^5.2.0"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

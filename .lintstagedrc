@@ -1,3 +1,4 @@
 {
-  "*.{js,json,html,css,prettierrc,lintstagedrc}": "npm run format"
+  "*.{js,json,html,css,prettierrc,lintstagedrc}": "npm run format",
+  "{src,server}/*": "npm run lint"
 }

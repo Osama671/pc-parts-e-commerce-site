@@ -17,7 +17,7 @@ async function loadReview(reviews) {
     )
     return
   }
-  const template = await $.get('/components/reviews.html')
+  const template = await $.get('components/reviews.html')
   reviews.forEach((review) => {
     const reviewElement = $.parseHTML(template)
     populateReview(reviewElement, review.username, review.rating, review.review)
@@ -104,7 +104,7 @@ function toastFail(message) {
 }
 
 async function loadImages(image, alt_images) {
-  const template = await $.get('/components/carousel-items.html')
+  const template = await $.get('components/carousel-items.html')
   let allImages = [image]
   alt_images.forEach((image) => {
     allImages.push(image)

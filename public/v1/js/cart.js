@@ -5,7 +5,7 @@ function populateCart(cartElement, product, quantity) {
   $(cartElement)
     .find('.product-link')
     .each(function () {
-      $(this).attr('href', `/product?id=${product.id}`)
+      $(this).attr('href', `/v1/product?id=${product.id}`)
     })
   $(cartElement).find('.image-placeholder').attr('src', product.image)
   $(cartElement).find('.product-name').html(product.name)
@@ -59,7 +59,7 @@ function populateCart(cartElement, product, quantity) {
 }
 
 async function renderCart() {
-  const template = await $.get('/components/cart-items.html')
+  const template = await $.get('components/cart-items.html')
   products = await cartService.getCartProducts()
   var cart = await cartService.getCartItems()
   products.forEach((product, i) => {

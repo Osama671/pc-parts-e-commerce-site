@@ -1,7 +1,7 @@
 const productsPerPage = 50
 async function loadProducts(category = '', search = '', pageNumber = 1) {
   const productPlaceholder = await $.get(
-    '/components/products-placeholder.html'
+    '/v1/components/products-placeholder.html'
   )
   $('#placeholder-product').append(productPlaceholder)
   $('#products-list').hide()
@@ -21,7 +21,7 @@ async function loadProducts(category = '', search = '', pageNumber = 1) {
 }
 
 async function displayProducts(products) {
-  const productTemplate = await $.get('/components/product-list.html')
+  const productTemplate = await $.get('components/product-list.html')
   products.forEach((product) =>
     generateColumn(
       productTemplate,
@@ -83,7 +83,7 @@ function generateColumn(template, id, imgURL, Title, price) {
   $(productList)
     .find('.product-link')
     .each(function () {
-      $(this).attr('href', `/product?id=${id}`)
+      $(this).attr('href', `/v1/product?id=${id}`)
     })
   $(productList).find('.product-price').text(productService.renderPrice(price))
 

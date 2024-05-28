@@ -2,8 +2,12 @@
   "name": "pc-parts-e-commerce-site",
   "version": "1.0.0",
   "description": "A sample e-commerce website made with HTML, CSS, JS, jQuery and Bootstrap",
+  "type": "module",
+  "engines": {
+    "node": ">= 18"
+  },
   "scripts": {
-    "start": "http-server public -c-1",
+    "start": "node --watch server/index.js",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "lint-staged": "lint-staged",
@@ -16,5 +20,8 @@
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "3.0.3"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
   }
 }

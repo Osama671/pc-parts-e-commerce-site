@@ -34,15 +34,15 @@
       crossorigin="anonymous"
     ></script>
 
-    <link rel="stylesheet" href="css/index.css" />
-    <link href="css/home.css" rel="stylesheet" />
-    <link href="css/common.css" rel="stylesheet" />
-    <script src="/js/services/user-service.js"></script>
-    <script defer src="/js/services/cart-service.js"></script>
-    <script defer src="/js/services/product-service.js"></script>
-    <script defer src="/js/common.js"></script>
-    <script defer src="/js/home.js"></script>
-    <script defer src="/js/index.js"></script>
+    <link rel="stylesheet" href="/v1/css/index.css" />
+    <link href="/v1/css/home.css" rel="stylesheet" />
+    <link href="/v1/css/common.css" rel="stylesheet" />
+    <script src="js/services/user-service.js"></script>
+    <script defer src="js/services/cart-service.js"></script>
+    <script defer src="js/services/product-service.js"></script>
+    <script defer src="js/common.js"></script>
+    <script defer src="js/home.js"></script>
+    <script defer src="js/index.js"></script>
   </head>
   <body>
     <header></header>
@@ -69,38 +69,53 @@
       <div class="fs-2 fw-medium my-3">Browse By Category</div>
       <div class="p-3 d-flex flex-row overflow-x-auto text-center">
         <a
-          href="/products"
+          href="/v1/products"
           class="col-3 col-md-2 d-flex flex-column align-items-center justify-content-center fs-4 p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
         >
           All
         </a>
         <a
-          href="/products?category=cpu"
-          class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
-        >
-          <img src="img/home/c-icons/cpu.png" class="c-icon" alt="" srcset="" />
-          CPU
-        </a>
-        <a
-          href="/products?category=gpu"
-          class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
-        >
-          <img src="img/home/c-icons/GPU.png" class="c-icon" alt="" srcset="" />
-          GPU
-        </a>
-        <a
-          href="/products?category=memory"
-          class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
-        >
-          <img src="img/home/c-icons/ram.png" class="c-icon" alt="" srcset="" />
-          Memory
-        </a>
-        <a
-          href="/products?category=cases"
+          href="/v1/products?category=cpu"
           class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
         >
           <img
-            src="img/home/c-icons/cases.png"
+            src="/img/home/c-icons/cpu.png"
+            class="c-icon"
+            alt=""
+            srcset=""
+          />
+          CPU
+        </a>
+        <a
+          href="/v1/products?category=gpu"
+          class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
+        >
+          <img
+            src="/img/home/c-icons/GPU.png"
+            class="c-icon"
+            alt=""
+            srcset=""
+          />
+          GPU
+        </a>
+        <a
+          href="/v1/products?category=memory"
+          class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
+        >
+          <img
+            src="/img/home/c-icons/ram.png"
+            class="c-icon"
+            alt=""
+            srcset=""
+          />
+          Memory
+        </a>
+        <a
+          href="/v1/products?category=cases"
+          class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
+        >
+          <img
+            src="/img/home/c-icons/cases.png"
             class="c-icon"
             alt=""
             srcset=""
@@ -108,11 +123,11 @@
           Cases
         </a>
         <a
-          href="/products?category=storage"
+          href="/v1/products?category=storage"
           class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
         >
           <img
-            src="img/home/c-icons/storage.png"
+            src="/img/home/c-icons/storage.png"
             class="c-icon"
             alt=""
             srcset=""
@@ -120,11 +135,11 @@
           Storage
         </a>
         <a
-          href="/products?category=power"
+          href="/v1/products?category=power"
           class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
         >
           <img
-            src="img/home/c-icons/power.png"
+            src="/img/home/c-icons/power.png"
             class="c-icon"
             alt=""
             srcset=""
@@ -132,11 +147,11 @@
           Power
         </a>
         <a
-          href="/products?category=monitor"
+          href="/v1/products?category=monitor"
           class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
         >
           <img
-            src="img/home/c-icons/monitor.png"
+            src="/img/home/c-icons/monitor.png"
             class="c-icon"
             alt=""
             srcset=""
@@ -144,11 +159,11 @@
           Monitor
         </a>
         <a
-          href="/products?category=accessories"
+          href="/v1/products?category=accessories"
           class="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
         >
           <img
-            src="img/home/c-icons/keyboard.png"
+            src="/img/home/c-icons/keyboard.png"
             class="c-icon"
             alt=""
             srcset=""
@@ -180,7 +195,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <img src="img/home/ad.png" class="w-75 rounded" alt="" />
+        <img src="/img/home/ad.png" class="w-75 rounded" alt="" />
       </div>
     </div>
     <footer></footer>

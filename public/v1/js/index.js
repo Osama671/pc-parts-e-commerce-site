@@ -7,7 +7,7 @@ async function getProduct() {
 }
 
 async function displayProducts(products) {
-  const productTemplate = await $.get('/components/featured-products.html')
+  const productTemplate = await $.get('components/featured-products.html')
   generateColumn(
     productTemplate,
     products.id,
@@ -24,7 +24,7 @@ function generateColumn(template, id, imgURL, Title, price) {
   $(productList)
     .find('.product-link')
     .each(function () {
-      $(this).attr('href', `/product?id=${id}`)
+      $(this).attr('href', `/v1/product?id=${id}`)
     })
   $(productList).find('.product-price').text(productService.renderPrice(price))
 

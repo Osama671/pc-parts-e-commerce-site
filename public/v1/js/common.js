@@ -8,7 +8,7 @@ async function updateCart() {
 }
 
 async function setUpNavbar() {
-  $('header').load('/components/navbar.html', function () {
+  $('header').load('components/navbar.html', function () {
     cartService.onUpdateCart(updateCart)
     updateCart()
   })
@@ -29,7 +29,7 @@ async function setUpNavbar() {
 }
 
 function setUpFooter() {
-  $('footer').load('/components/footer.html')
+  $('footer').load('components/footer.html')
 }
 
 setUpNavbar()

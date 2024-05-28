@@ -2,7 +2,7 @@ function renderItem(cartElement, product, quantity) {
   $(cartElement)
     .find('.product-link')
     .each(function () {
-      $(this).attr('href', `/product?id=${product.id}`)
+      $(this).attr('href', `/v1/product?id=${product.id}`)
     })
   $(cartElement).find('.image-placeholder').attr('src', product.image)
   $(cartElement).find('.product-name').html(product.name)
@@ -13,7 +13,7 @@ function renderItem(cartElement, product, quantity) {
 }
 
 async function renderSummary() {
-  const template = await $.get('/components/order-summary-item.html')
+  const template = await $.get('components/order-summary-item.html')
   var urlParams = new URLSearchParams(window.location.search)
   var orderID = parseInt(urlParams.get('orderID'))
   $('.order-items').hide()

@@ -88,16 +88,9 @@ jobs:
       - name: Deploy v1
         run: |
           patch="{
-            \"spec\": {
-              \"template\": {
-                \"spec\": {
-                  \"containers\": [
-                    {
-                      \"name\": \"server-v1\",
-                      \"image\": \"${{ secrets.DOCKERHUB_REPO }}:v1\"
-                    }
-                  ]
-                }
+            \"metadata\": {
+              \"annotations\": {
+                \"deployment_version\":\"${{ steps.build-and-push-v1.outputs.digest }}\"
               }
             }
           }"
@@ -141,16 +134,9 @@ jobs:
       - name: Deploy v2
         run: |
           patch="{
-            \"spec\": {
-              \"template\": {
-                \"spec\": {
-                  \"containers\": [
-                    {
-                      \"name\": \"server-v2\",
-                      \"image\": \"${{ secrets.DOCKERHUB_REPO }}:latest\"
-                    }
-                  ]
-                }
+            \"metadata\": {
+              \"annotations\": {
+                \"deployment_version\":\"${{ steps.build-and-push-v2.outputs.digest }}\"
               }
             }
           }"

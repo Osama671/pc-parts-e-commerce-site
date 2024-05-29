@@ -19,3 +19,9 @@ services:
       DB_NAME: pc_shop
     ports:
       - 8000:8000
+  app:
+    build:
+      dockerfile: .
+      context: .
+    ports:
+      - 8080:8080

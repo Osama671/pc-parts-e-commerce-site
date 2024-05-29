@@ -5,5 +5,6 @@
   "files.eol": "\n",
   "[python]": {
     "editor.defaultFormatter": "ms-python.autopep8"
-  }
+  },
+  "javascript.preferences.importModuleSpecifierEnding": "js"
 }

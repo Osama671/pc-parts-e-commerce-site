@@ -1,5 +1,5 @@
 import { createServer } from 'vite'
-import './index.js'
+import './app.js'
 
 const vite = await createServer()
 vite.listen(3000)

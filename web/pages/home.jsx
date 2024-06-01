@@ -26,41 +26,41 @@ export function Home() {
         <div className="fs-2 fw-medium my-3">Browse By Category</div>
         <div className="p-3 d-flex flex-row overflow-x-auto text-center">
           <a
-            href="/v1/products"
+            href="/products"
             className="col-3 col-md-2 d-flex flex-column align-items-center justify-content-center fs-4 p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             All
           </a>
           <a
-            href="/v1/products?category=cpu"
+            href="/products?category=cpu"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img src="/img/home/c-icons/cpu.png" className="c-icon" alt="" />
             CPU
           </a>
           <a
-            href="/v1/products?category=gpu"
+            href="/products?category=gpu"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img src="/img/home/c-icons/GPU.png" className="c-icon" alt="" />
             GPU
           </a>
           <a
-            href="/v1/products?category=memory"
+            href="/products?category=memory"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img src="/img/home/c-icons/ram.png" className="c-icon" alt="" />
             Memory
           </a>
           <a
-            href="/v1/products?category=cases"
+            href="/products?category=cases"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img src="/img/home/c-icons/cases.png" className="c-icon" alt="" />
             Cases
           </a>
           <a
-            href="/v1/products?category=storage"
+            href="/products?category=storage"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img
@@ -71,14 +71,14 @@ export function Home() {
             Storage
           </a>
           <a
-            href="/v1/products?category=power"
+            href="/products?category=power"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img src="/img/home/c-icons/power.png" className="c-icon" alt="" />
             Power
           </a>
           <a
-            href="/v1/products?category=monitor"
+            href="/products?category=monitor"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img
@@ -89,7 +89,7 @@ export function Home() {
             Monitor
           </a>
           <a
-            href="/v1/products?category=accessories"
+            href="/products?category=accessories"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
             <img

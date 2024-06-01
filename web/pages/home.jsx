@@ -1,5 +1,3 @@
-import { Fragment } from 'react'
-
 export function Home() {
   return (
     <>
@@ -37,48 +35,28 @@ export function Home() {
             href="/v1/products?category=cpu"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
-            <img
-              src="/img/home/c-icons/cpu.png"
-              className="c-icon"
-              alt=""
-              srcset=""
-            />
+            <img src="/img/home/c-icons/cpu.png" className="c-icon" alt="" />
             CPU
           </a>
           <a
             href="/v1/products?category=gpu"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
-            <img
-              src="/img/home/c-icons/GPU.png"
-              className="c-icon"
-              alt=""
-              srcset=""
-            />
+            <img src="/img/home/c-icons/GPU.png" className="c-icon" alt="" />
             GPU
           </a>
           <a
             href="/v1/products?category=memory"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
-            <img
-              src="/img/home/c-icons/ram.png"
-              className="c-icon"
-              alt=""
-              srcset=""
-            />
+            <img src="/img/home/c-icons/ram.png" className="c-icon" alt="" />
             Memory
           </a>
           <a
             href="/v1/products?category=cases"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
-            <img
-              src="/img/home/c-icons/cases.png"
-              className="c-icon"
-              alt=""
-              srcset=""
-            />
+            <img src="/img/home/c-icons/cases.png" className="c-icon" alt="" />
             Cases
           </a>
           <a
@@ -89,7 +67,6 @@ export function Home() {
               src="/img/home/c-icons/storage.png"
               className="c-icon"
               alt=""
-              srcset=""
             />
             Storage
           </a>
@@ -97,12 +74,7 @@ export function Home() {
             href="/v1/products?category=power"
             className="col-3 col-md-2 d-flex flex-column align-items-center p-2 mx-1 border text-decoration-none text-light bg-sdown-dark rounded-4"
           >
-            <img
-              src="/img/home/c-icons/power.png"
-              className="c-icon"
-              alt=""
-              srcset=""
-            />
+            <img src="/img/home/c-icons/power.png" className="c-icon" alt="" />
             Power
           </a>
           <a
@@ -113,7 +85,6 @@ export function Home() {
               src="/img/home/c-icons/monitor.png"
               className="c-icon"
               alt=""
-              srcset=""
             />
             Monitor
           </a>
@@ -125,7 +96,6 @@ export function Home() {
               src="/img/home/c-icons/keyboard.png"
               className="c-icon"
               alt=""
-              srcset=""
             />
             Accessories
           </a>

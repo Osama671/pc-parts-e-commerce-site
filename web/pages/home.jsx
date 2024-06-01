@@ -103,16 +103,6 @@ export function Home() {
       </div>
 
       <div className="container-fluid bg-sup-dark p-3 d-flex flex-column justify-content-center align-items-center">
-        <div
-          id="featured"
-          className="container d-flex flex-column bg-sup-dark align-items-center m-5"
-        >
-          <p className="text-light fs-2 fw-bold">Featured Products</p>
-          <p className="text-light fs-3 text-center">
-            Hurry up! Our best products are running out!
-          </p>
-        </div>
-
         <div className="d-flex justify-content-center">
           <img src="/img/home/ad.png" className="w-75 rounded" alt="" />
         </div>

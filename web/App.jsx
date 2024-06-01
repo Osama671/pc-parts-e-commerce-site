@@ -5,12 +5,12 @@ import { Home } from './pages/home.jsx'
 
 const router = createBrowserRouter([
   {
-    path: '*',
-    element: <FourOhFour />,
-  },
-  {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '*',
+    element: <FourOhFour />,
   },
 ])
 

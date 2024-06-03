@@ -2,7 +2,7 @@ import express from 'express'
 import staticRouter from './router/static.js'
 import { seedProducts } from './db/products.js'
 
-await seedProducts()
+seedProducts()
 
 const app = express()
 const port = 8080

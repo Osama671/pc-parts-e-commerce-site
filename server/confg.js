@@ -11,16 +11,4 @@ if (isDev) {
   )
 }
 
-export const mongoUri = getMandatoryEnv('MONGO_URI')
-
-function getMandatoryEnv(name) {
-  const value = process.env[name]
-
-  if (!value) {
-    throw new Error(
-      `Environment variable '${name}' is not defined but is mandatory`
-    )
-  }
-
-  return value
-}
+export const mongoUri = process.env['MONGO_URI']

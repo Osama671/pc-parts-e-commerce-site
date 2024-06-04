@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import * as productsRepository from '../repositories/products.repository.js'
 
 export async function getFeatured() {

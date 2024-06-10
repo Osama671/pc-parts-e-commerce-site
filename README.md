@@ -1,3 +1,5 @@
+Live site: [fsdm-pc-shop.georgevm.com](https://fsdm-pc-shop.georgevm.com/)
+
 # Developer setup
 
 ### Install Node.js

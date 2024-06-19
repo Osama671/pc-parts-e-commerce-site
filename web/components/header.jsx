@@ -1,4 +1,9 @@
+import { useContext } from 'react'
+import { CartContext } from '../context/CartContext.jsx'
+
 const Header = () => {
+  const cartContext = useContext(CartContext)
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary text-light">
       <div className="container-fluid">
@@ -11,13 +16,16 @@ const Header = () => {
         <div id="navbar-cart" className="me-4">
           <a href="/v1/cart.html" style={{ position: 'relative' }}>
             <i className="bi bi-cart2 text-light fs-2"></i>
-            <span
-              id="cart-count"
-              style={{ display: 'none' }}
-              className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
-            >
-              0
-            </span>
+            {cartContext.cartCount > 0 ? (
+              <span
+                id="cart-count"
+                className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+              >
+                {cartContext.cartCount}
+              </span>
+            ) : (
+              <></>
+            )}
           </a>
         </div>
       </div>

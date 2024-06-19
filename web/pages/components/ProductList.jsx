@@ -1,4 +1,4 @@
-export default function ProductList( {id, img, productName, price }) {
+export default function ProductList({ id, img, productName, price }) {
   return (
     <>
       <div className="col">
@@ -9,13 +9,17 @@ export default function ProductList( {id, img, productName, price }) {
           >
             <div
               className="overflow-hidden d-flex justify-content-center p-1"
-              style={{aspectRatio: "1 / 1", backgroundColor: "#fff"}}
+              style={{ aspectRatio: '1 / 1', backgroundColor: '#fff' }}
             >
               {/* img dimensions adjusted here */}
               <img
                 className="image-placeholder img-fluid"
                 src={img}
-                style={ {maxWidth: "100%", height: "100%", objectFit: "contain"} }
+                style={{
+                  maxWidth: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
                 alt="Product Image"
               />
             </div>

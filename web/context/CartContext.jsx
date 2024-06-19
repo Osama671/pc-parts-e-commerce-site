@@ -19,8 +19,7 @@ const CartContextComponent = () => {
     fetch('https://fsdm-pc-shop-v1.georgevm.com/cart', { headers })
       .then((response) => response.json())
       .then((data) => {
-        setCart(data.cart)
-        setCartCount(data.cart.length)
+        updateCart(data.cart)
       })
   }, [])
 

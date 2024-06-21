@@ -14,3 +14,11 @@ export async function updateProducts(products) {
     )
   }
 }
+
+export async function getProducts(limit, skip) {
+  return productsCollection.find().limit(limit).skip(skip).toArray()
+}
+
+export async function getProductById(productId) {
+  return productsCollection.findOne({ id: parseInt(productId) })
+}

@@ -9,8 +9,12 @@ export async function searchProducts() {
   return []
 }
 
-export async function getProductById() {
-  return {}
+export async function getProductById(productId) {
+  return productsRepository.getProductById(productId)
+}
+
+export async function getProducts(limit, skip) {
+  return productsRepository.getProducts(limit, skip)
 }
 
 export async function seedProducts() {

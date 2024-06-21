@@ -16,14 +16,14 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: '/cart',
+        element: <Cart />,
+      },
+      {
         path: '*',
         element: <FourOhFour />,
       },
     ],
-  },
-  {
-    path: '/cart',
-    element: <Cart />,
   },
 ])
 

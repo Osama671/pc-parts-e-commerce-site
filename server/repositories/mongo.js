@@ -1,11 +1,19 @@
-import { MongoClient, MongoServerSelectionError } from 'mongodb'
+import {
+  MongoClient,
+  MongoServerSelectionError,
+  MongoTopologyClosedError,
+} from 'mongodb'
 import { isDev, mongoUri } from '../confg.js'
 import process from 'node:process'
 
 const client = new MongoClient(mongoUri)
 
 process.on('uncaughtException', (error) => {
-  if (error instanceof MongoServerSelectionError && isDev) {
+  if (
+    (error instanceof MongoServerSelectionError ||
+      error instanceof MongoTopologyClosedError) &&
+    isDev
+  ) {
     console.error('Error connecting to Mongo')
     console.error(error.message)
     return

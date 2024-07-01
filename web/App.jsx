@@ -3,6 +3,7 @@ import './App.css'
 import './css/common.css'
 import { FourOhFour } from './pages/404.jsx'
 import { Home } from './pages/home.jsx'
+import Product from './pages/product.jsx'
 import CartContextComponent from './context/CartContext.jsx'
 
 const router = createBrowserRouter([
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/product/:id',
+        element: <Product />,
       },
       {
         path: '*',

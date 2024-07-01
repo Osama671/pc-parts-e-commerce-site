@@ -13,7 +13,7 @@ const Description = ({ product }) => {
           dangerouslySetInnerHTML={{ __html: product.description }}
         ></p>
         {/* Product price */}
-        <p className="price">{product.price}</p>
+        <p className="price fw-bold fs-4">C${product.price}</p>
         {/* Stock count */}
         <p className="stockCount">{product.stock} left in stock</p>
         {/* Quantity selector and Add to Cart */}

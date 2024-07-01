@@ -3,12 +3,12 @@ import ReviewsSection from './ReviewSection.jsx'
 import '../../css/product.css'
 const ProductContainer = ({ product }) => {
   return (
-    <div className="container-fluid d-flex mt-3" id="productContainer">
+    <div className="container d-flex mt-3" id="productContainer">
       <div className="row  ">
-        <div className="img-container col-md-6 col-sm-12 text-center ">
+        <div className="col-md-6 col-sm-12 text-center">
           <div
             id="carouselExampleIndicators"
-            className="carousel slide "
+            className="carousel slide"
             data-bs-ride="carousel"
           >
             <div className="carousel-indicators">

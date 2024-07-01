@@ -1,14 +1,21 @@
-.square_aspectRation {
-  aspect-ratio: 1/1 !important;
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
-.img-fit {
-  object-fit: contain !important;
-  width: 100% !important;
-  height: 100% !important;
+.carousel-inner::before {
+  content: '';
+  display: block;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
 }
 
-.carousel-item img {
-  object-fit: contain !important;
+.carousel-item,
+.carousel-inner img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
 }

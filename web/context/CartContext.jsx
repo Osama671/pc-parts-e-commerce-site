@@ -5,11 +5,15 @@ import { getAuth } from '../utils/auth.js'
 export const CartContext = createContext()
 
 const CartContextComponent = () => {
-  const [cart, setCart] = useState([])
-  const [cartCount, setCartCount] = useState(0)
+  const [cart, setCart] = useState({
+    products: [],
+    length: 0,
+  })
   const updateCart = (cart) => {
-    setCart(cart)
-    setCartCount(cart.length)
+    setCart({
+      products: cart,
+      length: cart.length,
+    })
   }
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const CartContextComponent = () => {
   }, [])
 
   return (
-    <CartContext.Provider value={{ cartCount, cart, updateCart }}>
+    <CartContext.Provider value={{ cart, updateCart }}>
       <Layout />
     </CartContext.Provider>
   )

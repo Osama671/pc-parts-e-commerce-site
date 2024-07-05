@@ -1,10 +1,9 @@
 import { createContext, useEffect, useState } from 'react'
-import Layout from '../components/layout.jsx'
 import { getAuth } from '../utils/auth.js'
 
 export const CartContext = createContext()
 
-const CartContextComponent = () => {
+const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({
     products: [],
     length: 0,
@@ -29,9 +28,9 @@ const CartContextComponent = () => {
 
   return (
     <CartContext.Provider value={{ cart, updateCart }}>
-      <Layout />
+      {children}
     </CartContext.Provider>
   )
 }
 
-export default CartContextComponent
+export default CartProvider

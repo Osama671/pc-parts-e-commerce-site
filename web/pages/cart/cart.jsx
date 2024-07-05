@@ -5,17 +5,17 @@ import Loader from '../../components/loader.jsx'
 import cartService from '../../services/cart.service.js'
 import { parsePrice } from '../../utils/currency.js'
 
-const CartItem = ({ product }) => {
-  const item = product.product
-  const quantity = product.quantity
+const CartItem = ({ item }) => {
+  const { removeItem } = useContext(CartContext)
+  const quantity = item.quantity
   return (
     <li className="product-item list-group-item d-flex justify-content-between align-items-center">
       <div className="product-details">
         <div className="d-flex justify-content-between align-items-center">
-          <img src={item.image} className="image-placeholder" />
+          <img src={item.product.image} className="image-placeholder" />
           <div className="product">
-            <a className="product-link" href={`/product/${item.id}`}>
-              <p className="product-name">{item.name}</p>
+            <a className="product-link" href={`/product/${item.product.id}`}>
+              <p className="product-name">{item.product.name}</p>
             </a>
 
             <div className="quantity-selector">
@@ -36,14 +36,19 @@ const CartItem = ({ product }) => {
             </div>
           </div>
         </div>
-        <i className="bi bi-x remove-product"></i>
-        <div className="item-price">{parsePrice(item.price * quantity)}</div>
+        <i
+          className="bi bi-x remove-product"
+          onClick={() => removeItem(item)}
+        ></i>
+        <div className="item-price">
+          {parsePrice(item.product.price * quantity)}
+        </div>
       </div>
     </li>
   )
 }
 
-const Summary = ({ cartProducts }) => {
+const Summary = ({ cart }) => {
   return (
     <div className="col-12 col-md-4 cart-total">
       <div className="summary-container">
@@ -53,11 +58,11 @@ const Summary = ({ cartProducts }) => {
           <tbody>
             <tr>
               <td>Subtotal</td>
-              <td className="subtotal">{parsePrice(cartProducts.subTotal)}</td>
+              <td className="subtotal">{parsePrice(cart.subTotal)}</td>
             </tr>
             <tr>
               <td>Taxes</td>
-              <td className="taxes">{parsePrice(cartProducts.taxes)}</td>
+              <td className="taxes">{parsePrice(cart.taxes)}</td>
             </tr>
           </tbody>
         </table>
@@ -69,7 +74,7 @@ const Summary = ({ cartProducts }) => {
               <td>
                 <strong>Total</strong>
               </td>
-              <td className="total">{parsePrice(cartProducts.total)}</td>
+              <td className="total">{parsePrice(cart.total)}</td>
             </tr>
           </tbody>
         </table>
@@ -84,28 +89,8 @@ const Summary = ({ cartProducts }) => {
 }
 
 const Cart = () => {
-  const { cart } = useContext(CartContext)
-  const [isLoading, setIsLoading] = useState(true)
-  const [cartProducts, setCartProducts] = useState({
-    products: [],
-    subTotal: 0,
-    taxes: 0,
-    total: 0,
-  })
-  useEffect(() => {
-    async function fetchProducts() {
-      setIsLoading(true)
-      const products = await cartService.getCartProducts(cart.products)
-      setCartProducts({
-        products: products,
-        subTotal: products.subTotal,
-        taxes: products.taxes,
-        total: products.total,
-      })
-      setIsLoading(false)
-    }
-    fetchProducts()
-  }, [cart])
+  const { cart, isLoading } = useContext(CartContext)
+
   return (
     <>
       <div className="container title-container py-3">
@@ -119,17 +104,17 @@ const Cart = () => {
                 <Loader />
               ) : (
                 <>
-                  {cartProducts.products.map((product, index) => (
-                    <CartItem key={index} product={product} />
+                  {cart.items.map((item) => (
+                    <CartItem key={item.id} item={item} />
                   ))}
                 </>
               )}
             </ul>
           </div>
-          {cart.length > 0 && <Summary cartProducts={cartProducts} />}
+          {cart.items.length > 0 && <Summary cart={cart} />}
         </div>
       </div>
-      {cart.length === 0 && (
+      {cart.items.length === 0 && (
         <div className="empty-cart-logo">
           <img src="/img/emptyCart.jpg" alt="empty-cart" />
           <div className="text-center">Your Cart is empty</div>

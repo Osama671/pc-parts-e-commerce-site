@@ -14,16 +14,18 @@ class CartService {
     }
 
     if (!this.cartItems.length) {
-      this.cartItemsPromise = new Promise(async (resolve) => {
-        const cartRes = await $.ajax({
+      this.cartItemsPromise = new Promise((resolve) => {
+        $.ajax({
           url: `${this.url}/cart`, // Replace URL with the prod url
           type: 'GET',
           headers: {
             Authorization: userService.getAuth(),
             'Content-Type': 'application/json',
           },
-          success: () => {
-            // Add success logic if any
+          success: (cartRes) => {
+            this.cartItems = cartRes.cart
+            resolve(this.cartItems)
+            this.cartItemsPromise = null
           },
           error: function (_, status, error) {
             console.error(
@@ -34,10 +36,6 @@ class CartService {
             )
           },
         })
-
-        this.cartItems = cartRes.cart
-        resolve(this.cartItems)
-        this.cartItemsPromise = null
       })
 
       return this.cartItemsPromise

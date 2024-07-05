@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import './cart.css'
 import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
-import cartService from '../../services/cart.service.js'
 import { parsePrice } from '../../utils/currency.js'
 
 const CartItem = ({ item }) => {
@@ -105,7 +104,7 @@ const Cart = () => {
               ) : (
                 <>
                   {cart.items.map((item) => (
-                    <CartItem key={item.id} item={item} />
+                    <CartItem key={item.product.id} item={item} />
                   ))}
                 </>
               )}

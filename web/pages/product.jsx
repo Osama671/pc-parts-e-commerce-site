@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import productService from '../service/productService.js'
+import productService from '../services/product.service.js'
 import ProductContainer from '../components/product/ProductContainer.jsx'
 import { useParams } from 'react-router-dom'
 

@@ -27,7 +27,7 @@ const QuantitySelector = () => {
         value={quantity}
         disabled
         min="1"
-        className="form-control text-center border-0 bg-transparent p-0 "
+        className="form-control text-dark text-center border-0 bg-transparent p-0 "
         style={{ width: '7ch' }}
       />
       <button

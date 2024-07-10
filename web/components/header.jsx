@@ -13,12 +13,12 @@ const Header = () => {
         <div id="navbar-cart" className="me-4">
           <a href="/cart" style={{ position: 'relative' }}>
             <i className="bi bi-cart2 text-light fs-2"></i>
-            {cart.length > 0 ? (
+            {cart.items.length > 0 ? (
               <span
                 id="cart-count"
                 className="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
               >
-                {cart.length}
+                {cart.items.length}
               </span>
             ) : (
               <></>

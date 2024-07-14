@@ -9,8 +9,6 @@ const productsPerPage = 50
 const maxPageNumbers = 10
 
 export function Products() {
-  const queryParams = new URLSearchParams(window.location.search)
-
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
@@ -23,6 +21,7 @@ export function Products() {
 
   // useEffect for Product category and search
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search)
     const getAllProducts = async () => {
       try {
         const response = await fetch('../../server/content/products.json')
@@ -42,7 +41,7 @@ export function Products() {
       }
     }
     getAllProducts()
-  }, [category, search, queryParams])
+  }, [category, search])
 
   // useEffect for pagination
   useEffect(() => {

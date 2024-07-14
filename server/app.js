@@ -1,14 +1,10 @@
 import express from 'express'
 import staticRouter from './router/static.js'
-// import { seedProducts } from './db/products.js'
-
-// seedProducts()
-
+import baseRouter from './router/base.router.js'
 const app = express()
-const port = 8080
+
+app.use('/api', baseRouter)
 
 app.use(staticRouter)
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
-})
+export default app

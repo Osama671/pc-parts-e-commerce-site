@@ -42,14 +42,14 @@ export function Products() {
       }
     }
     getAllProducts()
-  }, [category, search])
+  }, [category, search, queryParams])
 
   // useEffect for pagination
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search)
     queryParams.set('page', pageNumber)
     navigate(`?${queryParams.toString()}`)
-  }, [pageNumber])
+  }, [pageNumber, navigate])
 
   const handlePageChange = (page) => {
     setPageNumber(page)

@@ -12,8 +12,8 @@ class PaginatedProducts {
   }
 }
 
-export default class ProductService {
-  url = 'locahost:3000'
+class ProductService {
+  url = 'https://fsdm-pc-shop-v1.georgevm.com'
 
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts(pageNumber, category, search)
@@ -115,3 +115,6 @@ export default class ProductService {
     )
   }
 }
+
+export const productService = new ProductService()
+export const paginatedProducts = new PaginatedProducts()

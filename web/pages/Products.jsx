@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './css/Products.css'
-import ProductService from './services/product-service.jsx'
-import PaginatedProducts from './services/product-service.jsx'
-import ProductList from './components/ProductList.jsx'
+import product from './css/Products.module.css'
+import { productService } from './services/product-service.jsx'
+import ProductList from '../components/ProductList.jsx'
+import PageNumbers from '../components/PageNumbers.jsx'
+
+const productsPerPage = 50
+const maxPageNumbers = 10
 
 export function Products() {
   const queryParams = new URLSearchParams(window.location.search)
-  const productService = new ProductService()
+
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [products, setProducts] = useState([])
   const [pageNumber, setPageNumber] = useState(1)
+
+  const lastProductIndex = pageNumber * productsPerPage
+  const firstProductIndex = lastProductIndex - productsPerPage
+  const currentProducts = products.slice(firstProductIndex, lastProductIndex)
 
   // useEffect for Product category and search
   useEffect(() => {
@@ -65,54 +72,6 @@ export function Products() {
     window.location.reload()
   }
 
-  function DisplayProducts({ productsList }) {
-    return (
-      <>
-        {productsList.map((product) => {
-          let properties = {
-            id: product.id,
-            img: product.image,
-            productName: product.name,
-            price: productService.renderPrice(product.price),
-          }
-          return <ProductList key={product.id} {...properties} />
-        })}
-      </>
-    )
-  }
-
-  //Pagination Code
-  const productsPerPage = 50
-  const maxPageNumbers = 10
-
-  const totalPages = Math.ceil(products.length / productsPerPage)
-
-  let startPage = Math.max(1, pageNumber - Math.floor(maxPageNumbers / 2))
-  let lastPage = Math.min(totalPages, startPage + maxPageNumbers - 1)
-
-  if (lastPage - startPage + 1 < maxPageNumbers) {
-    startPage = Math.max(1, lastPage - maxPageNumbers + 1)
-  }
-
-  const pageNumbers = []
-  for (let i = startPage; i <= lastPage; i++) {
-    pageNumbers.push(
-      <li key={i} className={`page-item ${pageNumber === i ? 'active' : ''}`}>
-        <a
-          href="#"
-          className="page-link bg-sdown-dark text-light"
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </a>
-      </li>
-    )
-  }
-
-  const lastProductIndex = pageNumber * productsPerPage
-  const firstProductIndex = lastProductIndex - productsPerPage
-  const currentProducts = products.slice(firstProductIndex, lastProductIndex)
-
   return (
     <>
       <div className="main">
@@ -154,7 +113,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/all.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
               />
               <label htmlFor="" className="text-light">
@@ -168,7 +127,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/cpu.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -180,7 +139,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/GPU.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -193,7 +152,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/ram.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -205,7 +164,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/cases.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -217,7 +176,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/storage.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -229,7 +188,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/power.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -241,7 +200,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/monitor.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -253,7 +212,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/keyboard.png"
-                className="box p-1 bg-sdown-dark rounded"
+                className={`${product.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -280,8 +239,11 @@ export function Products() {
           <div id="pagination_div" className="py-3">
             <nav className="d-flex justify-content-center">
               <ul className="pagination m-0 p-0">
+                {/*Previous button*/}
                 <li
-                  className={`page-item ${pageNumber === 1 ? 'disabled' : ''}`}
+                  className={`${product.pageItem} ${
+                    pageNumber === 1 ? 'disabled' : ''
+                  }`}
                 >
                   <a
                     className="page-link bg-sdown-dark text-light"
@@ -292,10 +254,17 @@ export function Products() {
                     &laquo;
                   </a>
                 </li>
-                {pageNumbers}
+                <PageNumbers
+                  products={products}
+                  pageNumber={pageNumber}
+                  productsPerPage={productsPerPage}
+                  maxPageNumbers={maxPageNumbers}
+                  handlePageChange={handlePageChange}
+                />
+                {/*Next button*/}
                 <li
-                  className={`page-item ${
-                    pageNumber === totalPages ? 'disabled' : ''
+                  className={`${product.pageItem} ${
+                    pageNumber >= 1 ? 'disabled' : ''
                   }`}
                 >
                   <a
@@ -312,6 +281,22 @@ export function Products() {
           </div>
         </div>
       </div>
+    </>
+  )
+}
+
+function DisplayProducts({ productsList }) {
+  return (
+    <>
+      {productsList.map((product) => {
+        let properties = {
+          id: product.id,
+          img: product.image,
+          productName: product.name,
+          price: productService.renderPrice(product.price),
+        }
+        return <ProductList key={product.id} {...properties} />
+      })}
     </>
   )
 }

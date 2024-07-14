@@ -6,6 +6,10 @@
   font-size: 14px !important;
 }
 
+.pageItem {
+  display: inline-block;
+}
+
 .two-line-ellipsis {
   border: 1rem solid #0000;
   box-shadow: 0 0px 0 #000; /* your border */
@@ -17,7 +21,7 @@
   text-overflow: hidden;
 }
 
-.page-item > .active {
+.pageItem > .active {
   background-color: white !important;
   color: black !important;
   border-color: white;

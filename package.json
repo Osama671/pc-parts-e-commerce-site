@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "nodemon -w server -w web server/index.dev.js",
-    "start:prod": "node server/app.js",
+    "start:prod": "node server/index.js",
     "build": "vite build",
     "format": "prettier . --write",
     "format:check": "prettier . --check",

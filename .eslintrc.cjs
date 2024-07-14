@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true, jquery: true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -14,6 +14,7 @@ module.exports = {
   rules: {
     'react/prop-types': 0,
     'react/jsx-no-target-blank': 'off',
+    'react/prop-types': 0,
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },

@@ -59,32 +59,32 @@ class CartService {
     return cartCount.length
   }
 
-  async addToCart(id, quantity) {
-    let response = await $.ajax({
-      url: `${this.url}/cart/add`, // Replace URL with the prod url
-      type: 'POST',
-      data: JSON.stringify({
-        product_id: id,
-        quantity: quantity,
-      }),
-      headers: {
-        Authorization: userService.getAuth(),
-        'Content-Type': 'application/json',
-      },
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'POST request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
-    })
-    this.cartItems = response.cart
-    return this.cartItems
+  async addToCart(id, quantity, showToast) {
+    try {
+      let response = await $.ajax({
+        url: `${this.url}/cart/add`, // Replace URL with the prod url
+        type: 'POST',
+        data: JSON.stringify({
+          product_id: id,
+          quantity: quantity,
+        }),
+        headers: {
+          Authorization: userService.getAuth(),
+          'Content-Type': 'application/json',
+        },
+      })
+
+      this.cartItems = response.cart
+      if (showToast) showToast('Item added to cart')
+      return this.cartItems
+    } catch (error) {
+      console.error(
+        'POST request failed with status',
+        error.status,
+        'and error',
+        error.error
+      )
+    }
   }
 
   async setQuantity(id, quantity) {

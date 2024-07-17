@@ -2,26 +2,38 @@ import { useState } from 'react'
 import QuantitySelector from './QuantitySelector'
 import AddToCartBtn from './AddToCartBtn'
 import cartService from '../../services/cart.service.js'
+import ToastMessage from './ToastMessage.jsx'
 
 const Description = ({ product }) => {
   const [quantity, setQuantity] = useState(1)
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
 
   const handleQuantityChange = (newQuantity) => {
     setQuantity(newQuantity)
   }
 
   const handleAddToCart = async () => {
+    const showToast = (message) => {
+      setToastMessage(message)
+      setShowToast(true)
+    }
+
     try {
-      const cart = await cartService.addToCart(product.id, quantity)
+      const cart = await cartService.addToCart(product.id, quantity, showToast)
       console.log('Cart updated:', cart)
-      // Optionally, update your UI or state to reflect the new cart status
     } catch (error) {
       console.error('Error adding to cart:', error)
-      // Handle error gracefully
     }
   }
+
   return (
     <>
+      <ToastMessage
+        show={showToast}
+        message={toastMessage}
+        onClose={() => setShowToast(false)}
+      />
       {product ? (
         <div className="description col-12 col-md-6">
           <div className="desc-container">

@@ -1,4 +1,4 @@
-class PaginatedProducts {
+export class PaginatedProducts {
   products = []
   productsPerPage
   pageNumber
@@ -17,7 +17,6 @@ class ProductService {
 
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts(pageNumber, category, search)
-
     return this.paginateProducts(products, pageNumber, productsPerPage)
   }
 
@@ -106,7 +105,7 @@ class ProductService {
 
   paginateProducts(products, pageNumber, productsPerPage) {
     var totalPages = products.total_pages
-
+    console.log(products.products)
     return new PaginatedProducts(
       products.products,
       productsPerPage,

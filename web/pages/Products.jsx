@@ -1,19 +1,25 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import product from './css/Products.module.css'
-import { productService } from './services/product-service.jsx'
+import {
+  productService,
+  PaginatedProducts,
+} from './services/product-service.jsx'
 import ProductList from '../components/ProductList.jsx'
 import PageNumbers from '../components/PageNumbers.jsx'
 
-const productsPerPage = 50
-const maxPageNumbers = 10
-
 export function Products() {
-  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState('')
-  const [category, setCategory] = useState('')
-  const [products, setProducts] = useState([])
+  const category = searchParams.get('category') || ''
+  // const [products, setProducts] = useState([])
   const [pageNumber, setPageNumber] = useState(1)
+  const [paginatedProducts, setPaginatedProducts] = useState(
+    new PaginatedProducts([], 50, 1, 1)
+  )
+  const products = paginatedProducts.products
+  const maxPageNumbers = paginatedProducts.totalPages
+  const productsPerPage = paginatedProducts.productsPerPage
 
   const lastProductIndex = pageNumber * productsPerPage
   const firstProductIndex = lastProductIndex - productsPerPage
@@ -21,34 +27,29 @@ export function Products() {
 
   // useEffect for Product category and search
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search)
     const getAllProducts = async () => {
-      try {
-        const response = await fetch('../../server/content/products.json')
-        if (!response.ok) {
-          throw new Error('Network response not ok :(')
-        }
-        const jsonData = await response.json()
-        setProducts(
-          productService.filterProducts(
-            jsonData,
-            queryParams.get('category'),
-            queryParams.get('search')
-          )
-        )
-      } catch (error) {
-        console.error('Error fetching data', error)
-      }
+      // try {
+      //   const response = await fetch('../../server/content/products.json')
+      //   if (!response.ok) {
+      //     throw new Error('Network response not ok :(')
+      //   }
+        // const jsonData = await response.json()
+        productService
+          .findProducts(category, search, pageNumber, productsPerPage)
+          .then()
+        // setProducts(
+        //   productService.filterProducts(
+        //     jsonData,
+        //     searchParams.get('category'),
+        //     searchParams.get('search')
+        //   )
+        // )
+      // } catch (error) {
+      //   console.error('Error fetching data', error)
+      // }
     }
     getAllProducts()
-  }, [category, search])
-
-  // useEffect for pagination
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search)
-    queryParams.set('page', pageNumber)
-    navigate(`?${queryParams.toString()}`)
-  }, [pageNumber, navigate])
+  }, [category, search, pageNumber, searchParams])
 
   const handlePageChange = (page) => {
     setPageNumber(page)
@@ -59,15 +60,13 @@ export function Products() {
     setPageNumber(1)
   }
 
-  const handleCategoryClick = (newCategory) => {
-    setCategory(newCategory)
-    setPageNumber(1)
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value)
   }
 
-  const handleSearch = () => {
-    const queryParams = new URLSearchParams(window.location.search)
-    queryParams.set('search', search)
-    navigate(`?${queryParams}`)
+  function onSearch() {
+    searchParams.set('search', search)
+    setSearchParams(searchParams)
     window.location.reload()
   }
 
@@ -86,14 +85,14 @@ export function Products() {
                   placeholder="Search"
                   name="search"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={handleSearchChange}
                 />
               </div>
               <button
                 id="search-button"
                 className="btn btn-primary bg-sup-dark border-0"
                 type="submit"
-                onClick={handleSearch}
+                onClick={onSearch}
               >
                 <i className="bi bi-search"></i>
               </button>
@@ -107,7 +106,6 @@ export function Products() {
           <div className="d-flex flex-row overflow-x-auto text-center fs-6">
             <a
               href="/products"
-              onClick={() => handleCategoryClick('')}
               className="d-flex d-flex flex-column align-items-center text-decoration-none text-dark mx-2"
             >
               <img
@@ -121,7 +119,6 @@ export function Products() {
             </a>
             <a
               href="/products?category=cpu"
-              onClick={() => handleCategoryClick('cpu')}
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
             >
               <img

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import product from './css/Products.module.css'
+import classes from './css/Products.module.css'
 import productService, {
   PaginatedProducts,
 } from '../services/product.service.js'
@@ -96,7 +96,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/all.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
               />
               <label htmlFor="" className="text-light">
@@ -109,7 +109,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/cpu.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -121,7 +121,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/GPU.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -134,7 +134,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/ram.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -146,7 +146,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/cases.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -158,7 +158,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/storage.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -170,7 +170,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/power.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -182,7 +182,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/monitor.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -194,7 +194,7 @@ export function Products() {
             >
               <img
                 src="/img/home/c-icons/keyboard.png"
-                className={`${product.box} p-1 bg-sdown-dark rounded`}
+                className={`${classes.box} p-1 bg-sdown-dark rounded`}
                 alt=""
                 srcSet=""
               />
@@ -223,7 +223,7 @@ export function Products() {
               <ul className="pagination m-0 p-0">
                 {/*Previous button*/}
                 <li
-                  className={`${product.pageItem} ${
+                  className={`${classes.pageItem} ${
                     pageNumber <= 1 ? 'disabled' : ''
                   }`}
                 >
@@ -245,7 +245,7 @@ export function Products() {
                 />
                 {/*Next button*/}
                 <li
-                  className={`${product.pageItem} ${
+                  className={`${classes.pageItem} ${
                     pageNumber >= maxPageNumbers ? 'disabled' : ''
                   }`}
                 >

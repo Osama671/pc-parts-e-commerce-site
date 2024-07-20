@@ -9,10 +9,11 @@ import PageNumbers from '../components/PageNumbers.jsx'
 
 export function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [search, setSearch] = useState('')
+  const [searchInput, setSearchInput] = useState('')
   const [paginatedProducts, setPaginatedProducts] = useState(
     new PaginatedProducts([], 50, 1, 1)
   )
+  let search = searchParams.get('search') || ''
   let category = searchParams.get('category') || ''
   let pageNumber = searchParams.get('page') || 1
 
@@ -33,9 +34,7 @@ export function Products() {
       }
     }
     getAllProducts()
-  }, [searchParams, pageNumber, category, productsPerPage]) //Placing search in dependency array causes an
-  // interesting bug or feature...? (if its a bug, I don't know how to tackle it so I'll need help there :( )
-  // talk to me about it if needed.
+  }, [searchParams, pageNumber, category, productsPerPage, search])
 
   const handleSearchSubmit = (newSearch) => {
     newSearch.preventDefault()
@@ -44,17 +43,11 @@ export function Products() {
   }
 
   const handleSearchChange = (e) => {
-    setSearch(e.target.value)
+    setSearchInput(e.target.value)
   }
 
   const onSearch = () => {
-    searchParams.set('search', search)
-    setSearchParams(searchParams)
-  }
-
-  const onCategoryChange = (category) => {
-    searchParams.set('category', category)
-    setSearch('')
+    searchParams.set('search', searchInput)
     setSearchParams(searchParams)
   }
 
@@ -77,7 +70,7 @@ export function Products() {
                   className="form-control"
                   placeholder="Search"
                   name="search"
-                  value={search}
+                  value={searchInput}
                   onChange={handleSearchChange}
                 />
               </div>
@@ -100,9 +93,6 @@ export function Products() {
             <Link
               to="/products"
               className="d-flex d-flex flex-column align-items-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('')
-              }}
             >
               <img
                 src="/img/home/c-icons/all.png"
@@ -116,9 +106,6 @@ export function Products() {
             <Link
               to="/products?category=cpu"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('cpu')
-              }}
             >
               <img
                 src="/img/home/c-icons/cpu.png"
@@ -131,9 +118,6 @@ export function Products() {
             <Link
               to="/products?category=gpu"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('gpu')
-              }}
             >
               <img
                 src="/img/home/c-icons/GPU.png"
@@ -147,9 +131,6 @@ export function Products() {
             <Link
               to="/products?category=memory"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('memory')
-              }}
             >
               <img
                 src="/img/home/c-icons/ram.png"
@@ -162,9 +143,6 @@ export function Products() {
             <Link
               to="/products?category=cases"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('cases')
-              }}
             >
               <img
                 src="/img/home/c-icons/cases.png"
@@ -177,9 +155,6 @@ export function Products() {
             <Link
               to="/products?category=storage"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('storage')
-              }}
             >
               <img
                 src="/img/home/c-icons/storage.png"
@@ -192,9 +167,6 @@ export function Products() {
             <Link
               to="/products?category=power"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('power')
-              }}
             >
               <img
                 src="/img/home/c-icons/power.png"
@@ -207,9 +179,6 @@ export function Products() {
             <Link
               to="/products?category=monitor"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('monitor')
-              }}
             >
               <img
                 src="/img/home/c-icons/monitor.png"
@@ -222,9 +191,6 @@ export function Products() {
             <Link
               to="/products?category=accessories"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
-              onClick={() => {
-                onCategoryChange('accessories')
-              }}
             >
               <img
                 src="/img/home/c-icons/keyboard.png"

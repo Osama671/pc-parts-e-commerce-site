@@ -1,73 +1,66 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import product from './css/Products.module.css'
-import {
-  productService,
+import productService, {
   PaginatedProducts,
-} from './services/product-service.jsx'
+} from '../services/product.service.js'
 import ProductList from '../components/ProductList.jsx'
 import PageNumbers from '../components/PageNumbers.jsx'
 
 export function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState('')
-  const category = searchParams.get('category') || ''
-  // const [products, setProducts] = useState([])
-  const [pageNumber, setPageNumber] = useState(1)
   const [paginatedProducts, setPaginatedProducts] = useState(
     new PaginatedProducts([], 50, 1, 1)
   )
+  let category = searchParams.get('category') || ''
+  let pageNumber = searchParams.get('page') || 1
+
   const products = paginatedProducts.products
   const maxPageNumbers = paginatedProducts.totalPages
   const productsPerPage = paginatedProducts.productsPerPage
 
-  const lastProductIndex = pageNumber * productsPerPage
-  const firstProductIndex = lastProductIndex - productsPerPage
-  const currentProducts = products.slice(firstProductIndex, lastProductIndex)
-
-  // useEffect for Product category and search
   useEffect(() => {
     const getAllProducts = async () => {
-      // try {
-      //   const response = await fetch('../../server/content/products.json')
-      //   if (!response.ok) {
-      //     throw new Error('Network response not ok :(')
-      //   }
-        // const jsonData = await response.json()
+      try {
         productService
           .findProducts(category, search, pageNumber, productsPerPage)
-          .then()
-        // setProducts(
-        //   productService.filterProducts(
-        //     jsonData,
-        //     searchParams.get('category'),
-        //     searchParams.get('search')
-        //   )
-        // )
-      // } catch (error) {
-      //   console.error('Error fetching data', error)
-      // }
+          .then((paginatedProducts) => {
+            setPaginatedProducts(paginatedProducts)
+          })
+      } catch (error) {
+        console.error('Error fetching data', error)
+      }
     }
     getAllProducts()
-  }, [category, search, pageNumber, searchParams])
-
-  const handlePageChange = (page) => {
-    setPageNumber(page)
-  }
+  }, [searchParams, pageNumber, category, productsPerPage]) //Placing search in dependency array causes an
+  // interesting bug or feature...? (if its a bug, I don't know how to tackle it so I'll need help there :( )
+  // talk to me about it if needed.
 
   const handleSearchSubmit = (newSearch) => {
     newSearch.preventDefault()
-    setPageNumber(1)
+    searchParams.set('page', 1)
+    setSearchParams(searchParams)
   }
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value)
   }
 
-  function onSearch() {
+  const onSearch = () => {
     searchParams.set('search', search)
     setSearchParams(searchParams)
-    window.location.reload()
+  }
+
+  const onCategoryChange = (category) => {
+    searchParams.set('category', category)
+    setSearch('')
+    setSearchParams(searchParams)
+  }
+
+  const onPageChange = (pageNumber) => {
+    searchParams.set('page', pageNumber)
+    setSearchParams(searchParams)
   }
 
   return (
@@ -104,9 +97,12 @@ export function Products() {
           <div className="fs-2 fw-medium">Category</div>
           <hr />
           <div className="d-flex flex-row overflow-x-auto text-center fs-6">
-            <a
-              href="/products"
+            <Link
+              to="/products"
               className="d-flex d-flex flex-column align-items-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('')
+              }}
             >
               <img
                 src="/img/home/c-icons/all.png"
@@ -116,10 +112,13 @@ export function Products() {
               <label htmlFor="" className="text-light">
                 .
               </label>
-            </a>
-            <a
-              href="/products?category=cpu"
+            </Link>
+            <Link
+              to="/products?category=cpu"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('cpu')
+              }}
             >
               <img
                 src="/img/home/c-icons/cpu.png"
@@ -128,10 +127,13 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">CPU</span>
-            </a>
-            <a
-              href="/products?category=gpu"
+            </Link>
+            <Link
+              to="/products?category=gpu"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('gpu')
+              }}
             >
               <img
                 src="/img/home/c-icons/GPU.png"
@@ -141,10 +143,13 @@ export function Products() {
               />
               <span className="pt-1"> </span>
               GPU
-            </a>
-            <a
-              href="/products?category=memory"
+            </Link>
+            <Link
+              to="/products?category=memory"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('memory')
+              }}
             >
               <img
                 src="/img/home/c-icons/ram.png"
@@ -153,10 +158,13 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">Memory</span>
-            </a>
-            <a
-              href="/products?category=cases"
+            </Link>
+            <Link
+              to="/products?category=cases"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('cases')
+              }}
             >
               <img
                 src="/img/home/c-icons/cases.png"
@@ -165,10 +173,13 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">Cases</span>
-            </a>
-            <a
-              href="/products?category=storage"
+            </Link>
+            <Link
+              to="/products?category=storage"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('storage')
+              }}
             >
               <img
                 src="/img/home/c-icons/storage.png"
@@ -177,10 +188,13 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">Storage</span>
-            </a>
-            <a
-              href="/products?category=power"
+            </Link>
+            <Link
+              to="/products?category=power"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('power')
+              }}
             >
               <img
                 src="/img/home/c-icons/power.png"
@@ -189,10 +203,13 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">Power</span>
-            </a>
-            <a
-              href="/products?category=monitor"
+            </Link>
+            <Link
+              to="/products?category=monitor"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('monitor')
+              }}
             >
               <img
                 src="/img/home/c-icons/monitor.png"
@@ -201,10 +218,13 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">Monitor</span>
-            </a>
-            <a
-              href="/products?category=accessories"
+            </Link>
+            <Link
+              to="/products?category=accessories"
               className="d-row d-flex flex-column align-items-center text-center text-decoration-none text-dark mx-2"
+              onClick={() => {
+                onCategoryChange('accessories')
+              }}
             >
               <img
                 src="/img/home/c-icons/keyboard.png"
@@ -213,7 +233,7 @@ export function Products() {
                 srcSet=""
               />
               <span className="pt-1">Accessories</span>
-            </a>
+            </Link>
           </div>
         </div>
         {/* Product search results */}
@@ -224,7 +244,7 @@ export function Products() {
               className="row p-0 m-0 row-cols-2 row-cols-md-5 g-3 justify-content-center"
               id="products-list"
             >
-              <DisplayProducts productsList={currentProducts} />
+              <DisplayProducts productsList={products} />
             </div>
             <div
               className="row p-0 m-0 row-cols-2 row-cols-md-5 g-3 justify-content-center"
@@ -238,14 +258,14 @@ export function Products() {
                 {/*Previous button*/}
                 <li
                   className={`${product.pageItem} ${
-                    pageNumber === 1 ? 'disabled' : ''
+                    pageNumber <= 1 ? 'disabled' : ''
                   }`}
                 >
                   <a
                     className="page-link bg-sdown-dark text-light"
                     href="#"
                     aria-label="Previous"
-                    onClick={() => handlePageChange(pageNumber - 1)}
+                    onClick={() => onPageChange(+pageNumber - 1)}
                   >
                     &laquo;
                   </a>
@@ -255,19 +275,19 @@ export function Products() {
                   pageNumber={pageNumber}
                   productsPerPage={productsPerPage}
                   maxPageNumbers={maxPageNumbers}
-                  handlePageChange={handlePageChange}
+                  handlePageChange={onPageChange}
                 />
                 {/*Next button*/}
                 <li
                   className={`${product.pageItem} ${
-                    pageNumber >= 1 ? 'disabled' : ''
+                    pageNumber >= maxPageNumbers ? 'disabled' : ''
                   }`}
                 >
                   <a
                     className="page-link bg-sdown-dark text-light"
                     href="#"
                     aria-label="Next"
-                    onClick={() => handlePageChange(pageNumber + 1)}
+                    onClick={() => onPageChange(+pageNumber + 1)}
                   >
                     &raquo;
                   </a>
@@ -287,9 +307,9 @@ function DisplayProducts({ productsList }) {
       {productsList.map((product) => {
         let properties = {
           id: product.id,
-          img: product.image,
+          img: product.details.image,
           productName: product.name,
-          price: productService.renderPrice(product.price),
+          price: productService.renderPrice(product.details.price),
         }
         return <ProductList key={product.id} {...properties} />
       })}

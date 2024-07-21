@@ -1,4 +1,4 @@
-class PaginatedProducts {
+export class PaginatedProducts {
   products = []
   productsPerPage
   pageNumber
@@ -17,7 +17,6 @@ class ProductService {
 
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts(pageNumber, category, search)
-
     return this.paginateProducts(products, pageNumber, productsPerPage)
   }
 
@@ -42,7 +41,7 @@ class ProductService {
 
   async getProducts(pageNumber, category, search) {
     let output = await $.ajax({
-      url: `${this.url}/products?pageNumber=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
+      url: `${this.url}/products?page=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
       type: 'GET',
       success: () => {
         // Add success logic if any

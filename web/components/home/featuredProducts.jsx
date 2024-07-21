@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import productService from '../../services/product.service.js'
-import ProductList from '../ProductsList.jsx'
+import ProductListItem from '../ProductsListItem.jsx'
 
 export default function FeaturedProducts() {
   let [products, setProducts] = useState([])
@@ -52,7 +52,7 @@ function DisplayProducts({ products }) {
           productName: product.name,
           price: productService.renderPrice(product.price),
         }
-        return <ProductList key={product.id} {...properties} />
+        return <ProductListItem key={product.id} {...properties} />
       })}
     </>
   )

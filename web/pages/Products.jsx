@@ -4,7 +4,7 @@ import classes from './css/Products.module.css'
 import productService, {
   PaginatedProducts,
 } from '../services/product.service.js'
-import ProductList from '../components/ProductList.jsx'
+import ProductListItem from '../components/ProductsListItem.jsx'
 import PageNumbers from '../components/PageNumbers.jsx'
 
 export function Products() {
@@ -277,7 +277,7 @@ function DisplayProducts({ productsList }) {
           productName: product.name,
           price: productService.renderPrice(product.details.price),
         }
-        return <ProductList key={product.id} {...properties} />
+        return <ProductListItem key={product.id} {...properties} />
       })}
     </>
   )

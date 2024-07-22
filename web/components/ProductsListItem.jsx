@@ -1,4 +1,4 @@
-export default function ProductList({ id, img, productName, price }) {
+export default function ProductListItem({ id, img, productName, price }) {
   return (
     <>
       <div className="col">

@@ -3,6 +3,7 @@ import './cart.css'
 import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
+import cartService from '../../services/cart.service.js'
 
 const CartItem = ({ item }) => {
   const { removeItem } = useContext(CartContext)
@@ -47,7 +48,16 @@ const CartItem = ({ item }) => {
   )
 }
 
-const Summary = ({ cart }) => {
+export const Summary = ({ cart }) => {
+  const handleCheckout = async () => {
+    try {
+      const orderId = await cartService.checkout()
+      console.log('Checkout successful, le order id is', orderId)
+    } catch (error) {
+      console.error('AAAAAAAAAAA', error)
+    }
+  }
+
   return (
     <div className="col-12 col-md-4 cart-total">
       <div className="summary-container">
@@ -66,6 +76,7 @@ const Summary = ({ cart }) => {
           </tbody>
         </table>
       </div>
+
       <div className="checkout-container">
         <table>
           <tbody>
@@ -78,7 +89,11 @@ const Summary = ({ cart }) => {
           </tbody>
         </table>
         <div className="checkout">
-          <button className="btn btn-checkout" type="button">
+          <button
+            className="btn btn-checkout"
+            type="submit"
+            onClick={handleCheckout}
+          >
             Checkout
           </button>
         </div>

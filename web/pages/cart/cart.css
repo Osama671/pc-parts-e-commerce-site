@@ -120,6 +120,20 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+.button-round {
+  border-style: none;
+  align-self: end;
+  color: white;
+  border-radius: 24px;
+  font-size: 20px;
+  width: 190px;
+  height: 45px;
+}
+
+.button-round-filled {
+  background-color: #2c2c34;
+}
+
 @media (max-width: 768px) {
   .summary-container {
     margin: 20px 12px 0px 12px;

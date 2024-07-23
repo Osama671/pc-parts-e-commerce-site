@@ -1,6 +1,9 @@
 import '../css/paymentInfo.css'
 
-export default function PaymentInfo({ handleCheckout, changeDisplayPaymentInfoState }) {
+export default function PaymentInfo({
+  handleCheckout,
+  changeDisplayPaymentInfoState,
+}) {
   return (
     <form onSubmit={handleCheckout}>
       {/* This div will be used with animation. Will try to get it to work tomorrow on Tuesday (23/07/2024) */}
@@ -20,7 +23,7 @@ export default function PaymentInfo({ handleCheckout, changeDisplayPaymentInfoSt
                     className="form-control mb-3"
                     type="text"
                     placeholder="Name"
-                    pattern='^[A-Za-z]+(?: [A-Za-z]+){1,2}$'
+                    pattern="^[A-Za-z]+(?: [A-Za-z]+){1,2}$"
                     maxLength={40}
                     required
                   />

@@ -51,10 +51,9 @@ const CartItem = ({ item }) => {
 export const Summary = ({ cart }) => {
   const handleCheckout = async () => {
     try {
-      const orderId = await cartService.checkout()
-      console.log('Checkout successful, le order id is', orderId)
+      await cartService.checkout()
     } catch (error) {
-      console.error('AAAAAAAAAAA', error)
+      console.error('CartService.checkou() failed, error: ', error)
     }
   }
 

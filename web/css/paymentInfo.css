@@ -7,6 +7,22 @@
   }
 }
 
-.fade-in {
+@keyframes fadeInScreen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+
+/* .fade-in-screen {
+  background-color: black;
+  animation: fadeInScreen 0.7s ease-in-out forwards;
+  z-index: 3;
+} */
+
+.fade-in-card {
   animation: fadeIn 0.7s ease-in-out forwards;
+  z-index: 69;
 }

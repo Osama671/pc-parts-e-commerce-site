@@ -1,9 +1,10 @@
-import { useContext } from 'react'
-import './cart.css'
+import { useContext, useState } from 'react'
+import '../../css/cart.css'
 import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
 import PaymentInfo from '../../components/paymentInfo.jsx'
+import cartService from '../../services/cart.service.js'
 
 const CartItem = ({ item }) => {
   const { removeItem } = useContext(CartContext)
@@ -48,7 +49,23 @@ const CartItem = ({ item }) => {
   )
 }
 
-const Summary = ({ cart }) => {
+export const Summary = ({ cart }) => {
+  let [displayPaymentInfo, setDisplayPaymentInfo] = useState(false)
+
+  const handleCheckout = async () => {
+    try {
+      event.preventDefault()
+      await cartService.checkout()
+      window.location.href = '/success'
+    } catch (error) {
+      console.error('CartService.checkout() failed, error: ', error)
+    }
+  }
+
+  const handleDisplayPaymentInfo = () => {
+    setDisplayPaymentInfo(!displayPaymentInfo)
+  }
+
   return (
     <div className="col-12 col-md-4 cart-total">
       <div className="summary-container">
@@ -67,6 +84,7 @@ const Summary = ({ cart }) => {
           </tbody>
         </table>
       </div>
+
       <div className="checkout-container">
         <table>
           <tbody>
@@ -79,11 +97,22 @@ const Summary = ({ cart }) => {
           </tbody>
         </table>
         <div className="checkout">
-          <button className="btn btn-checkout" type="button">
+          <button
+            className="btn btn-checkout"
+            type="submit"
+            onClick={() => setDisplayPaymentInfo(true)}
+          >
             Checkout
           </button>
         </div>
       </div>
+
+      {displayPaymentInfo === true && (
+        <PaymentInfo
+          handleCheckout={handleCheckout}
+          changeDisplayPaymentInfoState={handleDisplayPaymentInfo}
+        />
+      )}
     </div>
   )
 }
@@ -120,9 +149,6 @@ const Cart = () => {
           <div className="text-center">Your Cart is empty</div>
         </div>
       )}
-      {/*BOOTSTRAP PAYMENT INFO */}
-      <PaymentInfo />
-      {/*BOOSTRAP PAYMENT INFO */}
     </>
   )
 }

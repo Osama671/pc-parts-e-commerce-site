@@ -121,7 +121,7 @@ const Cart = () => {
         </div>
       )}
       {/*BOOTSTRAP PAYMENT INFO */}
-      <PaymentInfo/>
+      <PaymentInfo />
       {/*BOOSTRAP PAYMENT INFO */}
     </>
   )

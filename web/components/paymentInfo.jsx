@@ -2,7 +2,10 @@ import '../css/paymentInfo.css'
 
 export default function PaymentInfo() {
   return (
-    <div className="container w-50 p-0 position-fixed fade-in" style={{top: "25%", left: "25%"}}>
+    <div
+      className="container w-50 p-0 position-fixed fade-in"
+      style={{ top: '25%', left: '25%' }}
+    >
       <div className="card px-4">
         <p className="h8 py-3">Payment Info</p>
         <div className="row gx-3">
@@ -49,7 +52,9 @@ export default function PaymentInfo() {
           </div>
           <div className="col-12">
             <div className="mb-3 d-flex flex-row-reverse gap-2">
-              <button className="ml=auto btn btn-primary" >Confirm Payment</button>
+              <button className="ml=auto btn btn-primary">
+                Confirm Payment
+              </button>
               <button className="ml=auto btn btn-secondary">Close</button>
             </div>
           </div>

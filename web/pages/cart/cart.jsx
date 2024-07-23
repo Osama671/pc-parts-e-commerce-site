@@ -3,6 +3,7 @@ import './cart.css'
 import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
+import PaymentInfo from '../../components/paymentInfo.jsx'
 
 const CartItem = ({ item }) => {
   const { removeItem } = useContext(CartContext)
@@ -119,6 +120,9 @@ const Cart = () => {
           <div className="text-center">Your Cart is empty</div>
         </div>
       )}
+      {/*BOOTSTRAP PAYMENT INFO */}
+      <PaymentInfo/>
+      {/*BOOSTRAP PAYMENT INFO */}
     </>
   )
 }

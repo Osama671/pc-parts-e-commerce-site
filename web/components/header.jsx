@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { CartContext } from '../context/CartContext.jsx'
 import AuthContext from '../context/AuthContext.jsx'
 import AuthModal from './AuthModal.jsx'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   const { cart } = useContext(CartContext)
@@ -22,7 +23,7 @@ const Header = () => {
         <div id="navbar-cart" className="me-4">
           {user ? (
             <>
-              <a href="/cart" style={{ position: 'relative' }}>
+              <Link href="/cart" style={{ position: 'relative' }}>
                 <i className="bi bi-cart2 text-light fs-2"></i>
                 {cart.items.length > 0 ? (
                   <span
@@ -34,7 +35,7 @@ const Header = () => {
                 ) : (
                   <></>
                 )}
-              </a>
+              </Link>
 
               <a
                 href="#"

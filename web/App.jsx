@@ -8,6 +8,7 @@ import Product from './pages/product.jsx'
 import Cart from './pages/cart/cart.jsx'
 import Layout from './components/layout.jsx'
 import CartProvider from './context/CartContext.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
 
 const router = createBrowserRouter([
   {
@@ -40,9 +41,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </AuthProvider>
   )
 }
 

@@ -5,7 +5,7 @@ const router = Router()
 
 router.get('/', async (req, resp) => {
   try {
-    const userId = req.userId
+    const userId = req.user._id
     const cart = await cartService.getCart(userId)
     resp.json(cart)
   } catch (err) {

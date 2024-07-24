@@ -18,7 +18,7 @@ process.on('uncaughtException', (error) => {
     console.error(error.message)
     return
   }
-
+  console.log(error)
   throw error
 })
 

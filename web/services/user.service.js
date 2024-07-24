@@ -12,6 +12,7 @@ class UserService {
 
     return randomString
   }
+
   getUser() {
     var userName = localStorage.getItem('userName')
     if (!userName) {
@@ -24,9 +25,16 @@ class UserService {
     return 'Basic ' + btoa(`${userService.getUser()}:`)
   }
 
+  getUserToken() {
+    return localStorage.getItem('token')
+  }
+
+  setUserToken(token) {
+    localStorage.setItem('token', token)
+  }
+
   async login(email, password) {
     try {
-      console.log('LOGIN')
       const response = await fetch(`${this.url}/auth/login`, {
         headers: {
           'Content-Type': 'application/json',
@@ -35,12 +43,25 @@ class UserService {
         body: JSON.stringify({ email, password }),
       })
       const data = await response.json()
-      console.log(data)
-      localStorage.setItem('token', data.token)
+      this.setUserToken(data.token)
       return data
     } catch (e) {
-      console.log('ERROR')
-      console.error(e)
+      throw new Error(e)
+    }
+  }
+
+  async checkToken() {
+    try {
+      const response = await fetch(`${this.url}/auth/login`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        method: 'GET',
+      })
+      const data = await response.json()
+      return data
+    } catch (e) {
       throw new Error(e)
     }
   }
@@ -55,10 +76,9 @@ class UserService {
         body: JSON.stringify({ name, email, password }),
       })
       const data = await response.json()
-      console.log(data)
       return data
     } catch (e) {
-      console.error(e)
+      throw new Error(e)
     }
   }
 

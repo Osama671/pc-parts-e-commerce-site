@@ -23,7 +23,7 @@ const Header = () => {
         <div id="navbar-cart" className="me-4">
           {user ? (
             <>
-              <Link href="/cart" style={{ position: 'relative' }}>
+              <Link to="/cart" style={{ position: 'relative' }}>
                 <i className="bi bi-cart2 text-light fs-2"></i>
                 {cart.items.length > 0 ? (
                   <span

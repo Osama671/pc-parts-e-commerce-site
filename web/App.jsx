@@ -9,6 +9,7 @@ import Cart from './pages/cart/cart.jsx'
 import Layout from './components/layout.jsx'
 import CartProvider from './context/CartContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import ProtectedRoutes from './components/ProtectedRoutes.jsx'
 
 const router = createBrowserRouter([
   {
@@ -24,8 +25,13 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
-        path: '/cart',
-        element: <Cart />,
+        element: <ProtectedRoutes />,
+        children: [
+          {
+            path: '/cart',
+            element: <Cart />,
+          },
+        ],
       },
       {
         path: '*',

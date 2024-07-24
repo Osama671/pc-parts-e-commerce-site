@@ -13,18 +13,13 @@ const AuthModal = ({ show, handleClose }) => {
       tabIndex="-1"
       role="dialog"
     >
-      <div className="modal-dialog" role="document">
+      <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{isLogin ? 'Login' : 'Register'}</h5>
-            <button
-              type="button"
-              className="close"
-              onClick={handleClose}
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <a href="#" onClick={handleClose}>
+              <i className="bi bi-x-lg text-light"></i>
+            </a>
           </div>
           {isLogin ? (
             <LoginModal setIsLogin={setIsLogin} handleClose={handleClose} />

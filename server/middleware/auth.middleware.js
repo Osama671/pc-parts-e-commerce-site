@@ -7,20 +7,16 @@ export const authMiddleware = async (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1]
   console.log(authHeader)
   if (token == null) return res.sendStatus(401)
-
   try {
     const payload = jwt.verify(token, jwtSecret)
-    if (payload) {
-      const user = await userService.getUserById(payload.userId)
-      console.log(user)
-      if (!user) {
-        return res.sendStatus(403)
-      }
-      req.user = user
-      next()
-    } else {
-      res.sendStatus(403)
+    if (!payload) return res.sendStatus(403)
+    const user = await userService.getUserById(payload.userId)
+    console.log(user)
+    if (!user) {
+      return res.sendStatus(403)
     }
+    req.user = user
+    next()
   } catch (error) {
     res.sendStatus(403)
   }

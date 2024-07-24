@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb'
 const userCollection = db.collection('users')
 userCollection.createIndex('email')
 
-export async function getUser(email) {
+export async function getUserByEmail(email) {
   try {
     return userCollection.findOne({ email })
   } catch (e) {
@@ -23,7 +23,7 @@ export async function getUserById(id) {
 
 export async function registerUser({ name, email, hashedPassword }) {
   try {
-    const existingUser = await getUser(email)
+    const existingUser = await getUserByEmail(email)
     if (existingUser) {
       throw new Error('User already exists')
     }

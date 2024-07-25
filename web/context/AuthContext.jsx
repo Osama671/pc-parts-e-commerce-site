@@ -6,7 +6,10 @@ const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-
+  const [toastState, setToastState] = useState({
+    showToast: false,
+    toastMessage: '',
+  })
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -57,7 +60,17 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, register, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        register,
+        login,
+        logout,
+        setToastState,
+        toastState,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

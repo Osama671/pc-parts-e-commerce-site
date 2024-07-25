@@ -3,10 +3,10 @@ import Header from './header.jsx'
 import Footer from './footer.jsx'
 import ToastMessage from './product/ToastMessage.jsx'
 import { useContext } from 'react'
-import { CartContext } from '../context/CartContext.jsx'
+import AuthContext from '../context/AuthContext.jsx'
 
 const Layout = () => {
-  const { setToastState, toastState } = useContext(CartContext)
+  const { setToastState, toastState } = useContext(AuthContext)
   return (
     <div>
       <Header />

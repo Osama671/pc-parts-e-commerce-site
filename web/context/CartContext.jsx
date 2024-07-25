@@ -1,9 +1,11 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import cartService from '../services/cart.service.js'
+import AuthContext from './AuthContext.jsx'
 
 export const CartContext = createContext()
 
 const CartProvider = ({ children }) => {
+  const { setToastState } = useContext(AuthContext)
   const [cart, setCart] = useState({
     items: [],
     subTotal: 0,
@@ -11,11 +13,6 @@ const CartProvider = ({ children }) => {
     total: 0,
   })
   const [isLoading, setIsLoading] = useState(false)
-
-  const [toastState, setToastState] = useState({
-    showToast: false,
-    toastMessage: '',
-  })
 
   const updateCart = async () => {
     setIsLoading(true)
@@ -65,8 +62,6 @@ const CartProvider = ({ children }) => {
         isLoading,
         removeItem,
         addToCart,
-        setToastState,
-        toastState,
       }}
     >
       {children}

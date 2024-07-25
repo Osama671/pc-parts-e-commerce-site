@@ -3,6 +3,7 @@ import cartService from '../services/cart.service.js'
 
 export const CartContext = createContext()
 
+
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({
     items: [],
@@ -44,6 +45,15 @@ const CartProvider = ({ children }) => {
     })
   }
 
+  const checkout = async () => {
+    return await cartService.checkout()
+  }
+
+  const emptyCart = async () => {
+    await cartService.emptyCart()
+    setCart({ items: [], subTotal: 0, taxes: 0, total: 0 })
+  }
+
   useEffect(() => {
     setIsLoading(true)
     updateCart().then((cart) => {
@@ -53,7 +63,9 @@ const CartProvider = ({ children }) => {
   }, [])
 
   return (
-    <CartContext.Provider value={{ cart, isLoading, removeItem }}>
+    <CartContext.Provider
+      value={{ cart, isLoading, removeItem, checkout, emptyCart }}
+    >
       {children}
     </CartContext.Provider>
   )

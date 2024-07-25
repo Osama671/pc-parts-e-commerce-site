@@ -5,6 +5,7 @@ import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
 import PaymentInfo from '../../components/paymentInfo.jsx'
 import cartService from '../../services/cart.service.js'
+import { useNavigate } from 'react-router-dom'
 
 const CartItem = ({ item }) => {
   const { removeItem } = useContext(CartContext)
@@ -51,12 +52,14 @@ const CartItem = ({ item }) => {
 
 export const Summary = ({ cart }) => {
   let [displayPaymentInfo, setDisplayPaymentInfo] = useState(false)
+  const navigate = useNavigate()
+  const { checkout } = useContext(CartContext)
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (e) => {
+    e.preventDefault()
     try {
-      event.preventDefault()
-      await cartService.checkout()
-      window.location.href = '/success'
+      const orderId = await checkout()
+      navigate(`/success?orderId=${orderId}`)
     } catch (error) {
       console.error('CartService.checkout() failed, error: ', error)
     }
@@ -118,11 +121,10 @@ export const Summary = ({ cart }) => {
 }
 
 const Cart = () => {
-  const { cart, isLoading } = useContext(CartContext)
+  const { cart, isLoading, emptyCart } = useContext(CartContext)
   const handleEmptyCart = async () => {
     try {
-      cartService.emptyCart()
-      window.location.reload()
+      emptyCart()
     } catch (error) {
       console.error('Unable to empty cart', error)
     }

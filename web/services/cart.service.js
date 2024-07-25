@@ -4,7 +4,7 @@ import userService from './user.service.js'
 class CartService {
   cartItems = []
 
-  url = 'https://fsdm-pc-shop-v1.georgevm.com'
+  url = 'https://fsdm-pc-shop-v1.georgevm.com/cart'
 
   async getCart() {
     try {

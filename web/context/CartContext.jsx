@@ -46,7 +46,9 @@ const CartProvider = ({ children }) => {
   }
 
   const checkout = async () => {
-    return await cartService.checkout()
+    const orderId = await cartService.checkout()
+    setCart({ items: [], subTotal: 0, taxes: 0, total: 0 })
+    return orderId
   }
 
   const emptyCart = async () => {

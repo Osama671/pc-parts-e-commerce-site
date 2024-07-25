@@ -4,7 +4,6 @@ import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
 import PaymentInfo from '../../components/paymentInfo.jsx'
-import cartService from '../../services/cart.service.js'
 import { useNavigate } from 'react-router-dom'
 
 const CartItem = ({ item }) => {

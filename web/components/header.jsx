@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 const Header = () => {
   const { cart } = useContext(CartContext)
-
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary text-light">
       <div className="container-fluid">

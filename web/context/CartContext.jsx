@@ -54,6 +54,17 @@ const CartProvider = ({ children }) => {
     })
   }
 
+  const checkout = async () => {
+    const orderId = await cartService.checkout()
+    setCart({ items: [], subTotal: 0, taxes: 0, total: 0 })
+    return orderId
+  }
+
+  const emptyCart = async () => {
+    await cartService.emptyCart()
+    setCart({ items: [], subTotal: 0, taxes: 0, total: 0 })
+  }
+
   useEffect(() => {
     updateCart()
   }, [])
@@ -67,6 +78,8 @@ const CartProvider = ({ children }) => {
         addToCart,
         setToastState,
         toastState,
+        checkout,
+        emptyCart,
       }}
     >
       {children}

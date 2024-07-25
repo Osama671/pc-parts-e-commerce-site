@@ -1,9 +1,10 @@
-import { useContext } from 'react'
-import './cart.css'
+import { useContext, useState } from 'react'
+import '../../css/cart.css'
 import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
-import cartService from '../../services/cart.service.js'
+import PaymentInfo from '../../components/paymentInfo.jsx'
+import { useNavigate } from 'react-router-dom'
 
 const CartItem = ({ item }) => {
   const { removeItem } = useContext(CartContext)
@@ -49,12 +50,22 @@ const CartItem = ({ item }) => {
 }
 
 export const Summary = ({ cart }) => {
-  const handleCheckout = async () => {
+  let [displayPaymentInfo, setDisplayPaymentInfo] = useState(false)
+  const navigate = useNavigate()
+  const { checkout } = useContext(CartContext)
+
+  const handleCheckout = async (e) => {
+    e.preventDefault()
     try {
-      await cartService.checkout()
+      const orderId = await checkout()
+      navigate(`/success?orderId=${orderId}`)
     } catch (error) {
-      console.error('CartService.checkou() failed, error: ', error)
+      console.error('CartService.checkout() failed, error: ', error)
     }
+  }
+
+  const handleDisplayPaymentInfo = () => {
+    setDisplayPaymentInfo(!displayPaymentInfo)
   }
 
   return (
@@ -91,22 +102,28 @@ export const Summary = ({ cart }) => {
           <button
             className="btn btn-checkout"
             type="submit"
-            onClick={handleCheckout}
+            onClick={() => setDisplayPaymentInfo(true)}
           >
             Checkout
           </button>
         </div>
       </div>
+
+      {displayPaymentInfo === true && (
+        <PaymentInfo
+          handleCheckout={handleCheckout}
+          changeDisplayPaymentInfoState={handleDisplayPaymentInfo}
+        />
+      )}
     </div>
   )
 }
 
 const Cart = () => {
-  const { cart, isLoading } = useContext(CartContext)
+  const { cart, isLoading, emptyCart } = useContext(CartContext)
   const handleEmptyCart = async () => {
     try {
-      cartService.emptyCart()
-      window.location.reload()
+      emptyCart()
     } catch (error) {
       console.error('Unable to empty cart', error)
     }

@@ -10,6 +10,14 @@ export const AuthProvider = ({ children }) => {
     showToast: false,
     toastMessage: '',
   })
+
+  const showToast = (message) => {
+    setToastState({
+      showToast: true,
+      toastMessage: message,
+    })
+  }
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -69,6 +77,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         setToastState,
         toastState,
+        showToast,
       }}
     >
       {children}

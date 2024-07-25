@@ -5,7 +5,7 @@ import AuthContext from './AuthContext.jsx'
 export const CartContext = createContext()
 
 const CartProvider = ({ children }) => {
-  const { setToastState } = useContext(AuthContext)
+  const { showToast } = useContext(AuthContext)
   const [cart, setCart] = useState({
     items: [],
     subTotal: 0,
@@ -45,10 +45,7 @@ const CartProvider = ({ children }) => {
   const addToCart = async (id, quantity) => {
     await cartService.addToCart(id, quantity)
     updateCart()
-    setToastState({
-      showToast: true,
-      toastMessage: 'Item added to cart',
-    })
+    showToast('Item added to cart')
   }
 
   useEffect(() => {

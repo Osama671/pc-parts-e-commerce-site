@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { CartContext } from '../context/CartContext.jsx'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   const { cart } = useContext(CartContext)
@@ -11,7 +12,7 @@ const Header = () => {
           PC SHOP
         </a>
         <div id="navbar-cart" className="me-4">
-          <a href="/cart" style={{ position: 'relative' }}>
+          <Link to="/cart" style={{ position: 'relative' }}>
             <i className="bi bi-cart2 text-light fs-2"></i>
             {cart.items.length > 0 ? (
               <span
@@ -23,7 +24,7 @@ const Header = () => {
             ) : (
               <></>
             )}
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

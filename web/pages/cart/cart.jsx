@@ -119,11 +119,26 @@ export const Summary = ({ cart }) => {
 
 const Cart = () => {
   const { cart, isLoading } = useContext(CartContext)
-
+  const handleEmptyCart = async () => {
+    try {
+      cartService.emptyCart()
+      window.location.reload()
+    } catch (error) {
+      console.error('Unable to empty cart', error)
+    }
+  }
   return (
     <>
       <div className="container title-container py-3">
         <h1>Your Cart</h1>
+        {cart.items.length > 0 && (
+          <button
+            className="btn button-round button-round-filled empty-cart-button"
+            onClick={handleEmptyCart}
+          >
+            Empty Cart
+          </button>
+        )}
       </div>
       <div className="container">
         <div className="row">

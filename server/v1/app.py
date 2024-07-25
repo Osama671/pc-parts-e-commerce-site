@@ -53,6 +53,7 @@ def get_products_query(search, category, offset):
 
 
 @app.route('/products/featured', methods=['GET'])
+@cross_origin()
 def get_featured_products():
     db = create_connection()
     c_featuredProducts = db.cursor(dictionary=True)
@@ -120,6 +121,7 @@ def get_products():
 
 
 @app.route('/products/<int:product_id>', methods=['GET'])
+@cross_origin()
 def get_product(product_id):
     db = create_connection()
     product_cursor = db.cursor()
@@ -249,6 +251,7 @@ def clear_cart():
 
 
 @app.route('/cart/checkout', methods=['POST'])
+@cross_origin()
 def checkout():
     # Get user_id from the Authorization header
     user_id = get_user_id()
@@ -299,6 +302,7 @@ def generate_order_id(cursor):
 
 
 @app.route('/order/<order_id>', methods=['GET'])
+@cross_origin()
 def get_order(order_id):
     db = create_connection()
     user_id = get_user_id()

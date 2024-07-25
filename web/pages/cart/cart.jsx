@@ -3,6 +3,7 @@ import './cart.css'
 import { CartContext } from '../../context/CartContext.jsx'
 import Loader from '../../components/loader.jsx'
 import { parsePrice } from '../../utils/currency.js'
+import cartService from '../../services/cart.service.js'
 
 const CartItem = ({ item }) => {
   const { removeItem } = useContext(CartContext)
@@ -47,7 +48,15 @@ const CartItem = ({ item }) => {
   )
 }
 
-const Summary = ({ cart }) => {
+export const Summary = ({ cart }) => {
+  const handleCheckout = async () => {
+    try {
+      await cartService.checkout()
+    } catch (error) {
+      console.error('CartService.checkou() failed, error: ', error)
+    }
+  }
+
   return (
     <div className="col-12 col-md-4 cart-total">
       <div className="summary-container">
@@ -66,6 +75,7 @@ const Summary = ({ cart }) => {
           </tbody>
         </table>
       </div>
+
       <div className="checkout-container">
         <table>
           <tbody>
@@ -78,7 +88,11 @@ const Summary = ({ cart }) => {
           </tbody>
         </table>
         <div className="checkout">
-          <button className="btn btn-checkout" type="button">
+          <button
+            className="btn btn-checkout"
+            type="submit"
+            onClick={handleCheckout}
+          >
             Checkout
           </button>
         </div>
@@ -89,11 +103,26 @@ const Summary = ({ cart }) => {
 
 const Cart = () => {
   const { cart, isLoading } = useContext(CartContext)
-
+  const handleEmptyCart = async () => {
+    try {
+      cartService.emptyCart()
+      window.location.reload()
+    } catch (error) {
+      console.error('Unable to empty cart', error)
+    }
+  }
   return (
     <>
       <div className="container title-container py-3">
         <h1>Your Cart</h1>
+        {cart.items.length > 0 && (
+          <button
+            className="btn button-round button-round-filled empty-cart-button"
+            onClick={handleEmptyCart}
+          >
+            Empty Cart
+          </button>
+        )}
       </div>
       <div className="container">
         <div className="row">

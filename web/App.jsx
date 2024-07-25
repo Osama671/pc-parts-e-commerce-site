@@ -3,6 +3,7 @@ import './App.css'
 import './css/common.css'
 import { FourOhFour } from './pages/404.jsx'
 import { Home } from './pages/home.jsx'
+import { Products } from './pages/Products.jsx'
 import Product from './pages/product.jsx'
 import Cart from './pages/cart/cart.jsx'
 import Layout from './components/layout.jsx'
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         element: <FourOhFour />,
       },
     ],
+  },
+  {
+    path: '/products',
+    element: <Products />,
   },
 ])
 

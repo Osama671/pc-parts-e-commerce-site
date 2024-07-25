@@ -13,6 +13,21 @@ router.get('/', async (req, resp) => {
   }
 })
 
+router.delete('/', async (req, res) => {
+  try {
+    const userId = req.userId
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' })
+    }
+
+    const cart = await cartService.clearCart(userId)
+    res.json({ cart })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 router.post('/add', async (req, res) => {
   try {
     const userId = req.userId

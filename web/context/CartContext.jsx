@@ -13,35 +13,45 @@ const CartProvider = ({ children }) => {
   })
   const [isLoading, setIsLoading] = useState(false)
 
+  const [toastState, setToastState] = useState({
+    showToast: false,
+    toastMessage: '',
+  })
+
   const updateCart = async () => {
-    const items = await cartService.getCartItems()
-    const products = await cartService.getCartProducts()
+    setIsLoading(true)
+    try {
+      const items = await cartService.getCart()
 
-    const cartItems = items.map((item, i) => ({
-      ...item,
-      product: products[i],
-    }))
+      const subTotal = items.reduce((total, item, i) => {
+        return (total += items[i].quantity * item.product.price)
+      }, 0)
 
-    const subTotal = products.reduce(
-      (total, product, i) => (total += items[i].quantity * product.price),
-      0
-    )
-
-    const taxes = subTotal * 0.13
-    const total = subTotal + taxes
-
-    return {
-      items: cartItems,
-      subTotal,
-      taxes,
-      total,
+      const taxes = subTotal * 0.13
+      const total = subTotal + taxes
+      setCart({
+        items,
+        subTotal,
+        taxes,
+        total,
+      })
+      setIsLoading(false)
+    } catch (e) {
+      setIsLoading(false)
     }
   }
 
   const removeItem = async (item) => {
     await cartService.removeFromCart(item.product.id)
-    updateCart().then((cart) => {
-      setCart(cart)
+    updateCart()
+  }
+
+  const addToCart = async (id, quantity) => {
+    await cartService.addToCart(id, quantity)
+    updateCart()
+    setToastState({
+      showToast: true,
+      toastMessage: 'Item added to cart',
     })
   }
 
@@ -57,16 +67,21 @@ const CartProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    updateCart().then((cart) => {
-      setCart(cart)
-      setIsLoading(false)
-    })
+    updateCart()
   }, [])
 
   return (
     <CartContext.Provider
-      value={{ cart, isLoading, removeItem, checkout, emptyCart }}
+      value={{
+        cart,
+        isLoading,
+        removeItem,
+        addToCart,
+        setToastState,
+        toastState,
+        checkout,
+        emptyCart,
+      }}
     >
       {children}
     </CartContext.Provider>

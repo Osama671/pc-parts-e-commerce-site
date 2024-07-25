@@ -113,7 +113,7 @@ const Cart = () => {
           {cart.items.length > 0 && <Summary cart={cart} />}
         </div>
       </div>
-      {cart.items.length === 0 && (
+      {cart.items.length === 0 && !isLoading && (
         <div className="empty-cart-logo">
           <img src="/img/emptyCart.jpg" alt="empty-cart" />
           <div className="text-center">Your Cart is empty</div>

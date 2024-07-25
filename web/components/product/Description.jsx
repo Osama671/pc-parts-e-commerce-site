@@ -1,39 +1,18 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import QuantitySelector from './QuantitySelector'
 import AddToCartBtn from './AddToCartBtn'
-import cartService from '../../services/cart.service.js'
-import ToastMessage from './ToastMessage.jsx'
+import { CartContext } from '../../context/CartContext.jsx'
 
 const Description = ({ product }) => {
+  const { addToCart } = useContext(CartContext)
   const [quantity, setQuantity] = useState(1)
-  const [showToast, setShowToast] = useState(false)
-  const [toastMessage, setToastMessage] = useState('')
 
   const handleQuantityChange = (newQuantity) => {
     setQuantity(newQuantity)
   }
 
-  const handleAddToCart = async () => {
-    const showToast = (message) => {
-      setToastMessage(message)
-      setShowToast(true)
-    }
-
-    try {
-      const cart = await cartService.addToCart(product.id, quantity, showToast)
-      console.log('Cart updated:', cart)
-    } catch (error) {
-      console.error('Error adding to cart:', error)
-    }
-  }
-
   return (
     <>
-      <ToastMessage
-        show={showToast}
-        message={toastMessage}
-        onClose={() => setShowToast(false)}
-      />
       {product ? (
         <div className="description col-12 col-md-6">
           <div className="desc-container">
@@ -58,7 +37,11 @@ const Description = ({ product }) => {
                 />
               </div>
               <div className="col-auto ms-auto">
-                <AddToCartBtn onAddToCart={handleAddToCart} />
+                <AddToCartBtn
+                  onAddToCart={addToCart}
+                  productId={product.id}
+                  quantity={quantity}
+                />
               </div>
             </div>
           </div>

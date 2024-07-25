@@ -4,114 +4,64 @@ import userService from './user.service.js'
 class CartService {
   cartItems = []
 
-  url = 'https://fsdm-pc-shop-v1.georgevm.com'
+  url = 'http://localhost:8080/api/cart'
 
-  cartItemsPromise = null
-
-  async getCartItems() {
-    if (this.cartItemsPromise) {
-      return this.cartItemsPromise
-    }
-
-    if (!this.cartItems.length) {
-      this.cartItemsPromise = new Promise((resolve) => {
-        $.ajax({
-          url: `${this.url}/cart`, // Replace URL with the prod url
-          type: 'GET',
-          headers: {
-            Authorization: userService.getAuth(),
-            'Content-Type': 'application/json',
-          },
-          success: (cartRes) => {
-            this.cartItems = cartRes.cart
-            resolve(this.cartItems)
-            this.cartItemsPromise = null
-          },
-          error: function (_, status, error) {
-            console.error(
-              'GET request failed with status',
-              status,
-              'and error',
-              error
-            )
-          },
-        })
-      })
-
-      return this.cartItemsPromise
-    }
-    return this.cartItems
-  }
-
-  async getCartProducts() {
-    var items = await this.getCartItems()
-    var fetchedProdcuts = []
-    var promises = items.map(async (item) => {
-      const product = await productService.getProduct(item.product_id)
-      fetchedProdcuts.push(product)
-    })
-    await Promise.all(promises)
-    return fetchedProdcuts
-  }
-
-  async getCartItemsCount() {
-    var cartCount = await this.getCartItems()
-    return cartCount.length
-  }
-
-  async addToCart(id, quantity, showToast) {
+  async getCart() {
     try {
-      let response = await $.ajax({
-        url: `${this.url}/cart/add`, // Replace URL with the prod url
-        type: 'POST',
-        data: JSON.stringify({
+      const response = await fetch(`${this.url}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userService.getAuth(),
+        },
+        method: 'GET',
+      })
+      const data = await response.json()
+      const products = []
+      const productsPromises = data.cart.map(async (item, i) => {
+        const product = await productService.getProduct(item.product_id)
+        products.push({ ...data.cart[i], product })
+      })
+      await Promise.all(productsPromises)
+
+      return products
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
+  async addToCart(id, quantity) {
+    try {
+      const response = await fetch(`${this.url}/add`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userService.getAuth(),
+        },
+        method: 'POST',
+        body: JSON.stringify({
           product_id: id,
           quantity: quantity,
         }),
-        headers: {
-          Authorization: userService.getAuth(),
-          'Content-Type': 'application/json',
-        },
       })
-
-      this.cartItems = response.cart
-      if (showToast) showToast('Item added to cart')
-      return this.cartItems
-    } catch (error) {
-      console.error(
-        'POST request failed with status',
-        error.status,
-        'and error',
-        error.error
-      )
+      const data = await response.json()
+      return data.cart
+    } catch (e) {
+      throw new Error(e)
     }
   }
 
   async setQuantity(id, quantity) {
-    let response = await $.ajax({
-      url: `${this.url}/cart/item/` + id, // Replace URL with the prod url
-      type: 'POST',
-      data: JSON.stringify({
+    const response = await fetch(`${this.url}/cart/item/` + id, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userService.getAuth(),
+      },
+      method: 'POST',
+      body: JSON.stringify({
         quantity: quantity,
       }),
-      headers: {
-        Authorization: userService.getAuth(),
-        'Content-Type': 'application/json',
-      },
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'POST request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
     })
-    this.cartItems = response.cart
-    return this.cartItems
+
+    return response.cart
   }
 
   async removeFromCart(id) {

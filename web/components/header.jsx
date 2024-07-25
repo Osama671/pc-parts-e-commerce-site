@@ -3,7 +3,6 @@ import { CartContext } from '../context/CartContext.jsx'
 
 const Header = () => {
   const { cart } = useContext(CartContext)
-
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary text-light">
       <div className="container-fluid">

@@ -3,7 +3,6 @@ import cartService from '../services/cart.service.js'
 
 export const CartContext = createContext()
 
-
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({
     items: [],

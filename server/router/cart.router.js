@@ -7,9 +7,30 @@ router.get('/', async (req, resp) => {
   try {
     const userId = req.user._id
     const cart = await cartService.getCart(userId)
-    resp.json(cart)
+    resp.json({ cart })
   } catch (err) {
     resp.status(500).json({ error: err })
+  }
+})
+
+router.post('/add', async (req, res) => {
+  try {
+    const userId = req.userId
+    const productId = req.body.product_id
+    const quantity = req.body.quantity
+
+    if (!userId || !productId || quantity === undefined) {
+      return res
+        .status(400)
+        .json({ error: 'User ID, product ID, and quantity are required' })
+    }
+
+    const cart = await cartService.addToCart(userId, productId, quantity)
+
+    res.json({ cart })
+  } catch (err) {
+    console.error('Error in POST /cart/add:', err)
+    res.status(500).json({ error: 'Failed to add item to cart' })
   }
 })
 

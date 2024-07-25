@@ -4,8 +4,9 @@ import cartRouter from './cart.router.js'
 import userRouter from './user.router.js'
 import { authMiddleware } from '../middleware/auth.middleware.js'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 const router = Router()
-
+router.use(cors())
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 router.use('/auth', userRouter)

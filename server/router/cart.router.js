@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import * as cartService from '../services/cart.service.js'
+import * as orderService from '../services/orders.service.js'
 
 const router = Router()
 
@@ -46,6 +47,37 @@ router.post('/add', async (req, res) => {
   } catch (err) {
     console.error('Error in POST /cart/add:', err)
     res.status(500).json({ error: 'Failed to add item to cart' })
+  }
+})
+
+router.delete('/item/:product_id', async (req, res) => {
+  try {
+    const userId = req.userId
+    const productId = parseInt(req.params.product_id)
+    if (!userId || !productId) {
+      return res.status(400).json({ error: 'User ID, cartItemId are required' })
+    }
+
+    const cart = await cartService.removeFromCart(userId, productId)
+
+    res.json({ cart })
+  } catch (err) {
+    console.error('Error in DELETE /cart/item:', err)
+    res.status(500).json({ error: 'Failed to add item to cart' })
+  }
+})
+
+router.post('/checkout', async (req, resp) => {
+  const userId = req.userId
+  if (!userId) {
+    return resp.status(400).json({ error: 'userId or cart missing' })
+  }
+  try {
+    const orderId = await orderService.checkout(userId)
+    resp.json(orderId)
+  } catch (error) {
+    console.error('Error in POST /cart/checkout', error)
+    resp.status(500).json({ error: 'Failed to add item to cart' })
   }
 })
 

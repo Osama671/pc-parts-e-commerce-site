@@ -20,6 +20,10 @@ export async function addToCart(userId, product_id, quantity) {
   }
 }
 
+export async function removeFromCart(userId, product_id) {
+  await cartCollection.deleteOne({ userId, product_id })
+}
+
 export async function clearCart(userId) {
   await cartCollection.deleteMany({ userId })
 }

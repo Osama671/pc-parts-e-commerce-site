@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import * as cartService from '../services/cart.service.js'
+import * as orderService from '../services/orders.service.js'
 
 const router = Router()
 
@@ -46,6 +47,20 @@ router.post('/add', async (req, res) => {
   } catch (err) {
     console.error('Error in POST /cart/add:', err)
     res.status(500).json({ error: 'Failed to add item to cart' })
+  }
+})
+
+router.post('/checkout', async (req, resp) => {
+  const userId = req.userId
+  if (!userId) {
+    return resp.status(400).json({ error: 'userId or cart missing' })
+  }
+  try {
+    const orderId = await orderService.checkout(userId)
+    resp.json(orderId)
+  } catch (error) {
+    console.error('Error in POST /cart/checkout', error)
+    resp.status(500).json({ error: 'Failed to add item to cart' })
   }
 })
 

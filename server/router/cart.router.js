@@ -50,6 +50,23 @@ router.post('/add', async (req, res) => {
   }
 })
 
+router.delete('/item', async (req, res) => {
+  try {
+    const userId = req.userId
+    const productId = req.body.product_id
+    if (!userId || !productId) {
+      return res.status(400).json({ error: 'User ID, product ID are required' })
+    }
+
+    const cart = await cartService.removeFromCart(userId, productId)
+
+    res.json({ cart })
+  } catch (err) {
+    console.error('Error in DELETE /cart/item:', err)
+    res.status(500).json({ error: 'Failed to add item to cart' })
+  }
+})
+
 router.post('/checkout', async (req, resp) => {
   const userId = req.userId
   if (!userId) {

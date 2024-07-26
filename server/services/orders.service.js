@@ -5,6 +5,6 @@ export async function checkout(userId) {
     const orderId = await ordersRepository.checkout(userId)
     return orderId
   } catch (error) {
-    console.error('Error in POST /cart/add:', error)
+    console.error('Error in POST /cart/checkout:', error)
   }
 }

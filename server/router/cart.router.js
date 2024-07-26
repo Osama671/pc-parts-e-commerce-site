@@ -54,7 +54,6 @@ router.delete('/item/:cart_item_id', async (req, res) => {
   try {
     const userId = req.userId
     const cartItemId = parseInt(req.params.cart_item_id)
-    console.log(cartItemId)
     if (!userId || !cartItemId) {
       return res.status(400).json({ error: 'User ID, cartItemId are required' })
     }

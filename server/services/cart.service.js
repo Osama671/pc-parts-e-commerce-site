@@ -19,3 +19,23 @@ export async function addToCart(userId, product_id, quantity) {
     throw new Error('Failed to add item to cart')
   }
 }
+
+export async function removeFromCart(userId, product_id) {
+  try {
+    await cartRepository.removeFromCart(userId, product_id)
+    return getCart(userId)
+  } catch (error) {
+    console.error('Error in cart service:', error)
+    throw new Error('Failed to remove item from cart')
+  }
+}
+
+export async function clearCart(userId) {
+  try {
+    await cartRepository.clearCart(userId)
+    return []
+  } catch (error) {
+    console.error('Error in cart service:', error)
+    throw new Error('Failed to clear cart')
+  }
+}

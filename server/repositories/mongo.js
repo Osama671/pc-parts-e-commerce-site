@@ -7,7 +7,6 @@ import { isDev, mongoUri } from '../confg.js'
 import process from 'node:process'
 
 const client = new MongoClient(mongoUri)
-
 process.on('uncaughtException', (error) => {
   if (
     (error instanceof MongoServerSelectionError ||

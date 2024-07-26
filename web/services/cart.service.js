@@ -132,7 +132,6 @@ class CartService {
         )
       },
     })
-    this.cartItems = []
     return response.order_id
   }
 

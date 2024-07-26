@@ -22,11 +22,11 @@ export async function getOrderProducts(orderId) {
     if (!order) {
       throw new Error('Order not found')
     }
-    const products = order.products.map(async (product) => {
+    const products = order.products.map((product) => {
       return { product_id: product.product_id, quantity: product.quantity }
     })
 
-    return { order: await Promise.all(products) }
+    return { order: products }
   } catch (error) {
     throw new Error(error.message)
   }

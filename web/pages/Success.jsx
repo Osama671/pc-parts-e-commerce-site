@@ -11,7 +11,7 @@ export default function Success() {
 
   useEffect(() => {
     if (!orderId) {
-      return;
+      return
     }
     const getOrderInfo = async () => {
       try {

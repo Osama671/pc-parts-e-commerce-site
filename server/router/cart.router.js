@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as cartService from '../services/cart.service.js'
-import * as ordersRepository from '../services/orders.service.js'
+import * as orderService from '../services/orders.service.js'
 
 const router = Router()
 
@@ -56,7 +56,7 @@ router.post('/checkout', async (req, resp) => {
     return resp.status(400).json({ error: 'userId or cart missing' })
   }
   try {
-    const orderId = await ordersRepository.checkout(userId)
+    const orderId = await orderService.checkout(userId)
     resp.json(orderId)
   } catch (error) {
     console.error('Error in POST /cart/checkout', error)

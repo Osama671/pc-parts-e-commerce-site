@@ -8,13 +8,8 @@ export async function checkout(userId) {
       throw new Error('User has no items in their cart.')
     }
 
-    cartProducts.forEach((product) => ({
-      product_id: product.product_id,
-      quantity: product.quantity,
-    }))
     let insertedOrder = await ordersRepository.insertOrder(userId, cartProducts)
     await clearCart(userId)
-
     return { orderId: insertedOrder.insertedId }
   } catch (error) {
     throw new Error(error.message)

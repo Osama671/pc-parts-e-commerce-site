@@ -1,5 +1,5 @@
 import * as ordersRepository from '../repositories/orders.repository.js'
-import { getCart } from './cart.service.js'
+import { clearCart, getCart } from './cart.service.js'
 
 export async function checkout(userId) {
   try {
@@ -12,8 +12,10 @@ export async function checkout(userId) {
       product_id: product.product_id,
       quantity: product.quantity,
     }))
-    let orderId = await ordersRepository.checkout(userId, cartProducts)
-    return orderId
+    let insertedOrder = await ordersRepository.insertOrder(userId, cartProducts)
+    await clearCart(userId)
+
+    return { orderId: insertedOrder.insertedId }
   } catch (error) {
     throw new Error(error.message)
   }

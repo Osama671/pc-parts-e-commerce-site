@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import DisplayOrderProducts from '../components/DisplayOrderProducts.jsx'
+import OrderProducts from '../components/DisplayOrderProducts.jsx'
 import cartService from '../services/cart.service.js'
 import productService from '../services/product.service.js'
 
@@ -10,6 +10,9 @@ export default function Success() {
   const orderId = searchParams.get('orderID')
 
   useEffect(() => {
+    if (!orderId) {
+      return;
+    }
     const getOrderInfo = async () => {
       try {
         const data = await cartService.getOrder(orderId)
@@ -44,7 +47,7 @@ export default function Success() {
         <ul className="order-items p-0">
           {orderProducts.length > 0 &&
             orderProducts.map((product) => (
-              <DisplayOrderProducts
+              <OrderProducts
                 key={product.details.id}
                 quantity={product.quantity}
                 details={product.details}

@@ -1,6 +1,6 @@
 import productService from '../services/product.service.js'
 
-export default function DisplayOrderProducts(productInfo) {
+export default function OrderProducts(productInfo) {
   return (
     <li className="product-item list-group-item d-flex justify-content-between align-items-center">
       <div className="product-details">

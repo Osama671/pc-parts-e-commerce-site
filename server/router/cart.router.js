@@ -50,15 +50,15 @@ router.post('/add', async (req, res) => {
   }
 })
 
-router.delete('/item/:cart_item_id', async (req, res) => {
+router.delete('/item/:product_id', async (req, res) => {
   try {
     const userId = req.userId
-    const cartItemId = parseInt(req.params.cart_item_id)
-    if (!userId || !cartItemId) {
+    const productId = parseInt(req.params.product_id)
+    if (!userId || !productId) {
       return res.status(400).json({ error: 'User ID, cartItemId are required' })
     }
 
-    const cart = await cartService.removeFromCart(userId, cartItemId)
+    const cart = await cartService.removeFromCart(userId, productId)
 
     res.json({ cart })
   } catch (err) {

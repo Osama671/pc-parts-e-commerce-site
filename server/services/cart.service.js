@@ -39,3 +39,16 @@ export async function clearCart(userId) {
     throw new Error('Failed to clear cart')
   }
 }
+
+export async function updateQuantity(userId, productId, quantity) {
+  try {
+    if (quantity == 0) {
+      return await removeFromCart(userId, productId)
+    }
+    await cartRepository.updateQuantity(userId, productId, quantity)
+    return await getCart(userId)
+  } catch (error) {
+    console.error('Error in cart service:', error)
+    throw new Error('Failed to clear cart')
+  }
+}

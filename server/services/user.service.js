@@ -9,15 +9,15 @@ export async function registerUser({ name, email, password }) {
     throw new Error('User already exists')
   }
   const hashedPassword = await bcrypt.hash(password, 10)
-  return userRepository.registerUser({ name, email, hashedPassword })
+  return await userRepository.registerUser({ name, email, hashedPassword })
 }
 
 export async function getUser(email) {
-  return userRepository.getUserByEmail(email)
+  return await userRepository.getUserByEmail(email)
 }
 
 export async function getUserById(id) {
-  return userRepository.getUserById(id)
+  return await userRepository.getUserById(id)
 }
 
 export async function login(email, password) {

@@ -27,3 +27,10 @@ export async function removeFromCart(userId, product_id) {
 export async function clearCart(userId) {
   await cartCollection.deleteMany({ userId })
 }
+
+export async function updateQuantity(userId, productId, quantity) {
+  await cartCollection.updateOne(
+    { userId, product_id: productId },
+    { $set: { quantity: quantity } }
+  )
+}

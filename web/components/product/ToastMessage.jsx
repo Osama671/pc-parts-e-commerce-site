@@ -18,6 +18,7 @@ const ToastMessage = () => {
         show={toastState.showToast}
         onClose={() => setToastState({ showToast: false, toastMessage: '' })}
         delay={3000}
+        bg={toastState.variant ?? 'success'}
         autohide
       >
         <Toast.Body className="bg-success rounded text-light">

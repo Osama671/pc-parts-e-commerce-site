@@ -34,14 +34,14 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: '/products',
+        element: <Products />,
+      },
+      {
         path: '*',
         element: <FourOhFour />,
       },
     ],
-  },
-  {
-    path: '/products',
-    element: <Products />,
   },
 ])
 

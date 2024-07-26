@@ -6,12 +6,12 @@ const LoginModal = ({ handleClose, setIsLogin }) => {
   const { login } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [stayLoggedIn, setStayLoggedIn] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await login(email, password)
-      alert('Login successful')
+      await login(email, password, stayLoggedIn)
       handleClose()
     } catch (error) {
       console.error(error.response.data.message)
@@ -44,6 +44,18 @@ const LoginModal = ({ handleClose, setIsLogin }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+          </div>
+          <div className="form-group form-check">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="setLoggedIn"
+              checked={stayLoggedIn}
+              onChange={(e) => setStayLoggedIn(e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="setLoggedIn">
+              Keep me logged in
+            </label>
           </div>
           <p>
             Not registered?{' '}

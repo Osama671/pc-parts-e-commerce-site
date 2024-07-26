@@ -37,7 +37,7 @@ router.post('/register', async (req, resp) => {
   try {
     await userService.registerUser({
       name,
-      email,
+      email: email.toLowerCase(),
       password,
     })
     resp.status(201).json({ message: 'User created successfully' })

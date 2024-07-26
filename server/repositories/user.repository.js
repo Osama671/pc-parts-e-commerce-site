@@ -6,7 +6,7 @@ userCollection.createIndex('email')
 
 export async function getUserByEmail(email) {
   try {
-    return userCollection.findOne({ email })
+    return await userCollection.findOne({ email })
   } catch (e) {
     throw new Error(e)
   }
@@ -14,7 +14,7 @@ export async function getUserByEmail(email) {
 
 export async function getUserById(id) {
   try {
-    return userCollection.findOne({ _id: new ObjectId(id) })
+    return await userCollection.findOne({ _id: new ObjectId(id) })
   } catch (e) {
     console.log(e)
     throw new Error(e)
@@ -23,7 +23,11 @@ export async function getUserById(id) {
 
 export async function registerUser({ name, email, hashedPassword }) {
   try {
-    return userCollection.insertOne({ email, password: hashedPassword, name })
+    return await userCollection.insertOne({
+      email,
+      password: hashedPassword,
+      name,
+    })
   } catch (e) {
     throw new Error(e)
   }

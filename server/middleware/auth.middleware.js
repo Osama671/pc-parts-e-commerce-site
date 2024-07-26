@@ -14,6 +14,7 @@ export const authMiddleware = async (req, res, next) => {
       return res.sendStatus(403)
     }
     req.user = user
+    req.userId = user._id
     next()
   } catch (error) {
     res.sendStatus(403)

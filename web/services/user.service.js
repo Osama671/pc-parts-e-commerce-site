@@ -22,18 +22,27 @@ class UserService {
     return userName
   }
   getAuth() {
-    return 'Basic ' + btoa(`${userService.getUser()}:`)
+    // return 'Basic ' + btoa(`${userService.getUser()}:`)
+    return `Bearer ${this.getUserToken()}`
   }
 
   getUserToken() {
-    return localStorage.getItem('token')
+    let token = null
+    if (localStorage.getItem('token')) {
+      token = localStorage.getItem('token')
+    } else if (sessionStorage.getItem('token')) {
+      token = sessionStorage.getItem('token')
+    }
+    return token
   }
 
-  setUserToken(token) {
-    localStorage.setItem('token', token)
+  setUserToken(token, stayLoggedIn) {
+    stayLoggedIn
+      ? localStorage.setItem('token', token)
+      : sessionStorage.setItem('token', token)
   }
 
-  async login(email, password) {
+  async login(email, password, stayLoggedIn) {
     try {
       const response = await fetch(`${this.url}/auth/login`, {
         headers: {
@@ -42,8 +51,11 @@ class UserService {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       })
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
       const data = await response.json()
-      this.setUserToken(data.token)
+      this.setUserToken(data.token, stayLoggedIn)
       return data
     } catch (e) {
       throw new Error(e)
@@ -55,7 +67,7 @@ class UserService {
       const response = await fetch(`${this.url}/auth/login`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: this.getAuth(),
         },
         method: 'GET',
       })
@@ -75,6 +87,9 @@ class UserService {
         method: 'POST',
         body: JSON.stringify({ name, email, password }),
       })
+      if (!response.ok) {
+        throw new Error(response.statusText)
+      }
       const data = await response.json()
       return data
     } catch (e) {

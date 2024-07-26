@@ -9,12 +9,14 @@ export const AuthProvider = ({ children }) => {
   const [toastState, setToastState] = useState({
     showToast: false,
     toastMessage: '',
+    variant: '',
   })
 
-  const showToast = (message) => {
+  const showToast = (message, variant) => {
     setToastState({
       showToast: true,
       toastMessage: message,
+      variant,
     })
   }
 
@@ -27,9 +29,11 @@ export const AuthProvider = ({ children }) => {
             name: data.user.name,
             email: data.user.email,
           })
+          showToast(`Welcome ${data.user.name}`)
         }
         setLoading(false)
       } catch (e) {
+        showToast('You have been logged out, please log in again', 'danger')
         userService.logout()
         setLoading(false)
       }
@@ -37,15 +41,16 @@ export const AuthProvider = ({ children }) => {
     fetchUser()
   }, [])
 
-  const login = async (email, password) => {
+  const login = async (email, password, stayLoggedIn) => {
     try {
       setLoading(true)
-      const data = await userService.login(email, password)
+      const data = await userService.login(email, password, stayLoggedIn)
       console.log(data)
       setUser({
         name: data.user.name,
         email: data.user.email,
       })
+      showToast(`Welcome ${data.user.name}`)
       setLoading(false)
     } catch (e) {
       console.log(e)
@@ -56,13 +61,16 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     userService.logout()
     setUser(null)
+    showToast(`You have been logged out`, 'danger')
   }
 
   const register = async (name, email, password) => {
     try {
       await userService.register(name, email, password)
+      showToast(`Registration successful, please login`)
     } catch (e) {
       console.log(e)
+      showToast(`${e.message}`)
       throw new Error(e)
     }
   }

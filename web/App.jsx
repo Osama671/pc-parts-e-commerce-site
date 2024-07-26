@@ -27,9 +27,7 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <Cart />,
       },
-      { path: '/success',
-        element: <Success />
-      },
+      { path: '/success', element: <Success /> },
       {
         path: '*',
         element: <FourOhFour />,

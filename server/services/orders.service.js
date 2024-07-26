@@ -1,6 +1,5 @@
 import * as ordersRepository from '../repositories/orders.repository.js'
 import { clearCart, getCart } from './cart.service.js'
-import { getProductById } from './product.service.js'
 
 export async function checkout(userId) {
   try {
@@ -24,11 +23,10 @@ export async function getOrderProducts(orderId) {
       throw new Error('Order not found')
     }
     const products = order.products.map(async (product) => {
-      const productDocument = await getProductById(product.product_id)
-      return { ...productDocument, quantity: product.quantity }
+      return { product_id: product.product_id, quantity: product.quantity }
     })
 
-    return { ...order, products: await Promise.all(products) }
+    return { order: await Promise.all(products) }
   } catch (error) {
     throw new Error(error.message)
   }

@@ -1,4 +1,5 @@
 import { db } from './mongo.js'
+import { ObjectId } from 'mongodb'
 
 const ordersCollection = db.collection('orders')
 ordersCollection.createIndex('orderId')
@@ -11,4 +12,8 @@ export async function insertOrder(userId, products) {
       quantity: product.quantity,
     })),
   })
+}
+
+export async function getOrder(orderId) {
+  return await ordersCollection.findOne({ _id: new ObjectId(orderId) })
 }

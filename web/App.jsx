@@ -6,6 +6,7 @@ import { Home } from './pages/home.jsx'
 import { Products } from './pages/Products.jsx'
 import Product from './pages/product.jsx'
 import Cart from './pages/cart/cart.jsx'
+import Success from './pages/Success.jsx'
 import Layout from './components/layout.jsx'
 import CartProvider from './context/CartContext.jsx'
 
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <Cart />,
       },
+      { path: '/success', element: <Success /> },
       {
         path: '*',
         element: <FourOhFour />,

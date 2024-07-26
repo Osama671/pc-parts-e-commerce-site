@@ -60,6 +60,7 @@ router.post('/checkout', async (req, resp) => {
     resp.json(orderId)
   } catch (error) {
     console.error('Error in POST /cart/checkout', error)
+    resp.status(500).json({ error: 'Failed to add item to cart' })
   }
 })
 

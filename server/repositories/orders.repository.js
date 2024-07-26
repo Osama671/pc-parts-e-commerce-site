@@ -10,7 +10,7 @@ export async function checkout(userId, products) {
     await clearCart(userId)
     return { orderId: insertedOrder.insertedId }
   } catch (error) {
-    console.error('Checkout failed')
+    throw new Error('Checkout failed')
   }
 }
 

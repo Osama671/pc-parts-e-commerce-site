@@ -12,9 +12,9 @@ export async function checkout(userId) {
       product_id: product.product_id,
       quantity: product.quantity,
     }))
-    let orderId = ordersRepository.checkout(userId, cartProducts)
+    let orderId = await ordersRepository.checkout(userId, cartProducts)
     return orderId
   } catch (error) {
-    console.error('Error in POST /cart/checkout:', error.message)
+    throw new Error(error.message)
   }
 }

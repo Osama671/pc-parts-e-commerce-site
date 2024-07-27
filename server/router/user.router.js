@@ -21,9 +21,11 @@ router.post('/login', async (req, resp) => {
       const loginResponse = await userService.login(email, password)
       resp.json(loginResponse)
     } catch (error) {
+      console.error('Error: ', error.message)
       resp.status(500).json({ message: 'Server error' })
     }
   } catch (err) {
+    console.error('Error: ', err.message)
     resp.status(500).json({ error: err.message })
   }
 })

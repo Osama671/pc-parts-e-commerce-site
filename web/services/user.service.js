@@ -1,5 +1,5 @@
 class UserService {
-  url = 'http://localhost:8080/api'
+  url = '/api'
   generateRandomUsername() {
     const charset =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

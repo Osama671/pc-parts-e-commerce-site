@@ -2,7 +2,7 @@ import userService from './user.service.js'
 
 class CartService {
   cartItems = []
-  url = 'http://localhost:8080/api/order'
+  url = '/api/order'
 
   async getOrder(orderID) {
     try {

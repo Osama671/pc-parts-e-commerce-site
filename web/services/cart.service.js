@@ -3,8 +3,7 @@ import userService from './user.service.js'
 
 class CartService {
   cartItems = []
-  url = 'http://localhost:8080/api/cart'
-  // url = 'https://fsdm-pc-shop-v1.georgevm.com/cart'
+  url = '/api/cart'
 
   async getCart() {
     try {

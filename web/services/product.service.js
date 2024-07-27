@@ -15,8 +15,7 @@ export class PaginatedProducts {
 }
 
 class ProductService {
-  // url = 'https://fsdm-pc-shop-v1.georgevm.com'
-  url = 'http://localhost:8080/api'
+  url = '/api'
 
   async findProducts(category, search, pageNumber, productsPerPage) {
     let products = await this.getProducts(pageNumber, category, search)

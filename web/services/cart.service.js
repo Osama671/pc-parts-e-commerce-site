@@ -113,6 +113,7 @@ class CartService {
   }
 
   async getOrder(orderID) {
+    console.log('cart service: ', orderID)
     try {
       let response = await $.ajax({
         url: `${this.url}/order/` + orderID, // Replace URL with the prod url
@@ -134,7 +135,8 @@ class CartService {
         },
       })
       return response.order
-    } catch {
+    } catch (error) {
+      console.log(error)
       return []
     }
   }

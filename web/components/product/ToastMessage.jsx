@@ -1,6 +1,9 @@
+import { useContext } from 'react'
 import { Toast, ToastContainer } from 'react-bootstrap'
+import AuthContext from '../../context/AuthContext.jsx'
 
-const ToastMessage = ({ show, message, onClose }) => {
+const ToastMessage = () => {
+  const { setToastState, toastState } = useContext(AuthContext)
   return (
     <ToastContainer
       className="p-3"
@@ -11,10 +14,16 @@ const ToastMessage = ({ show, message, onClose }) => {
         zIndex: 9999,
       }}
     >
-      <Toast show={show} onClose={onClose} delay={3000} autohide>
+      <Toast
+        show={toastState.showToast}
+        onClose={() => setToastState({ showToast: false, toastMessage: '' })}
+        delay={3000}
+        bg={toastState.variant ?? 'success'}
+        autohide
+      >
         <Toast.Body className="bg-success rounded text-light">
           <i className="bi bi-bag-check mx-2"></i>
-          {message}
+          {toastState.toastMessage}
         </Toast.Body>
       </Toast>
     </ToastContainer>

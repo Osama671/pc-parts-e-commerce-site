@@ -1,9 +1,11 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import cartService from '../services/cart.service.js'
+import AuthContext from './AuthContext.jsx'
 
 export const CartContext = createContext()
 
 const CartProvider = ({ children }) => {
+  const { showToast } = useContext(AuthContext)
   const [cart, setCart] = useState({
     items: [],
     subTotal: 0,
@@ -11,11 +13,6 @@ const CartProvider = ({ children }) => {
     total: 0,
   })
   const [isLoading, setIsLoading] = useState(false)
-
-  const [toastState, setToastState] = useState({
-    showToast: false,
-    toastMessage: '',
-  })
 
   const updateCart = async () => {
     setIsLoading(true)
@@ -48,10 +45,7 @@ const CartProvider = ({ children }) => {
   const addToCart = async (id, quantity) => {
     await cartService.addToCart(id, quantity)
     updateCart()
-    setToastState({
-      showToast: true,
-      toastMessage: 'Item added to cart',
-    })
+    showToast('Item added to cart')
   }
 
   const checkout = async () => {
@@ -65,6 +59,11 @@ const CartProvider = ({ children }) => {
     setCart({ items: [], subTotal: 0, taxes: 0, total: 0 })
   }
 
+  const setQuantity = async (product_id, quantity) => {
+    await cartService.setQuantity(product_id, quantity)
+    updateCart()
+  }
+
   useEffect(() => {
     updateCart()
   }, [])
@@ -76,10 +75,9 @@ const CartProvider = ({ children }) => {
         isLoading,
         removeItem,
         addToCart,
-        setToastState,
-        toastState,
         checkout,
         emptyCart,
+        setQuantity,
       }}
     >
       {children}

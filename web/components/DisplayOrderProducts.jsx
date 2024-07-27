@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import productService from '../services/product.service.js'
 
 export default function OrderProducts(productInfo) {
@@ -7,12 +8,12 @@ export default function OrderProducts(productInfo) {
         <div className="d-flex justify-content-between align-items-center">
           <img className="image-placeholder" src={productInfo.details.image} />
           <div className="product">
-            <a
+            <Link
               className="product-link"
-              href={`/product/${productInfo.details.id}`}
+              to={`/product/${productInfo.details.id}`}
             >
               <p className="product-name">{productInfo.details.name}</p>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="d-flex justify-content-between px-4">

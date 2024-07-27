@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/', async (req, resp) => {
   try {
-    const userId = req.userId
+    const userId = req.user._id
     const cart = await cartService.getCart(userId)
     resp.json({ cart })
   } catch (err) {
@@ -34,7 +34,6 @@ router.post('/add', async (req, res) => {
     const userId = req.userId
     const productId = req.body.product_id
     const quantity = req.body.quantity
-
     if (!userId || !productId || quantity === undefined) {
       return res
         .status(400)
@@ -64,6 +63,29 @@ router.delete('/item/:product_id', async (req, res) => {
   } catch (err) {
     console.error('Error in DELETE /cart/item:', err)
     res.status(500).json({ error: 'Failed to add item to cart' })
+  }
+})
+
+router.post('/item/:product_id', async (req, res) => {
+  try {
+    const userId = req.userId
+    const productId = parseInt(req.params.product_id)
+    const quantity = parseInt(req.body.quantity)
+    if (!userId || !productId || !quantity) {
+      return res
+        .status(400)
+        .json({ error: 'User ID, productId, quantity are required' })
+    }
+
+    if (quantity < 0) {
+      return res.status(400).json({ error: 'Quantity cannot be negative' })
+    }
+
+    const cart = await cartService.updateQuantity(userId, productId, quantity)
+    res.json({ cart })
+  } catch (err) {
+    console.error('Error in POST /cart/item:', err)
+    res.status(500).json({ error: 'Failed to add update quantity' })
   }
 })
 

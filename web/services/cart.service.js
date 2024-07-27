@@ -3,8 +3,7 @@ import userService from './user.service.js'
 
 class CartService {
   cartItems = []
-
-  url = 'https://fsdm-pc-shop-v1.georgevm.com'
+  url = '/api/cart'
 
   async getCart() {
     try {
@@ -50,7 +49,7 @@ class CartService {
   }
 
   async setQuantity(id, quantity) {
-    const response = await fetch(`${this.url}/cart/item/` + id, {
+    const response = await fetch(`${this.url}/item/` + id, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: userService.getAuth(),
@@ -64,103 +63,50 @@ class CartService {
     return response.cart
   }
 
-  async removeFromCart(id) {
-    let response = await $.ajax({
-      url: `${this.url}/cart/item/` + id, // Replace URL with the prod url
-      type: 'DELETE',
-      headers: {
-        Authorization: userService.getAuth(),
-        'Content-Type': 'application/json',
-      },
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'DELETE request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
-    })
-    this.cartItems = response.cart
-    return this.cartItems
+  async removeFromCart(product_id) {
+    try {
+      const response = await fetch(`${this.url}/item/` + product_id, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userService.getAuth(),
+        },
+        method: 'DELETE',
+      })
+      const data = await response.json()
+      return data.cart
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   async emptyCart() {
-    let response = await $.ajax({
-      url: `${this.url}/cart`, // Replace URL with the prod url
-      type: 'DELETE',
-      headers: {
-        Authorization: userService.getAuth(),
-        'Content-Type': 'application/json',
-      },
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'DELETE request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
-    })
-    this.cartItems = response.cart
-    return this.cartItems
+    try {
+      const response = await fetch(`${this.url}/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: userService.getAuth(),
+        },
+        method: 'DELETE',
+      })
+      await response.json()
+      return []
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   async checkout() {
-    let response = await $.ajax({
-      url: `${this.url}/cart/checkout`, // Replace URL with the prod url
-      type: 'POST',
-      headers: {
-        Authorization: userService.getAuth(),
-        'Content-Type': 'application/json',
-      },
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'POST request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
-    })
-    return response.order_id
-  }
-
-  async getOrder(orderID) {
-    console.log('cart service: ', orderID)
     try {
-      let response = await $.ajax({
-        url: `${this.url}/order/` + orderID, // Replace URL with the prod url
-        type: 'GET',
+      const response = await fetch(`${this.url}/checkout`, {
         headers: {
-          Authorization: userService.getAuth(),
           'Content-Type': 'application/json',
+          Authorization: userService.getAuth(),
         },
-        success: () => {
-          // Add success logic if any
-        },
-        error: function (_, status, error) {
-          console.error(
-            'POST request failed with status',
-            status,
-            'and error',
-            error
-          )
-        },
+        method: 'POST',
       })
-      return response.order
-    } catch (error) {
-      console.log(error)
-      return []
+      return (await response.json()).orderId
+    } catch (e) {
+      throw new Error(e)
     }
   }
 }

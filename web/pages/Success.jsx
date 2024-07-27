@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import OrderProducts from '../components/DisplayOrderProducts.jsx'
-import cartService from '../services/cart.service.js'
+import orderService from '../services/order.service.js'
 import productService from '../services/product.service.js'
 
 export default function Success() {
   const [searchParams] = useSearchParams()
   const [orderProducts, setOrderProducts] = useState([])
-  const orderId = searchParams.get('orderID')
-
+  const orderId = searchParams.get('orderId')
   useEffect(() => {
     if (!orderId) {
       return
     }
     const getOrderInfo = async () => {
       try {
-        const data = await cartService.getOrder(orderId)
+        const data = await orderService.getOrder(orderId)
 
         const resolvePromise = await Promise.all(
           data.map(async (product) => {

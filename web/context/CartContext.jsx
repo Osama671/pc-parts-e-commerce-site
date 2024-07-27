@@ -59,6 +59,11 @@ const CartProvider = ({ children }) => {
     setCart({ items: [], subTotal: 0, taxes: 0, total: 0 })
   }
 
+  const setQuantity = async (product_id, quantity) => {
+    await cartService.setQuantity(product_id, quantity)
+    updateCart()
+  }
+
   useEffect(() => {
     updateCart()
   }, [])
@@ -72,6 +77,7 @@ const CartProvider = ({ children }) => {
         addToCart,
         checkout,
         emptyCart,
+        setQuantity,
       }}
     >
       {children}

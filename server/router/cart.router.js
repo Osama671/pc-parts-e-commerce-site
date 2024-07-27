@@ -70,7 +70,7 @@ router.post('/item/:product_id', async (req, res) => {
   try {
     const userId = req.userId
     const productId = parseInt(req.params.product_id)
-    const quantity = parseInt(req.params.quantity)
+    const quantity = parseInt(req.body.quantity)
     if (!userId || !productId || !quantity) {
       return res
         .status(400)

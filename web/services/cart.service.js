@@ -105,39 +105,9 @@ class CartService {
         },
         method: 'POST',
       })
-      await response.json()
-      return response.orderId
+      return (await response.json()).orderId
     } catch (e) {
       throw new Error(e)
-    }
-  }
-
-  async getOrder(orderID) {
-    console.log('cart service: ', orderID)
-    try {
-      let response = await $.ajax({
-        url: `${this.url}/order/` + orderID, // Replace URL with the prod url
-        type: 'GET',
-        headers: {
-          Authorization: userService.getAuth(),
-          'Content-Type': 'application/json',
-        },
-        success: () => {
-          // Add success logic if any
-        },
-        error: function (_, status, error) {
-          console.error(
-            'POST request failed with status',
-            status,
-            'and error',
-            error
-          )
-        },
-      })
-      return response.order
-    } catch (error) {
-      console.log(error)
-      return []
     }
   }
 }

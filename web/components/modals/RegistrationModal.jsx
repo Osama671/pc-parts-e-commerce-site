@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
-import AuthContext from '../context/AuthContext'
-import '../css/modal.css'
+import AuthContext from '../../context/AuthContext'
+import '../../css/modal.css'
 
 const RegisterModal = ({ handleClose, setIsLogin }) => {
   const { register } = useContext(AuthContext)
@@ -14,8 +14,7 @@ const RegisterModal = ({ handleClose, setIsLogin }) => {
       await register(name, email, password)
       handleClose()
     } catch (error) {
-      console.error(error.response.data.message)
-      alert('Registration failed' + error.response.data.message)
+      throw new Error(error.response.data.message)
     }
   }
 

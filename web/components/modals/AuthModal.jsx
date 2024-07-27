@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import RegisterModal from './RegistrationModal.jsx'
 import LoginModal from './LoginModal.jsx'
-import '../css/modal.css'
+import '../../css/modal.css'
 
 const AuthModal = ({ show, handleClose }) => {
   const [isLogin, setIsLogin] = useState(true)

@@ -24,41 +24,36 @@ class ProductService {
   }
 
   async getProduct(id) {
-    let output = await $.ajax({
-      url: `${this.url}/products/` + id, // Replace URL with the prod url
-      type: 'GET',
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'GET request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
-    })
-    return output
+    try {
+      const response = await fetch(`${this.url}/products/` + id, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      })
+      const data = await response.json()
+      return data
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   async getProducts(pageNumber, category, search) {
-    let output = await $.ajax({
-      url: `${this.url}/products?page=${pageNumber}&category=${category}&search=${search}`, // Replace URL with the prod url
-      type: 'GET',
-      success: () => {
-        // Add success logic if any
-      },
-      error: function (_, status, error) {
-        console.error(
-          'GET request failed with status',
-          status,
-          'and error',
-          error
-        )
-      },
-    })
-    return output
+    try {
+      const response = await fetch(
+        `${this.url}/products?page=${pageNumber}&category=${category}&search=${search}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'GET',
+        }
+      )
+      const data = await response.json()
+      return data
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   renderPrice(price) {

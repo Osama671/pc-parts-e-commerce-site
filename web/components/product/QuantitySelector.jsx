@@ -1,4 +1,4 @@
-const QuantitySelector = ({ quantity, onQuantityChange }) => {
+const QuantitySelector = ({ quantity, onQuantityChange, isCart }) => {
   const handleIncrement = () => {
     onQuantityChange(quantity + 1)
   }
@@ -10,7 +10,11 @@ const QuantitySelector = ({ quantity, onQuantityChange }) => {
   }
 
   return (
-    <div className="d-flex border border-dark border-3 rounded-pill">
+    <div
+      className={`d-flex border border-dark border-3 rounded-pill ${
+        isCart ? 'bg-white' : ''
+      }`}
+    >
       <button
         className="increaseQuantity border-0 bg-transparent"
         onClick={handleIncrement}
@@ -25,7 +29,7 @@ const QuantitySelector = ({ quantity, onQuantityChange }) => {
         disabled
         min="1"
         className="form-control text-dark text-center border-0 bg-transparent p-0"
-        style={{ width: '7ch' }}
+        style={isCart ? { width: '100%' } : { width: '7ch' }}
       />
       <button
         className="decreaseQuantity border-0 bg-transparent"

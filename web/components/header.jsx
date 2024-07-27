@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { CartContext } from '../context/CartContext.jsx'
 import AuthContext from '../context/AuthContext.jsx'
-import AuthModal from './AuthModal.jsx'
+import AuthModal from './modals/AuthModal.jsx'
 import { Link } from 'react-router-dom'
 
 const Header = () => {
@@ -17,9 +17,9 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary text-light">
       <div className="container-fluid">
-        <a className="navbar-brand text-light fs-4 fw-medium" href="/">
+        <Link className="navbar-brand text-light fs-4 fw-medium" to="/">
           PC SHOP
-        </a>
+        </Link>
         <div id="navbar-cart" className="me-4">
           {user ? (
             <>

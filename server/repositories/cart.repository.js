@@ -4,7 +4,7 @@ const cartCollection = db.collection('cart')
 cartCollection.createIndex('userId')
 
 export async function getCart(userId) {
-  return await cartCollection.find({ userId }).toArray()
+  return await cartCollection.find({ userId }).sort({ product_id: 1 }).toArray()
 }
 
 export async function addToCart(userId, product_id, quantity) {

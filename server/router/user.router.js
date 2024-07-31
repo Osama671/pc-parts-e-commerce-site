@@ -9,7 +9,7 @@ router.get('/login', authMiddleware, async (req, resp) => {
     const user = req.user
     resp.json({ user: { name: user.name, email: user.email } })
   } catch (err) {
-    resp.status(500).json({ error: err.message })
+    resp.status(500).json({ message: err.message })
   }
 })
 
@@ -18,15 +18,18 @@ router.post('/login', async (req, resp) => {
     const { email, password } = req.body
 
     try {
-      const loginResponse = await userService.login(email, password)
+      const loginResponse = await userService.login(
+        email.toLowerCase(),
+        password
+      )
       resp.json(loginResponse)
     } catch (error) {
       console.error('Error: ', error.message)
-      resp.status(500).json({ message: 'Server error' })
+      resp.status(500).json({ message: error.message })
     }
   } catch (err) {
     console.error('Error: ', err.message)
-    resp.status(500).json({ error: err.message })
+    resp.status(500).json({ message: err.message })
   }
 })
 

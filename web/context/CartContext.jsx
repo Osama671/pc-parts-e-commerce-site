@@ -89,7 +89,7 @@ const CartProvider = ({ children }) => {
     if (user) {
       updateCart()
     }
-  }, [user])
+  }, [updateCart, user])
 
   return (
     <CartContext.Provider

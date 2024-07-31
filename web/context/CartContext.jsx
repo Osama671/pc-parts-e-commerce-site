@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import cartService from '../services/cart.service.js'
 import AuthContext from './AuthContext.jsx'
 
@@ -14,7 +20,7 @@ const CartProvider = ({ children }) => {
   })
   const [isLoading, setIsLoading] = useState(false)
 
-  const updateCart = async () => {
+  const updateCart = useCallback(async () => {
     setIsLoading(true)
     try {
       const items = await cartService.getCart()
@@ -36,7 +42,7 @@ const CartProvider = ({ children }) => {
       showToast('Error fetching cart ' + e.message, 'danger')
       setIsLoading(false)
     }
-  }
+  }, [showToast])
 
   const removeItem = async (item) => {
     try {

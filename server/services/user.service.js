@@ -29,16 +29,16 @@ export async function login(email, password) {
   try {
     const user = await userRepository.getUserByEmail(email)
     if (!user) {
-      throw new Error('Invalid Credentials')
+      return null
     }
 
     try {
       const isMatch = await bcrypt.compare(password, user.password)
       if (!isMatch) {
-        throw new Error('Invalid Credentials')
+        return null
       }
     } catch (e) {
-      throw new Error('Invalid Credentials')
+      return null
     }
 
     const token = jwt.sign({ userId: user._id }, jwtSecret, {

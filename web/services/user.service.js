@@ -52,7 +52,7 @@ class UserService {
         body: JSON.stringify({ email, password }),
       })
       if (!response.ok) {
-        throw new Error(JSON.parse(await response.json()).message)
+        throw new Error((await response.json()).error)
       }
       const data = await response.json()
       this.setUserToken(data.token, stayLoggedIn)
@@ -89,7 +89,7 @@ class UserService {
         body: JSON.stringify({ name, email, password }),
       })
       if (!response.ok) {
-        throw new Error(JSON.parse(await response.text()).message)
+        throw new Error((await response.json()).error)
       }
       const data = await response.json()
       return data

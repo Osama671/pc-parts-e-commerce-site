@@ -26,23 +26,25 @@ export default function ClearCartModal({
             </a>
           </div>
           <div className="modal-body">
-            <form onSubmit={handleClearCart}>
-              <p>Are you sure you want to clear your cart?</p>
-              <button
-                onClick={() => setClearCartModalState(false)}
-                className="btn btn-primary"
-                style={{
-                  marginRight: '10px',
-                  backgroundColor: 'transparent',
-                  color: 'black',
-                }}
-              >
-                No
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Yes
-              </button>
-            </form>
+            <p>Are you sure you want to clear your cart?</p>
+            <button
+              onClick={() => setClearCartModalState(false)}
+              className="btn btn-primary"
+              style={{
+                marginRight: '10px',
+                backgroundColor: 'transparent',
+                color: 'black',
+              }}
+            >
+              No
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleClearCart}
+            >
+              Yes
+            </button>
           </div>
         </div>
       </div>

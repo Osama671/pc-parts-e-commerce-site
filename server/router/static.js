@@ -6,7 +6,7 @@ const router = express.Router()
 router.use(express.static('dist', { extensions: ['html', 'htm'] }))
 router.use(express.static('public', { extensions: ['html', 'htm'] }))
 
-router.get('*', async (req, res) => {
+router.use((req, res) => {
   res.header('Content-Type', 'text/html; charset=utf-8')
   createReadStream('dist/index.html').pipe(res)
 })
